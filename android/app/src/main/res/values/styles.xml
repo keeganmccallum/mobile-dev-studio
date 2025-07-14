@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Define app theme to override default -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:fitsSystemWindows">false</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">false</item>
-    </style>
-    
-    <!-- Also define the EdgeToEdge style in case something still references it -->
-    <style name="Theme.EdgeToEdge" parent="AppTheme" />
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
+    <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="android:statusBarColor">#0d1117</item>
+  </style>
+  <style name="Theme.App.SplashScreen" parent="AppTheme">
+    <item name="android:windowBackground">@drawable/ic_launcher_background</item>
+  </style>
+  
+  <!-- Define Theme.EdgeToEdge to handle any references from dependencies -->
+  <style name="Theme.EdgeToEdge" parent="AppTheme" />
 </resources>
