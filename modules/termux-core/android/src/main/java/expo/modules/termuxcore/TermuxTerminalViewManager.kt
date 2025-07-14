@@ -4,10 +4,11 @@ import android.content.Context
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.kotlin.views.ExpoView
-import expo.modules.kotlin.views.ViewManagerDefinition
-import expo.modules.termuxcore.view.TerminalView
-import expo.modules.termuxcore.terminal.TerminalSession
 
+// TODO: Implement TerminalView and TerminalSession classes
+// Commented out for now to allow basic compilation
+
+/*
 class TermuxTerminalView(context: Context) : ExpoView(context) {
     private val terminalView = TerminalView(context, null)
     
@@ -31,11 +32,14 @@ class TermuxTerminalView(context: Context) : ExpoView(context) {
         return terminalView.currentSession
     }
 }
+*/
 
 class TermuxTerminalViewModule : Module() {
     override fun definition() = ModuleDefinition {
         Name("TermuxTerminalView")
 
+        // TODO: Implement View manager when TerminalView classes are ready
+        /*
         View(TermuxTerminalView::class) {
             Prop("command") { view: TermuxTerminalView, command: String ->
                 // This will be called when the command prop is set
@@ -61,5 +65,6 @@ class TermuxTerminalViewModule : Module() {
                 // Called when props are updated
             }
         }
+        */
     }
 }

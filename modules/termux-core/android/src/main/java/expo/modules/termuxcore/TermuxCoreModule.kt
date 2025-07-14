@@ -29,7 +29,8 @@ class TermuxCoreModule : Module() {
 
         OnCreate {
             Log.i(LOG_TAG, "TermuxCore module created")
-            termuxFilesDir = File(appContext.reactContext?.filesDir, "termux")
+            val context = appContext.reactContext ?: appContext.activityProvider?.currentActivity
+            termuxFilesDir = File(context?.filesDir, "termux")
             termuxPrefixDir = File(termuxFilesDir, "usr")
             checkBootstrapInstallation()
         }
@@ -206,7 +207,8 @@ class TermuxCoreModule : Module() {
     private fun extractBootstrap() {
         val bootstrapAsset = "termux/bootstrap-aarch64.zip"
         
-        appContext.reactContext?.assets?.open(bootstrapAsset)?.use { inputStream ->
+        val context = appContext.reactContext ?: appContext.activityProvider?.currentActivity
+        context?.assets?.open(bootstrapAsset)?.use { inputStream ->
             ZipInputStream(BufferedInputStream(inputStream)).use { zip ->
                 var entry = zip.nextEntry
                 while (entry != null) {
