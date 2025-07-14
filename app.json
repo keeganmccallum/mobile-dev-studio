@@ -28,7 +28,8 @@
         "ACCESS_NETWORK_STATE",
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE"
-      ]
+      ],
+      "theme": "@style/AppTheme"
     },
     "web": {
       "favicon": "./assets/favicon.png"
