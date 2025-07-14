@@ -29,7 +29,7 @@ class TermuxCoreModule : Module() {
         Events("onSessionOutput", "onSessionExit", "onBootstrapProgress")
 
         OnCreate {
-            Log.i(LOG_TAG, "TermuxCore module created")
+            Log.i(LOG_TAG, "TermuxCore module created and initialized")
             moduleContext = appContext.reactContext ?: appContext.currentActivity!!
             termuxFilesDir = File(moduleContext.filesDir, "termux")
             termuxPrefixDir = File(termuxFilesDir, "usr")
