@@ -5,10 +5,11 @@ import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.kotlin.views.ExpoView
 import expo.modules.kotlin.views.ViewManagerDefinition
-import expo.modules.termuxcore.view.TerminalView
-import expo.modules.termuxcore.terminal.TerminalSession
+import expo.modules.kotlin.AppContext
+import com.termux.view.TerminalView
+import com.termux.terminal.TerminalSession
 
-class TermuxTerminalView(context: Context) : ExpoView(context) {
+class TermuxTerminalView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
     private val terminalView = TerminalView(context, null)
     
     init {

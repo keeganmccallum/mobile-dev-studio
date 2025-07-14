@@ -21,6 +21,7 @@ class TermuxCoreModule : Module() {
     private var isBootstrapInstalled = false
     private lateinit var termuxFilesDir: File
     private lateinit var termuxPrefixDir: File
+    private lateinit var moduleContext: Context
 
     override fun definition() = ModuleDefinition {
         Name("TermuxCore")
@@ -29,7 +30,8 @@ class TermuxCoreModule : Module() {
 
         OnCreate {
             Log.i(LOG_TAG, "TermuxCore module created")
-            termuxFilesDir = File(context.filesDir, "termux")
+            moduleContext = appContext.reactContext ?: appContext.currentActivity!!
+            termuxFilesDir = File(moduleContext.filesDir, "termux")
             termuxPrefixDir = File(termuxFilesDir, "usr")
             checkBootstrapInstallation()
         }
@@ -206,7 +208,7 @@ class TermuxCoreModule : Module() {
     private fun extractBootstrap() {
         val bootstrapAsset = "termux/bootstrap-aarch64.zip"
         
-        context.assets.open(bootstrapAsset).use { inputStream ->
+        moduleContext.assets.open(bootstrapAsset).use { inputStream ->
             ZipInputStream(BufferedInputStream(inputStream)).use { zip ->
                 var entry = zip.nextEntry
                 while (entry != null) {
