@@ -60,7 +60,7 @@ jobs:
       
     - name: Prebuild Expo project
       run: |
-        npx expo prebuild --platform android --clear
+        npx expo prebuild --platform android
         
     - name: Setup Android keystore (Release only)
       if: matrix.build_type == 'release'
