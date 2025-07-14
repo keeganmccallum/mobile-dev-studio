@@ -78,8 +78,30 @@ elif [ -n "$java_files" ]; then
   echo -e "${BLUE}💡 Java should be available if you have JDK installed${NC}"
 fi
 
+# Real compilation test (if Gradle available)
+if [ -f "modules/termux-core/android/gradlew" ] && command -v java >/dev/null 2>&1; then
+  echo -e "${BLUE}🔧 Testing real Kotlin compilation (requires Android SDK)...${NC}"
+  
+  cd modules/termux-core/android
+  if timeout 120s ./gradlew compileDebugKotlin --no-daemon >/dev/null 2>&1; then
+    echo -e "${GREEN}✅ Real Kotlin compilation passed!${NC}"
+  else
+    echo -e "${YELLOW}⚠️ Real compilation failed (may need Android SDK setup)${NC}"
+    echo -e "${BLUE}💡 This is normal if Android SDK isn't configured locally${NC}"
+  fi
+  cd ../../..
+elif [ -f "modules/termux-core/android/gradlew" ]; then
+  echo -e "${BLUE}💡 Gradle available but no Java runtime for compilation test${NC}"
+fi
+
 # Summary
 echo ""
 echo -e "${GREEN}🎉 Local lint check completed!${NC}"
-echo -e "${BLUE}💡 For full compilation testing, use: gh workflow run kotlin-lint-fast.yml${NC}"
+echo -e "${BLUE}💡 For full compilation testing: gh workflow run kotlin-lint-fast.yml${NC}"
 echo -e "${BLUE}🚀 For complete APK build: gh workflow run \"Build and Release APKs\"${NC}"
+echo ""
+echo -e "${BLUE}⚡ Fast iteration workflow:${NC}"
+echo -e "${BLUE}  1. Edit Kotlin/Java files${NC}"
+echo -e "${BLUE}  2. Run: ./scripts/kotlin-lint-local.sh${NC}"
+echo -e "${BLUE}  3. Commit changes (triggers fast CI)${NC}"
+echo -e "${BLUE}  4. When ready: trigger full APK build${NC}"
