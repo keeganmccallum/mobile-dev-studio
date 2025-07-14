@@ -50,6 +50,49 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       
+    # Cache Gradle dependencies and build cache
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+          android/.gradle
+          modules/termux-core/android/.gradle
+        key: gradle-${{ runner.os }}-${{ hashFiles('android/gradle/wrapper/gradle-wrapper.properties', 'modules/termux-core/android/gradle/wrapper/gradle-wrapper.properties', '**/*.gradle*', 'gradle.properties') }}
+        restore-keys: |
+          gradle-${{ runner.os }}-
+          
+    # Cache Android NDK and SDK components
+    - name: Cache Android NDK
+      uses: actions/cache@v4
+      with:
+        path: |
+          /usr/local/lib/android/sdk/ndk
+          /usr/local/lib/android/sdk/cmake
+          /usr/local/lib/android/sdk/build-tools
+        key: android-ndk-${{ runner.os }}-ndk27-cmake3.22
+        restore-keys: |
+          android-ndk-${{ runner.os }}-
+          
+    # Cache Expo CLI installation
+    - name: Cache Expo CLI
+      uses: actions/cache@v4
+      with:
+        path: ~/.npm
+        key: expo-cli-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          expo-cli-${{ runner.os }}-
+          
+    # Cache node_modules for faster npm installs
+    - name: Cache termux-core node_modules
+      uses: actions/cache@v4
+      with:
+        path: modules/termux-core/node_modules
+        key: termux-core-npm-${{ runner.os }}-${{ hashFiles('modules/termux-core/package-lock.json') }}
+        restore-keys: |
+          termux-core-npm-${{ runner.os }}-
+      
     - name: Install dependencies
       run: |
         npm install
@@ -101,10 +144,11 @@ jobs:
     - name: Build Android APK
       run: |
         cd android
+        # Use Gradle daemon and parallel execution for faster builds
         if [ "${{ matrix.build_type }}" = "release" ]; then
-          ./gradlew assembleRelease --no-daemon
+          ./gradlew assembleRelease --parallel --build-cache --configuration-cache
         else
-          ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleDebug --parallel --build-cache --configuration-cache
         fi
         
     - name: Generate build info
