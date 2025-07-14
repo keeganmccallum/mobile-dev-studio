@@ -33,12 +33,19 @@ android {
   compileSdkVersion safeExtGet("compileSdkVersion", 34)
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_11
-    targetCompatibility JavaVersion.VERSION_11
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
   }
 
   kotlinOptions {
-    jvmTarget = JavaVersion.VERSION_11.majorVersion
+    jvmTarget = "17"
+  }
+
+  // JVM toolchain configuration
+  java {
+    toolchain {
+      languageVersion = JavaLanguageVersion.of(17)
+    }
   }
 
   namespace "expo.modules.termuxcore"
@@ -74,6 +81,11 @@ android {
   }
 }
 
+// Configure Kotlin JVM toolchain after Android configuration
+kotlin {
+  jvmToolchain(17)
+}
+
 repositories {
   mavenCentral()
 }
@@ -81,6 +93,13 @@ repositories {
 dependencies {
   implementation project(':expo-modules-core')
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${getKotlinVersion()}"
+}
+
+// Configure all Kotlin compilation tasks to use JVM 17
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+  kotlinOptions {
+    jvmTarget = "17"
+  }
 }
 
 afterEvaluate {
