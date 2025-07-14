@@ -1,74 +1,202 @@
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+import RealTermuxTerminal from '../components/RealTermuxTerminal';
+import XTerminal from '../components/XTerminal';
+import { terminalService } from '../services/TerminalService';
 
 export default function TerminalScreen() {
+  const [isTerminalReady, setIsTerminalReady] = useState(false);
+  const [showStatus, setShowStatus] = useState(true);
+  const [terminalStatus, setTerminalStatus] = useState<{
+    initialized: boolean;
+    processCount: number;
+    runningProcesses: number;
+    alpineRootPath: string;
+    serverStatus: { status: 'stopped' | 'running' | 'error'; url?: string };
+  }>({
+    initialized: false,
+    processCount: 0,
+    runningProcesses: 0,
+    alpineRootPath: '',
+    serverStatus: { status: 'stopped' }
+  });
+
+  useEffect(() => {
+    // Initialize terminal service and get status
+    const initializeTerminal = async () => {
+      await terminalService.initialize();
+      updateStatus();
+    };
+    
+    initializeTerminal();
+    
+    // Update status every 5 seconds
+    const interval = setInterval(updateStatus, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const updateStatus = () => {
+    const status = terminalService.getStatus();
+    setTerminalStatus(status);
+  };
+
+  const handleTerminalReady = () => {
+    setIsTerminalReady(true);
+    updateStatus();
+  };
+
+  const handleCommand = (command: string, args: string[]) => {
+    console.log(`Terminal command: ${command} ${args.join(' ')}`);
+    updateStatus();
+  };
+
+  const toggleStatusView = () => {
+    setShowStatus(!showStatus);
+  };
+
+  const clearTerminal = () => {
+    Alert.alert(
+      'Clear Terminal',
+      'Are you sure you want to clear the terminal?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Clear', 
+          style: 'destructive',
+          onPress: () => {
+            // Clear processes
+            terminalService.clearProcesses();
+            updateStatus();
+          }
+        }
+      ]
+    );
+  };
+
+  const restartEnvironment = async () => {
+    Alert.alert(
+      'Restart Environment',
+      'This will restart the Alpine Linux environment. Continue?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Restart', 
+          style: 'destructive',
+          onPress: async () => {
+            terminalService.clearProcesses();
+            await terminalService.initialize();
+            updateStatus();
+          }
+        }
+      ]
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>🐧 Terminal Environment</Text>
-        <Text style={styles.headerSubtitle}>Embedded Termux + Alpine Linux</Text>
-      </View>
-      
-      <ScrollView style={styles.content}>
-        <View style={styles.statusCard}>
-          <Text style={styles.statusTitle}>Environment Status</Text>
-          <View style={styles.statusItem}>
-            <Text style={styles.statusLabel}>🐧 Alpine Linux:</Text>
-            <Text style={styles.statusValue}>Ready</Text>
-          </View>
-          <View style={styles.statusItem}>
-            <Text style={styles.statusLabel}>📦 Node.js:</Text>
-            <Text style={styles.statusValue}>v24.4.0</Text>
-          </View>
-          <View style={styles.statusItem}>
-            <Text style={styles.statusLabel}>🚀 Dev Server:</Text>
-            <Text style={styles.statusValue}>http://localhost:3000</Text>
-          </View>
+        <View style={styles.headerLeft}>
+          <Text style={styles.headerTitle}>🐧 Terminal Environment</Text>
+          <Text style={styles.headerSubtitle}>
+            {terminalStatus.initialized ? 'Alpine Linux Ready' : 'Initializing...'}
+          </Text>
         </View>
+        
+        <View style={styles.headerControls}>
+          <TouchableOpacity style={styles.controlButton} onPress={toggleStatusView}>
+            <Ionicons 
+              name={showStatus ? 'eye-off' : 'eye'} 
+              size={20} 
+              color="#7d8590" 
+            />
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.controlButton} onPress={clearTerminal}>
+            <Ionicons name="trash" size={20} color="#f85149" />
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.controlButton} onPress={restartEnvironment}>
+            <Ionicons name="refresh" size={20} color="#58a6ff" />
+          </TouchableOpacity>
+        </View>
+      </View>
 
-        <View style={styles.terminalContainer}>
-          <View style={styles.terminalHeader}>
-            <View style={styles.terminalButtons}>
-              <View style={[styles.terminalButton, { backgroundColor: '#ff5f56' }]} />
-              <View style={[styles.terminalButton, { backgroundColor: '#ffbd2e' }]} />
-              <View style={[styles.terminalButton, { backgroundColor: '#27ca3f' }]} />
+      {showStatus && (
+        <View style={styles.statusBar}>
+          <View style={styles.statusSection}>
+            <View style={styles.statusItem}>
+              <View style={[
+                styles.statusDot, 
+                { backgroundColor: terminalStatus.initialized ? '#238636' : '#f85149' }
+              ]} />
+              <Text style={styles.statusText}>
+                Alpine Linux: {terminalStatus.initialized ? 'Ready' : 'Initializing'}
+              </Text>
             </View>
-            <Text style={styles.terminalTitle}>terminal</Text>
+            
+            <View style={styles.statusItem}>
+              <Text style={styles.statusText}>
+                Processes: {terminalStatus.processCount} 
+                ({terminalStatus.runningProcesses} running)
+              </Text>
+            </View>
           </View>
           
-          <View style={styles.terminal}>
-            <Text style={styles.terminalText}>
-              <Text style={styles.prompt}>user@mobile-dev-studio</Text>
-              <Text style={styles.path}>:~/project$</Text>
-              <Text> npm start</Text>
-            </Text>
-            <Text style={styles.terminalText}>
-              Starting development server...
-            </Text>
-            <Text style={styles.terminalText}>
-              <Text style={styles.success}>✅ Server running on http://localhost:3000</Text>
-            </Text>
-            <Text style={styles.terminalText}>
-              <Text style={styles.info}>ℹ️  Notion Editor ready for testing</Text>
-            </Text>
-            <Text style={styles.terminalText}>
-              <Text style={styles.prompt}>user@mobile-dev-studio</Text>
-              <Text style={styles.path}>:~/project$</Text>
-              <Text style={styles.cursor}>█</Text>
-            </Text>
+          <View style={styles.statusSection}>
+            <View style={styles.statusItem}>
+              <View style={[
+                styles.statusDot, 
+                { backgroundColor: isTerminalReady ? '#238636' : '#f85149' }
+              ]} />
+              <Text style={styles.statusText}>
+                Terminal: {isTerminalReady ? 'Ready' : 'Loading'}
+              </Text>
+            </View>
+            
+            <View style={styles.statusItem}>
+              <View style={[
+                styles.statusDot, 
+                { backgroundColor: terminalStatus.serverStatus.status === 'running' ? '#238636' : '#7d8590' }
+              ]} />
+              <Text style={styles.statusText}>
+                Dev Server: {terminalStatus.serverStatus.status === 'running' ? 'Running' : 'Stopped'}
+              </Text>
+            </View>
           </View>
         </View>
+      )}
 
-        <View style={styles.featuresCard}>
-          <Text style={styles.featuresTitle}>Available Commands</Text>
-          <Text style={styles.featureItem}>📦 npm start - Start development server</Text>
-          <Text style={styles.featureItem}>🧪 npm test - Run automated tests</Text>
-          <Text style={styles.featureItem}>🏗️  npm run build - Build for production</Text>
-          <Text style={styles.featureItem}>🔧 code . - Open in VS Code (Tab 3)</Text>
-          <Text style={styles.featureItem}>🌐 open localhost:3000 - Preview (Tab 2)</Text>
+      <View style={styles.terminalContainer} testID="terminal-webview">
+        <XTerminal
+          onReady={handleTerminalReady}
+          onCommand={handleCommand}
+          theme="dark"
+        />
+      </View>
+
+      {!isTerminalReady && (
+        <View style={styles.loadingOverlay}>
+          <View style={styles.loadingContent}>
+            <Text style={styles.loadingTitle}>🚀 Starting Terminal...</Text>
+            <Text style={styles.loadingSubtitle}>
+              Setting up Alpine Linux environment
+            </Text>
+            <View style={styles.loadingSteps}>
+              <Text style={styles.loadingStep}>
+                ✅ Initializing file system
+              </Text>
+              <Text style={styles.loadingStep}>
+                ✅ Creating environment
+              </Text>
+              <Text style={styles.loadingStep}>
+                {isTerminalReady ? '✅' : '⏳'} Loading terminal interface
+              </Text>
+            </View>
+          </View>
         </View>
-      </ScrollView>
+      )}
     </SafeAreaView>
   );
 }
@@ -79,9 +207,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#0d1117',
   },
   header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#21262d',
+  },
+  headerLeft: {
+    flex: 1,
   },
   headerTitle: {
     fontSize: 24,
@@ -93,114 +227,87 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#7d8590',
   },
-  content: {
-    flex: 1,
-    padding: 20,
-  },
-  statusCard: {
-    backgroundColor: '#161b22',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: '#21262d',
-  },
-  statusTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#f0f6fc',
-    marginBottom: 12,
-  },
-  statusItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-  statusLabel: {
-    fontSize: 16,
-    color: '#7d8590',
-  },
-  statusValue: {
-    fontSize: 16,
-    color: '#238636',
-    fontWeight: '500',
-  },
-  terminalContainer: {
-    backgroundColor: '#161b22',
-    borderRadius: 12,
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: '#21262d',
-    overflow: 'hidden',
-  },
-  terminalHeader: {
-    backgroundColor: '#21262d',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  terminalButtons: {
+  headerControls: {
     flexDirection: 'row',
     gap: 8,
   },
-  terminalButton: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-  },
-  terminalTitle: {
-    flex: 1,
-    textAlign: 'center',
-    color: '#7d8590',
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  terminal: {
-    padding: 16,
-    minHeight: 200,
-  },
-  terminalText: {
-    fontFamily: 'monospace',
-    fontSize: 14,
-    color: '#f0f6fc',
-    marginBottom: 4,
-  },
-  prompt: {
-    color: '#238636',
-    fontWeight: 'bold',
-  },
-  path: {
-    color: '#58a6ff',
-    fontWeight: 'bold',
-  },
-  success: {
-    color: '#238636',
-  },
-  info: {
-    color: '#58a6ff',
-  },
-  cursor: {
-    color: '#f0f6fc',
-    opacity: 0.8,
-  },
-  featuresCard: {
+  controlButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
     backgroundColor: '#161b22',
-    borderRadius: 12,
-    padding: 16,
     borderWidth: 1,
     borderColor: '#21262d',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  featuresTitle: {
-    fontSize: 18,
-    fontWeight: '600',
+  statusBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 16,
+    backgroundColor: '#161b22',
+    borderBottomWidth: 1,
+    borderBottomColor: '#21262d',
+  },
+  statusSection: {
+    flex: 1,
+  },
+  statusItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  statusDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 8,
+  },
+  statusText: {
+    fontSize: 12,
+    color: '#7d8590',
+  },
+  terminalContainer: {
+    flex: 1,
+    backgroundColor: '#0d1117',
+  },
+  terminal: {
+    flex: 1,
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(13, 17, 23, 0.95)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  loadingContent: {
+    alignItems: 'center',
+    padding: 40,
+  },
+  loadingTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
     color: '#f0f6fc',
-    marginBottom: 12,
+    marginBottom: 8,
   },
-  featureItem: {
+  loadingSubtitle: {
     fontSize: 16,
     color: '#7d8590',
-    paddingVertical: 6,
+    marginBottom: 24,
+    textAlign: 'center',
+  },
+  loadingSteps: {
+    alignItems: 'flex-start',
+  },
+  loadingStep: {
+    fontSize: 14,
+    color: '#7d8590',
+    marginBottom: 8,
+    fontFamily: 'monospace',
   },
 });

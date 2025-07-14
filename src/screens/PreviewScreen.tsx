@@ -1,12 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
 import { Ionicons } from '@expo/vector-icons';
+import { terminalService } from '../services/TerminalService';
 
 export default function PreviewScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [url, setUrl] = useState('http://localhost:3000');
+  const [serverStatus, setServerStatus] = useState<'stopped' | 'running' | 'error'>('stopped');
   const webViewRef = useRef<WebView>(null);
 
   const handleMessage = (event: any) => {
@@ -121,6 +123,35 @@ export default function PreviewScreen() {
     webViewRef.current?.injectJavaScript(script);
   };
 
+  useEffect(() => {
+    // Listen for server status changes from terminal
+    const handleServerStatus = (event: { type: string; data: any }) => {
+      if (event.type === 'SERVER_STATUS_CHANGE') {
+        setServerStatus(event.data.status);
+        if (event.data.status === 'running' && event.data.url) {
+          setUrl(event.data.url);
+          // Auto-refresh the WebView when server starts
+          setTimeout(() => {
+            webViewRef.current?.reload();
+          }, 1000);
+        }
+      }
+    };
+
+    terminalService.addEventListener(handleServerStatus);
+    
+    // Get initial server status
+    const initialStatus = terminalService.getServerStatus();
+    setServerStatus(initialStatus.status);
+    if (initialStatus.url) {
+      setUrl(initialStatus.url);
+    }
+
+    return () => {
+      terminalService.removeEventListener(handleServerStatus);
+    };
+  }, []);
+
   const refreshPage = () => {
     webViewRef.current?.reload();
   };
@@ -128,8 +159,21 @@ export default function PreviewScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>🌐 Live Preview</Text>
-        <Text style={styles.headerSubtitle}>Interactive Testing & Automation</Text>
+        <View style={styles.headerLeft}>
+          <Text style={styles.headerTitle}>🌐 Live Preview</Text>
+          <Text style={styles.headerSubtitle}>Interactive Testing & Automation</Text>
+        </View>
+        
+        <View style={styles.serverStatus}>
+          <View style={[
+            styles.statusDot, 
+            { backgroundColor: serverStatus === 'running' ? '#238636' : serverStatus === 'error' ? '#f85149' : '#7d8590' }
+          ]} />
+          <Text style={styles.serverStatusText}>
+            {serverStatus === 'running' ? 'Server Running' : 
+             serverStatus === 'error' ? 'Server Error' : 'Server Stopped'}
+          </Text>
+        </View>
       </View>
 
       <View style={styles.controls}>
@@ -158,8 +202,14 @@ export default function PreviewScreen() {
       <View style={styles.webViewContainer}>
         {isLoading && (
           <View style={styles.loadingContainer}>
-            <Text style={styles.loadingText}>Loading Notion Editor...</Text>
-            <Text style={styles.loadingSubtext}>Make sure dev server is running on Terminal tab</Text>
+            <Text style={styles.loadingText}>
+              {serverStatus === 'running' ? 'Loading Notion Editor...' : 'Connecting to Development Server...'}
+            </Text>
+            <Text style={styles.loadingSubtext}>
+              {serverStatus === 'running' 
+                ? 'Server is running, loading application...' 
+                : 'Run "npm start" in Terminal tab to start the development server'}
+            </Text>
           </View>
         )}
         
@@ -173,7 +223,10 @@ export default function PreviewScreen() {
           onLoadEnd={() => setIsLoading(false)}
           onError={(error) => {
             console.log('WebView error:', error);
-            Alert.alert('Connection Error', 'Could not connect to development server. Please check Terminal tab.');
+            const errorMessage = serverStatus === 'running' 
+              ? 'Could not load the application. Check server logs in Terminal tab.'
+              : 'Development server not running. Start it with "npm start" in Terminal tab.';
+            Alert.alert('Connection Error', errorMessage);
           }}
           allowsBackForwardNavigationGestures
           startInLoadingState
@@ -204,9 +257,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#0d1117',
   },
   header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#21262d',
+  },
+  headerLeft: {
+    flex: 1,
   },
   headerTitle: {
     fontSize: 24,
@@ -298,5 +357,21 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
+  },
+  serverStatus: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    backgroundColor: '#161b22',
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#21262d',
+  },
+  serverStatusText: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#f0f6fc',
   },
 });

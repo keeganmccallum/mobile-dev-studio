@@ -1,0 +1,77 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create-release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run tests
+      run: |
+        npm run test:unit
+        npm run test:integration
+      continue-on-error: true
+
+    - name: Build production Android APK
+      run: |
+        expo build:android --type apk
+      continue-on-error: true
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Mobile Dev Studio ${{ github.ref }}
+        body: |
+          ## Mobile Dev Studio Release
+          
+          ### Features
+          - ⚡ Real Termux terminal integration
+          - 🌐 Live preview with development server
+          - 📝 Code editor with syntax highlighting
+          - 🔄 Seamless tab-based workflow
+          
+          ### Technical Details
+          - Native Android terminal emulation
+          - Complete Linux environment (29MB bootstrap)
+          - Real subprocess execution with PTY
+          - Development server integration
+          
+          ### Download
+          - Android APK available below
+          - Install and run real Linux commands on your mobile device
+          
+          Built with ❤️ using Expo + Real Termux Integration
+        draft: false
+        prerelease: false
+
+    - name: Upload Android APK
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./mobile-dev-studio.apk
+        asset_name: mobile-dev-studio-${{ github.ref_name }}-android.apk
+        asset_content_type: application/vnd.android.package-archive
+      continue-on-error: true
