@@ -54,3 +54,12 @@ build/
 
 # Session files
 2025-*-this-session-*.txt
+
+# Android signing
+*.keystore
+gradle.properties
+android/gradle.properties
+
+# Release artifacts
+release-assets/
+test-results/

@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  expo-test:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.expo-test
+    volumes:
+      - ../:/app
+      - node_modules_cache:/app/node_modules
+      - expo_cache:/root/.expo
+    environment:
+      - CI=true
+      - NODE_ENV=test
+      - EXPO_NO_DOTENV=1
+    command: npm test
+    
+  expo-lint:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.expo-test
+    volumes:
+      - ../:/app
+      - node_modules_cache:/app/node_modules
+    environment:
+      - CI=true
+    command: npm run lint
+    
+  expo-typecheck:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.expo-test  
+    volumes:
+      - ../:/app
+      - node_modules_cache:/app/node_modules
+    environment:
+      - CI=true
+    command: npm run typecheck
+    
+  expo-build:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.expo-test
+    volumes:
+      - ../:/app
+      - node_modules_cache:/app/node_modules
+      - expo_cache:/root/.expo
+    environment:
+      - CI=true
+      - EXPO_NO_DOTENV=1
+    command: expo export --platform android
+
+volumes:
+  node_modules_cache:
+  expo_cache:

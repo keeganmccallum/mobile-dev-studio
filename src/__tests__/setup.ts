@@ -1,6 +1,34 @@
-// Jest setup file
+// Node.js Jest setup file for CI testing
 
-// Mock Expo modules
+// Mock React Native components as simple objects
+jest.mock('react-native', () => ({
+  View: 'View',
+  Text: 'Text',
+  TouchableOpacity: 'TouchableOpacity',
+  ScrollView: 'ScrollView',
+  Alert: {
+    alert: jest.fn(),
+  },
+  Platform: {
+    OS: 'android',
+    select: jest.fn((obj) => obj.android),
+  },
+  StyleSheet: {
+    create: jest.fn((styles) => styles),
+  },
+}));
+
+// Mock expo-file-system
+jest.mock('expo-file-system', () => ({
+  documentDirectory: '/mock/documents/',
+  getInfoAsync: jest.fn(),
+  makeDirectoryAsync: jest.fn(),
+  writeAsStringAsync: jest.fn(),
+  readAsStringAsync: jest.fn(),
+  readDirectoryAsync: jest.fn(),
+}));
+
+// Mock expo-modules-core
 jest.mock('expo-modules-core', () => ({
   NativeModulesProxy: {
     TermuxCore: {
@@ -14,39 +42,9 @@ jest.mock('expo-modules-core', () => ({
   requireNativeViewManager: jest.fn(() => 'MockedNativeView'),
 }));
 
-// Mock React Native modules
-jest.mock('react-native', () => {
-  const RN = jest.requireActual('react-native');
-  return {
-    ...RN,
-    Alert: {
-      alert: jest.fn(),
-    },
-    Platform: {
-      OS: 'android',
-      select: jest.fn((obj) => obj.android),
-    },
-  };
-});
-
-// Mock expo-file-system
-jest.mock('expo-file-system', () => ({
-  documentDirectory: '/mock/documents/',
-  getInfoAsync: jest.fn(),
-  makeDirectoryAsync: jest.fn(),
-  writeAsStringAsync: jest.fn(),
-  readAsStringAsync: jest.fn(),
-  readDirectoryAsync: jest.fn(),
-}));
-
-// Mock react-native-webview
-jest.mock('react-native-webview', () => ({
-  WebView: 'MockedWebView',
-}));
-
 // Mock @expo/vector-icons
 jest.mock('@expo/vector-icons', () => ({
-  Ionicons: 'MockedIonicons',
+  Ionicons: 'Ionicons',
 }));
 
 // Mock react-navigation
@@ -58,12 +56,19 @@ jest.mock('@react-navigation/native', () => ({
   useFocusEffect: jest.fn(),
 }));
 
+// Mock react-native-safe-area-context
+jest.mock('react-native-safe-area-context', () => ({
+  SafeAreaView: 'SafeAreaView',
+}));
+
+// Mock react-native-webview
+jest.mock('react-native-webview', () => ({
+  WebView: 'WebView',
+}));
+
 // Silence console warnings in tests
 global.console = {
   ...console,
   warn: jest.fn(),
   error: jest.fn(),
 };
-
-// Mock setTimeout for tests
-global.setTimeout = jest.fn((fn) => fn()) as any;

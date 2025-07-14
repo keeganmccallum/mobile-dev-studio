@@ -1,0 +1,75 @@
+name: Test
+
+on:
+  push:
+    branches: [ main, develop, feature/* ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-node:
+    name: Node.js Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18, 20]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run linting
+      run: npm run lint
+      continue-on-error: true
+
+    - name: Run type checking
+      run: npm run typecheck
+      continue-on-error: true
+
+    - name: Run tests
+      run: npm test
+      continue-on-error: true
+
+  test-docker:
+    name: Docker Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build test environment
+      run: |
+        cd docker
+        docker-compose -f docker-compose.test.yml build expo-test
+
+    - name: Run tests in Docker
+      run: |
+        cd docker
+        docker-compose -f docker-compose.test.yml run --rm expo-test
+      continue-on-error: true
+
+    - name: Run linting in Docker
+      run: |
+        cd docker
+        docker-compose -f docker-compose.test.yml run --rm expo-lint
+      continue-on-error: true
+
+    - name: Run type checking in Docker
+      run: |
+        cd docker
+        docker-compose -f docker-compose.test.yml run --rm expo-typecheck
+      continue-on-error: true

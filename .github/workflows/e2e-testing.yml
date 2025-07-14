@@ -1,0 +1,249 @@
+name: E2E Testing with Screenshots
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+
+env:
+  EXPO_USE_DEV_SERVER: true
+  NODE_ENV: test
+
+jobs:
+  e2e-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd modules/termux-core && npm ci && cd ../..
+        
+    - name: Enable KVM group perms
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
+        
+    - name: AVD Cache
+      uses: actions/cache@v4
+      id: avd-cache
+      with:
+        path: |
+          ~/.android/avd/*
+          ~/.android/adb*
+        key: avd-api-30
+        
+    - name: Create AVD and generate snapshot for caching
+      if: steps.avd-cache.outputs.cache-hit != 'true'
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 30
+        target: google_apis
+        arch: x86_64
+        profile: Nexus 6
+        force-avd-creation: false
+        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+        disable-animations: false
+        script: echo "Generated AVD snapshot for caching."
+        
+    - name: Run E2E Tests with Emulator
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 30
+        target: google_apis
+        arch: x86_64
+        profile: Nexus 6
+        force-avd-creation: false
+        emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+        disable-animations: true
+        script: |
+          # Wait for emulator to be ready
+          adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+          
+          # Install Expo CLI
+          npm install -g @expo/cli
+          
+          # Start Expo dev server in background
+          npx expo start --tunnel &
+          EXPO_PID=$!
+          
+          # Wait for dev server
+          sleep 30
+          
+          # Install and run E2E tests
+          npm run test:e2e:android
+          
+          # Kill expo dev server
+          kill $EXPO_PID || true
+          
+    - name: Capture Screenshots
+      if: always()
+      run: |
+        mkdir -p screenshots
+        adb exec-out screencap -p > screenshots/final-state.png || true
+        
+        # Capture any test artifacts
+        if [ -d "__tests__/e2e/screenshots" ]; then
+          cp -r __tests__/e2e/screenshots/* screenshots/ || true
+        fi
+        
+    - name: Upload Screenshots
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: e2e-screenshots-android
+        path: screenshots/
+        retention-days: 30
+        
+    - name: Post Screenshots to PR
+      if: github.event_name == 'pull_request' && always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          
+          const screenshotDir = 'screenshots';
+          if (!fs.existsSync(screenshotDir)) {
+            console.log('No screenshots directory found');
+            return;
+          }
+          
+          const screenshots = fs.readdirSync(screenshotDir)
+            .filter(file => file.endsWith('.png'))
+            .sort();
+            
+          if (screenshots.length === 0) {
+            console.log('No screenshots found');
+            return;
+          }
+          
+          let comment = '## 📱 E2E Test Screenshots\n\n';
+          comment += `Generated from commit: ${context.sha.substring(0, 7)}\n\n`;
+          
+          for (const screenshot of screenshots) {
+            const artifactUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            comment += `### ${screenshot}\n`;
+            comment += `![${screenshot}](${artifactUrl}/artifacts/e2e-screenshots-android)\n\n`;
+          }
+          
+          comment += `\n📎 [Download all screenshots](${artifactUrl}/artifacts/e2e-screenshots-android)`;
+          
+          // Check if there's already a comment from this workflow
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+          });
+          
+          const botComment = comments.find(comment => 
+            comment.user.login === 'github-actions[bot]' && 
+            comment.body.includes('📱 E2E Test Screenshots')
+          );
+          
+          if (botComment) {
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: botComment.id,
+              body: comment
+            });
+          } else {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
+          }
+
+  e2e-ios:
+    runs-on: macos-latest
+    timeout-minutes: 45
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        npm ci
+        cd modules/termux-core && npm ci && cd ../..
+        
+    - name: Setup iOS Simulator
+      run: |
+        # List available simulators
+        xcrun simctl list devices
+        
+        # Boot iPhone 14 simulator
+        xcrun simctl boot "iPhone 14" || true
+        
+    - name: Run E2E Tests on iOS
+      run: |
+        # Install Expo CLI
+        npm install -g @expo/cli
+        
+        # Start Expo dev server in background
+        npx expo start --ios &
+        EXPO_PID=$!
+        
+        # Wait for dev server
+        sleep 30
+        
+        # Run E2E tests
+        npm run test:e2e:ios
+        
+        # Kill expo dev server
+        kill $EXPO_PID || true
+        
+    - name: Capture iOS Screenshots
+      if: always()
+      run: |
+        mkdir -p screenshots
+        
+        # Get simulator device ID
+        DEVICE_ID=$(xcrun simctl list devices | grep "iPhone 14" | grep Booted | awk -F'[()]' '{print $(NF-1)}')
+        
+        if [ ! -z "$DEVICE_ID" ]; then
+          xcrun simctl io $DEVICE_ID screenshot screenshots/ios-final-state.png || true
+        fi
+        
+        # Capture any test artifacts
+        if [ -d "__tests__/e2e/screenshots" ]; then
+          cp -r __tests__/e2e/screenshots/* screenshots/ || true
+        fi
+        
+    - name: Upload iOS Screenshots
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: e2e-screenshots-ios
+        path: screenshots/
+        retention-days: 30

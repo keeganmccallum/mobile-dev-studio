@@ -46,7 +46,8 @@ export class TerminalService {
       // Set up the root path from Termux
       this.alpineRootPath = bootstrapInfo.prefixPath;
       
-      // Verify bootstrap installation
+      // Verify bootstrap installation  
+      const verifyInfo = await TermuxCore.getBootstrapInfo();
       if (!verifyInfo.installed) {
         throw new Error('Bootstrap verification failed');
       }
@@ -362,7 +363,7 @@ exec /bin/sh "$@"
           }
           break;
           
-        case 'ps':
+        case 'ps': {
           const runningProcs = this.getAllProcesses().filter(p => p.status === 'running');
           process.output.push('  PID TTY          TIME CMD');
           process.output.push('    1 ?        00:00:01 sh');
@@ -373,6 +374,7 @@ exec /bin/sh "$@"
             process.output.push(`${1248 + i} ?        00:00:00 ${proc.command}`);
           });
           break;
+        }
           
         case 'help':
         case '--help':

@@ -347,7 +347,7 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
           }
           break;
           
-        case 'COMMAND':
+        case 'COMMAND': {
           const { command, args, cwd } = data;
           
           // Execute command through terminal service
@@ -376,6 +376,7 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
             onCommand(command, args);
           }
           break;
+        }
       }
     } catch (error) {
       console.error('Error handling terminal message:', error);
