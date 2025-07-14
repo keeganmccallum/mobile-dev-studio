@@ -40,7 +40,7 @@ import androidx.annotation.RequiresApi;
 import com.termux.terminal.KeyHandler;
 import com.termux.terminal.TerminalEmulator;
 import com.termux.terminal.TerminalSession;
-import com.termux.view.textselection.TextSelectionCursorController;
+// Removed TextSelectionCursorController - not needed for core functionality
 
 /** View displaying and interacting with a {@link TerminalSession}. */
 public final class TerminalView extends View {
@@ -57,7 +57,7 @@ public final class TerminalView extends View {
 
     public TerminalViewClient mClient;
 
-    private TextSelectionCursorController mTextSelectionCursorController;
+    // Removed TextSelectionCursorController - not needed for core functionality
 
     private Handler mTerminalCursorBlinkerHandler;
     private TerminalCursorBlinkerRunnable mTerminalCursorBlinkerRunnable;
@@ -1010,9 +1010,7 @@ public final class TerminalView extends View {
         } else {
             // render the terminal view and highlight any selected text
             int[] sel = mDefaultSelectors;
-            if (mTextSelectionCursorController != null) {
-                mTextSelectionCursorController.getSelectors(sel);
-            }
+            // Text selection disabled for core functionality
 
             mRenderer.render(mEmulator, canvas, mTopRow, sel[0], sel[1], sel[2], sel[3]);
 
@@ -1341,67 +1339,49 @@ public final class TerminalView extends View {
 
 
     /**
-     * Define functions required for text selection and its handles.
+     * Text selection functionality removed for core compilation.
+     * TODO: Implement text selection when needed.
      */
-    TextSelectionCursorController getTextSelectionCursorController() {
-        if (mTextSelectionCursorController == null) {
-            mTextSelectionCursorController = new TextSelectionCursorController(this);
-
-            final ViewTreeObserver observer = getViewTreeObserver();
-            if (observer != null) {
-                observer.addOnTouchModeChangeListener(mTextSelectionCursorController);
-            }
-        }
-
-        return mTextSelectionCursorController;
-    }
-
+    
     private void showTextSelectionCursors(MotionEvent event) {
-        getTextSelectionCursorController().show(event);
+        // Text selection disabled for core functionality
     }
 
     private boolean hideTextSelectionCursors() {
-        return getTextSelectionCursorController().hide();
+        // Text selection disabled for core functionality
+        return false;
     }
 
     private void renderTextSelection() {
-        if (mTextSelectionCursorController != null)
-            mTextSelectionCursorController.render();
+        // Text selection disabled for core functionality
     }
 
     public boolean isSelectingText() {
-        if (mTextSelectionCursorController != null) {
-            return mTextSelectionCursorController.isActive();
-        } else {
-            return false;
-        }
+        // Text selection disabled for core functionality
+        return false;
     }
 
     /** Get the currently selected text if selecting. */
     public String getSelectedText() {
-        if (isSelectingText() && mTextSelectionCursorController != null)
-            return mTextSelectionCursorController.getSelectedText();
-        else
-            return null;
+        // Text selection disabled for core functionality
+        return null;
     }
 
     /** Get the selected text stored before "MORE" button was pressed on the context menu. */
     @Nullable
     public String getStoredSelectedText() {
-        return mTextSelectionCursorController != null ? mTextSelectionCursorController.getStoredSelectedText() : null;
+        // Text selection disabled for core functionality
+        return null;
     }
 
     /** Unset the selected text stored before "MORE" button was pressed on the context menu. */
     public void unsetStoredSelectedText() {
-        if (mTextSelectionCursorController != null) mTextSelectionCursorController.unsetStoredSelectedText();
+        // Text selection disabled for core functionality
     }
 
     private ActionMode getTextSelectionActionMode() {
-        if (mTextSelectionCursorController != null) {
-            return mTextSelectionCursorController.getActionMode();
-        } else {
-            return null;
-        }
+        // Text selection disabled for core functionality
+        return null;
     }
 
     public void startTextSelectionMode(MotionEvent event) {
@@ -1423,32 +1403,20 @@ public final class TerminalView extends View {
     }
 
     private void decrementYTextSelectionCursors(int decrement) {
-        if (mTextSelectionCursorController != null) {
-            mTextSelectionCursorController.decrementYTextSelectionCursors(decrement);
-        }
+        // Text selection disabled for core functionality
     }
 
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-
-        if (mTextSelectionCursorController != null) {
-            getViewTreeObserver().addOnTouchModeChangeListener(mTextSelectionCursorController);
-        }
+        // Text selection disabled for core functionality
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-
-        if (mTextSelectionCursorController != null) {
-            // Might solve the following exception
-            // android.view.WindowLeaked: Activity com.termux.app.TermuxActivity has leaked window android.widget.PopupWindow
-            stopTextSelectionMode();
-
-            getViewTreeObserver().removeOnTouchModeChangeListener(mTextSelectionCursorController);
-            mTextSelectionCursorController.onDetached();
-        }
+        // Text selection disabled for core functionality
+        stopTextSelectionMode();
     }
 
 
