@@ -27,6 +27,17 @@ buildscript {
   }
 }
 
+// Configure JVM toolchain for consistent Java/Kotlin targets
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+  }
+}
+
+kotlin {
+  jvmToolchain(17)
+}
+
 // Publishing configuration moved to android block
 
 android {
