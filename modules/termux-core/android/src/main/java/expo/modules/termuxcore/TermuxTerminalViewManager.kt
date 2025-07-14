@@ -3,7 +3,7 @@ package expo.modules.termuxcore
 import android.content.Context
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
-import expo.modules.kotlin.views.ExpoView
+// import expo.modules.kotlin.views.ExpoView
 
 // TODO: Implement TerminalView and TerminalSession classes
 // Commented out for now to allow basic compilation
