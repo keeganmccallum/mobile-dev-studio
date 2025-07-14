@@ -8,6 +8,7 @@ import expo.modules.kotlin.views.ViewManagerDefinition
 import expo.modules.kotlin.AppContext
 import com.termux.view.TerminalView
 import com.termux.terminal.TerminalSession
+import com.termux.terminal.TerminalSessionClient
 
 class TermuxTerminalView(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
     private val terminalView = TerminalView(context, null)
@@ -17,8 +18,9 @@ class TermuxTerminalView(context: Context, appContext: AppContext) : ExpoView(co
     }
     
     fun createSession(command: String, cwd: String, env: Map<String, String>) {
-        // Create a new terminal session
-        val session = TerminalSession(command, cwd, arrayOf(), env.toMutableMap(), true)
+        // Create a new terminal session with proper constructor signature
+        val envArray = env.map { "${it.key}=${it.value}" }.toTypedArray()
+        val session = TerminalSession(command, cwd, arrayOf(), envArray, null, null)
         terminalView.attachSession(session)
     }
     
@@ -50,17 +52,12 @@ class TermuxTerminalViewModule : Module() {
                 // This will be called when the environment prop is set
             }
             
-            Function("createSession") { view: TermuxTerminalView, command: String, cwd: String, env: Map<String, String> ->
-                view.createSession(command, cwd, env)
-            }
-            
-            Function("writeToSession") { view: TermuxTerminalView, data: String ->
-                view.writeToSession(data)
-            }
-            
             OnViewDidUpdateProps { view: TermuxTerminalView ->
                 // Called when props are updated
             }
         }
+        
+        // TODO: Add functions for creating sessions and writing to sessions
+        // This will require proper view instance management
     }
 }
