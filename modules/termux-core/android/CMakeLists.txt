@@ -22,6 +22,11 @@ target_include_directories(
 find_library(log-lib log)
 target_link_libraries(termux-core ${log-lib})
 
-# Link with Expo modules core
-find_package(expo-modules-core REQUIRED CONFIG)
-target_link_libraries(termux-core expo::modules::core)
+# Link with Expo modules core (if available, otherwise skip)
+find_package(expo-modules-core QUIET CONFIG)
+if (expo-modules-core_FOUND)
+  target_link_libraries(termux-core expo::modules::core)
+else()
+  # Fallback: just link with log library for now
+  message(STATUS "expo-modules-core not found, building without it")
+endif()
