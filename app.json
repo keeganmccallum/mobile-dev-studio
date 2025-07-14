@@ -22,7 +22,6 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0d1117"
       },
-      "edgeToEdgeEnabled": true,
       "package": "com.keeganmccallum.mobile_dev_studio",
       "permissions": [
         "INTERNET",
