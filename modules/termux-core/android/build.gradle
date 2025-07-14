@@ -37,6 +37,19 @@ afterEvaluate {
   }
 }
 
+// Set explicit Kotlin JVM target before toolchain configuration
+compileKotlin {
+  kotlinOptions {
+    jvmTarget = "17"
+  }
+}
+
+compileTestKotlin {
+  kotlinOptions {
+    jvmTarget = "17"
+  }
+}
+
 // Configure JVM toolchain for consistent Java/Kotlin targets
 java {
   toolchain {
@@ -60,6 +73,8 @@ android {
 
   kotlinOptions {
     jvmTarget = "17"
+    languageVersion = "1.8"
+    apiVersion = "1.8"
   }
 
   namespace "expo.modules.termuxcore"
