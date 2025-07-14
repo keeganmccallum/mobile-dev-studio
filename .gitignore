@@ -35,3 +35,22 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# Testing
+coverage/
+*.lcov
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts
+build/
+*.apk
+*.ipa
+*.aab
+
+# Session files
+2025-*-this-session-*.txt

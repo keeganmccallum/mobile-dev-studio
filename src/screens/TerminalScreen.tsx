@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import XTerminal from '../components/XTerminal';
+import RealTermuxTerminal from '../components/RealTermuxTerminal';
 import { terminalService } from '../services/TerminalService';
 
 export default function TerminalScreen() {
@@ -12,7 +12,8 @@ export default function TerminalScreen() {
     initialized: false,
     processCount: 0,
     runningProcesses: 0,
-    alpineRootPath: ''
+    alpineRootPath: '',
+    serverStatus: { status: 'stopped' as 'stopped' | 'running' | 'error', url: undefined as string | undefined }
   });
 
   useEffect(() => {
@@ -146,15 +147,25 @@ export default function TerminalScreen() {
                 Terminal: {isTerminalReady ? 'Ready' : 'Loading'}
               </Text>
             </View>
+            
+            <View style={styles.statusItem}>
+              <View style={[
+                styles.statusDot, 
+                { backgroundColor: terminalStatus.serverStatus.status === 'running' ? '#238636' : '#7d8590' }
+              ]} />
+              <Text style={styles.statusText}>
+                Dev Server: {terminalStatus.serverStatus.status === 'running' ? 'Running' : 'Stopped'}
+              </Text>
+            </View>
           </View>
         </View>
       )}
 
       <View style={styles.terminalContainer}>
-        <XTerminal
+        <RealTermuxTerminal
           onReady={handleTerminalReady}
           onCommand={handleCommand}
-          theme="dark"
+          style={styles.terminal}
         />
       </View>
 
@@ -252,6 +263,9 @@ const styles = StyleSheet.create({
   terminalContainer: {
     flex: 1,
     backgroundColor: '#0d1117',
+  },
+  terminal: {
+    flex: 1,
   },
   loadingOverlay: {
     position: 'absolute',
