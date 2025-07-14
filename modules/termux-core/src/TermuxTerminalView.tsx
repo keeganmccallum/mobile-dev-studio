@@ -10,22 +10,13 @@ export interface TermuxTerminalViewProps extends ViewProps {
   onSessionExit?: (exitCode: number) => void;
 }
 
-const NativeView: React.ComponentType<TermuxTerminalViewProps> = 
-  requireNativeViewManager('TermuxTerminalView');
+const NativeView = requireNativeViewManager('TermuxTerminalView');
 
-const TermuxTerminalView = React.forwardRef<any, TermuxTerminalViewProps>((props, ref) => {
-
-  const createSession = (command: string, cwd: string, env: Record<string, string>) => {
-    (ref as any)?.current?.createSession(command, cwd, env);
-  };
-
-  const writeToSession = (data: string) => {
-    (ref as any)?.current?.writeToSession(data);
-  };
-
+const TermuxTerminalView = React.forwardRef((props: TermuxTerminalViewProps, ref: any) => {
   return (
     <NativeView
       {...props}
+      ref={ref}
       command={props.command || '/data/data/com.termux/files/usr/bin/bash'}
       workingDirectory={props.workingDirectory || '/data/data/com.termux/files/home'}
       environment={props.environment || {
