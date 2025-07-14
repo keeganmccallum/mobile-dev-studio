@@ -25,7 +25,8 @@
   "license": "MIT",
   "homepage": "https://github.com/keeganmccallum/mobile-dev-studio",
   "devDependencies": {
-    "expo-module-scripts": "^3.5.2"
+    "expo-module-scripts": "^3.5.2",
+    "husky": "^9.1.7"
   },
   "peerDependencies": {
     "expo": "*"
