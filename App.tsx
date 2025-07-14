@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -76,7 +76,7 @@ export default function App() {
           />
         </Tab.Navigator>
       </NavigationContainer>
-      <StatusBar style="light" backgroundColor="#0d1117" />
+      <StatusBar barStyle="light-content" backgroundColor="#0d1117" />
     </SafeAreaProvider>
   );
 }

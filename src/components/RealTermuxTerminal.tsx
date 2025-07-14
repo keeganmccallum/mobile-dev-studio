@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { TermuxTerminalView } from 'termux-core';
+import React, { useState, useEffect, useRef } from "react";
+import { View, StyleSheet, Text } from "react-native";
+import { TermuxTerminalView } from "termux-core";
 
 interface RealTermuxTerminalProps {
   onReady?: () => void;
@@ -8,10 +8,10 @@ interface RealTermuxTerminalProps {
   style?: any;
 }
 
-export default function RealTermuxTerminal({ 
-  onReady, 
-  onCommand, 
-  style 
+export default function RealTermuxTerminal({
+  onReady,
+  onCommand,
+  style,
 }: RealTermuxTerminalProps) {
   const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,8 +24,8 @@ export default function RealTermuxTerminal({
         setIsReady(true);
         onReady?.();
       } catch (err) {
-        console.error('Failed to initialize real Termux terminal:', err);
-        setError('Failed to initialize terminal');
+        console.error("Failed to initialize real Termux terminal:", err);
+        setError("Failed to initialize terminal");
       }
     };
 
@@ -33,17 +33,17 @@ export default function RealTermuxTerminal({
   }, [onReady]);
 
   const handleSessionOutput = (data: string) => {
-    console.log('Terminal output:', data);
+    console.log("Terminal output:", data);
     // Parse commands if needed
-    if (data.startsWith('$')) {
+    if (data.startsWith("$")) {
       const commandLine = data.substring(1).trim();
-      const [command, ...args] = commandLine.split(' ');
+      const [command, ...args] = commandLine.split(" ");
       onCommand?.(command, args);
     }
   };
 
   const handleSessionExit = (exitCode: number) => {
-    console.log('Terminal session exited with code:', exitCode);
+    console.log("Terminal session exited with code:", exitCode);
   };
 
   if (error) {
@@ -64,8 +64,12 @@ export default function RealTermuxTerminal({
     return (
       <View style={[styles.container, style]}>
         <View style={styles.loadingContainer}>
-          <Text style={styles.loadingText}>Initializing Real Termux Terminal...</Text>
-          <Text style={styles.loadingSubtext}>Setting up Linux environment</Text>
+          <Text style={styles.loadingText}>
+            Initializing Real Termux Terminal...
+          </Text>
+          <Text style={styles.loadingSubtext}>
+            Setting up Linux environment
+          </Text>
         </View>
       </View>
     );
@@ -74,19 +78,18 @@ export default function RealTermuxTerminal({
   return (
     <View style={[styles.container, style]}>
       <TermuxTerminalView
-        ref={terminalRef}
         style={styles.terminal}
         command="/data/data/com.termux/files/usr/bin/bash"
         workingDirectory="/data/data/com.termux/files/home"
         environment={{
-          PATH: '/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets',
-          HOME: '/data/data/com.termux/files/home',
-          PREFIX: '/data/data/com.termux/files/usr',
-          TMPDIR: '/data/data/com.termux/files/usr/tmp',
-          TERM: 'xterm-256color',
-          LANG: 'en_US.UTF-8',
-          USER: 'termux',
-          SHELL: '/data/data/com.termux/files/usr/bin/bash'
+          PATH: "/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets",
+          HOME: "/data/data/com.termux/files/home",
+          PREFIX: "/data/data/com.termux/files/usr",
+          TMPDIR: "/data/data/com.termux/files/usr/tmp",
+          TERM: "xterm-256color",
+          LANG: "en_US.UTF-8",
+          USER: "termux",
+          SHELL: "/data/data/com.termux/files/usr/bin/bash",
         }}
         onSessionOutput={handleSessionOutput}
         onSessionExit={handleSessionExit}
@@ -98,50 +101,50 @@ export default function RealTermuxTerminal({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0d1117',
+    backgroundColor: "#0d1117",
   },
   terminal: {
     flex: 1,
-    backgroundColor: '#0d1117',
+    backgroundColor: "#0d1117",
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   loadingText: {
-    color: '#f0f6fc',
+    color: "#f0f6fc",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
   },
   loadingSubtext: {
-    color: '#7d8590',
+    color: "#7d8590",
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: "center",
   },
   errorContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
   },
   errorText: {
-    color: '#f85149',
+    color: "#f85149",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
   },
   errorMessage: {
-    color: '#f0f6fc',
+    color: "#f0f6fc",
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 16,
   },
   errorHelp: {
-    color: '#7d8590',
+    color: "#7d8590",
     fontSize: 12,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });

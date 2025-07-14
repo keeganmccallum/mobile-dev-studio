@@ -1,4 +1,4 @@
-import { NativeModulesProxy } from 'expo-modules-core';
+import { NativeModulesProxy } from "expo-modules-core";
 
 export default NativeModulesProxy.TermuxCore as {
   getBootstrapInfo(): Promise<{
@@ -14,7 +14,7 @@ export default NativeModulesProxy.TermuxCore as {
     cwd: string,
     env: Record<string, string>,
     rows: number,
-    cols: number
+    cols: number,
   ): Promise<{
     id: string;
     pid: number;

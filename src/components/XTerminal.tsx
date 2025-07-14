@@ -1,18 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
-import { WebView } from 'react-native-webview';
-import { terminalService } from '../services/TerminalService';
+import React, { useEffect, useRef, useState } from "react";
+import { View, StyleSheet, Dimensions } from "react-native";
+import { WebView } from "react-native-webview";
+import { terminalService } from "../services/TerminalService";
 
 interface XTerminalProps {
   onCommand?: (command: string, args: string[]) => void;
   onReady?: () => void;
-  theme?: 'dark' | 'light';
+  theme?: "dark" | "light";
 }
 
-export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTerminalProps) {
+export default function XTerminal({
+  onCommand,
+  onReady,
+  theme = "dark",
+}: XTerminalProps) {
   const webViewRef = useRef<WebView>(null);
   const [isReady, setIsReady] = useState(false);
-  const [currentDirectory, setCurrentDirectory] = useState('/home/user');
+  const [currentDirectory, setCurrentDirectory] = useState("/home/user");
 
   const terminalHtml = `
 <!DOCTYPE html>
@@ -29,7 +33,7 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
         body {
             margin: 0;
             padding: 0;
-            background-color: ${theme === 'dark' ? '#0d1117' : '#ffffff'};
+            background-color: ${theme === "dark" ? "#0d1117" : "#ffffff"};
             font-family: 'SFMono-Regular', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Consolas', monospace;
         }
         #terminal {
@@ -112,27 +116,27 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
         // Initialize terminal
         const terminal = new Terminal({
             theme: {
-                background: '${theme === 'dark' ? '#0d1117' : '#ffffff'}',
-                foreground: '${theme === 'dark' ? '#f0f6fc' : '#24292f'}',
-                cursor: '${theme === 'dark' ? '#f0f6fc' : '#24292f'}',
-                cursorAccent: '${theme === 'dark' ? '#0d1117' : '#ffffff'}',
-                selection: '${theme === 'dark' ? '#264f78' : '#0969da40'}',
-                black: '${theme === 'dark' ? '#484f58' : '#24292f'}',
+                background: '${theme === "dark" ? "#0d1117" : "#ffffff"}',
+                foreground: '${theme === "dark" ? "#f0f6fc" : "#24292f"}',
+                cursor: '${theme === "dark" ? "#f0f6fc" : "#24292f"}',
+                cursorAccent: '${theme === "dark" ? "#0d1117" : "#ffffff"}',
+                selection: '${theme === "dark" ? "#264f78" : "#0969da40"}',
+                black: '${theme === "dark" ? "#484f58" : "#24292f"}',
                 red: '#ff7b72',
                 green: '#3fb950',
                 yellow: '#d29922',
                 blue: '#58a6ff',
                 magenta: '#bc8cff',
                 cyan: '#39c5cf',
-                white: '${theme === 'dark' ? '#b1bac4' : '#656d76'}',
-                brightBlack: '${theme === 'dark' ? '#6e7681' : '#656d76'}',
+                white: '${theme === "dark" ? "#b1bac4" : "#656d76"}',
+                brightBlack: '${theme === "dark" ? "#6e7681" : "#656d76"}',
                 brightRed: '#ffa198',
                 brightGreen: '#56d364',
                 brightYellow: '#e3b341',
                 brightBlue: '#79c0ff',
                 brightMagenta: '#d2a8ff',
                 brightCyan: '#56d4dd',
-                brightWhite: '${theme === 'dark' ? '#f0f6fc' : '#24292f'}'
+                brightWhite: '${theme === "dark" ? "#f0f6fc" : "#24292f"}'
             },
             fontFamily: 'SFMono-Regular, Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace',
             fontSize: 14,
@@ -338,21 +342,25 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
   const handleMessage = async (event: any) => {
     try {
       const data = JSON.parse(event.nativeEvent.data);
-      
+
       switch (data.type) {
-        case 'READY':
+        case "READY":
           setIsReady(true);
           if (onReady) {
             onReady();
           }
           break;
-          
-        case 'COMMAND': {
+
+        case "COMMAND": {
           const { command, args, cwd } = data;
-          
+
           // Execute command through terminal service
-          const processId = await terminalService.createProcess(command, args, cwd);
-          
+          const processId = await terminalService.createProcess(
+            command,
+            args,
+            cwd,
+          );
+
           // Wait a bit for command to complete, then get output
           setTimeout(async () => {
             const process = terminalService.getProcess(processId);
@@ -361,17 +369,19 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
               if (process.cwd !== currentDirectory) {
                 setCurrentDirectory(process.cwd);
               }
-              
+
               // Send output back to terminal
-              webViewRef.current?.postMessage(JSON.stringify({
-                type: 'COMMAND_OUTPUT',
-                output: process.output,
-                cwd: process.cwd,
-                status: process.status
-              }));
+              webViewRef.current?.postMessage(
+                JSON.stringify({
+                  type: "COMMAND_OUTPUT",
+                  output: process.output,
+                  cwd: process.cwd,
+                  status: process.status,
+                }),
+              );
             }
           }, 100);
-          
+
           if (onCommand) {
             onCommand(command, args);
           }
@@ -379,16 +389,16 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
         }
       }
     } catch (error) {
-      console.error('Error handling terminal message:', error);
+      console.error("Error handling terminal message:", error);
     }
   };
 
   const clearTerminal = () => {
-    webViewRef.current?.postMessage(JSON.stringify({ type: 'CLEAR' }));
+    webViewRef.current?.postMessage(JSON.stringify({ type: "CLEAR" }));
   };
 
   const resizeTerminal = () => {
-    webViewRef.current?.postMessage(JSON.stringify({ type: 'RESIZE' }));
+    webViewRef.current?.postMessage(JSON.stringify({ type: "RESIZE" }));
   };
 
   useEffect(() => {
@@ -398,7 +408,7 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
 
   useEffect(() => {
     // Handle orientation changes
-    const subscription = Dimensions.addEventListener('change', () => {
+    const subscription = Dimensions.addEventListener("change", () => {
       setTimeout(() => {
         resizeTerminal();
       }, 100);
@@ -439,10 +449,10 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0d1117',
+    backgroundColor: "#0d1117",
   },
   webView: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
 });

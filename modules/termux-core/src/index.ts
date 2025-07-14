@@ -1,4 +1,4 @@
-import { NativeModulesProxy } from 'expo-modules-core';
+import { NativeModulesProxy } from "expo-modules-core";
 
 export interface TermuxSession {
   id: string;
@@ -22,7 +22,7 @@ export class TermuxCore {
     try {
       return await this.module.getBootstrapInfo();
     } catch (error) {
-      return { installed: false, prefixPath: '' };
+      return { installed: false, prefixPath: "" };
     }
   }
 
@@ -30,7 +30,7 @@ export class TermuxCore {
     try {
       return await this.module.installBootstrap();
     } catch (error) {
-      console.error('Failed to install bootstrap:', error);
+      console.error("Failed to install bootstrap:", error);
       return false;
     }
   }
@@ -39,7 +39,7 @@ export class TermuxCore {
     command: string,
     args: string[],
     cwd: string,
-    env: Record<string, string>
+    env: Record<string, string>,
   ): Promise<TermuxSession> {
     return await this.module.createSession(command, args, cwd, env, 24, 80);
   }
@@ -53,15 +53,22 @@ export class TermuxCore {
   }
 
   // Simple callback-based event handlers
-  static onSessionOutput(sessionId: string, callback: (data: string) => void): void {
+  static onSessionOutput(
+    sessionId: string,
+    callback: (data: string) => void,
+  ): void {
     // This would be implemented via native events in a real implementation
     // For now, we'll implement basic polling or use a different approach
   }
 
-  static onSessionExit(sessionId: string, callback: (exitCode: number) => void): void {
-    // This would be implemented via native events in a real implementation  
+  static onSessionExit(
+    sessionId: string,
+    callback: (exitCode: number) => void,
+  ): void {
+    // This would be implemented via native events in a real implementation
   }
 }
 
-export { default as TermuxTerminalView } from './TermuxTerminalView';
+export { default as TermuxTerminalView } from "./TermuxTerminalView";
+export type { TermuxTerminalViewProps } from "./TermuxTerminalView";
 export default TermuxCore;
