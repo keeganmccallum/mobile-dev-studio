@@ -27,6 +27,16 @@ buildscript {
   }
 }
 
+// Force JVM toolchain configuration after expo plugins
+afterEvaluate {
+  // Override any expo plugin JVM target settings
+  tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+      jvmTarget = "17"
+    }
+  }
+}
+
 // Configure JVM toolchain for consistent Java/Kotlin targets
 java {
   toolchain {
