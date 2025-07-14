@@ -4,6 +4,7 @@ import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.kotlin.Promise
 import expo.modules.kotlin.types.Enumerable
+import expo.modules.kotlin.exception.Exceptions
 
 import android.content.Context
 import android.os.Environment
@@ -21,6 +22,9 @@ class TermuxCoreModule : Module() {
     private var isBootstrapInstalled = false
     private lateinit var termuxFilesDir: File
     private lateinit var termuxPrefixDir: File
+    
+    private val context: Context
+        get() = appContext.reactContext ?: throw Exceptions.AppContextLost()
 
     override fun definition() = ModuleDefinition {
         Name("TermuxCore")
@@ -29,7 +33,7 @@ class TermuxCoreModule : Module() {
 
         OnCreate {
             Log.i(LOG_TAG, "TermuxCore module created")
-            termuxFilesDir = File(appContext.cacheDir, "termux")
+            termuxFilesDir = File(context.filesDir, "termux")
             termuxPrefixDir = File(termuxFilesDir, "usr")
             checkBootstrapInstallation()
         }
@@ -206,7 +210,7 @@ class TermuxCoreModule : Module() {
     private fun extractBootstrap() {
         val bootstrapAsset = "termux/bootstrap-aarch64.zip"
         
-        appContext.assets.open(bootstrapAsset).use { inputStream ->
+        context.assets.open(bootstrapAsset).use { inputStream ->
             ZipInputStream(BufferedInputStream(inputStream)).use { zip ->
                 var entry = zip.nextEntry
                 while (entry != null) {
