@@ -29,7 +29,6 @@ jobs:
     - name: Install dependencies
       run: |
         npm install
-        cd modules/termux-core && npm install && cd ../..
         
     - name: Run unit tests (mocked)
       run: npm run test:unit
@@ -70,7 +69,6 @@ jobs:
     - name: Install dependencies
       run: |
         npm install
-        cd modules/termux-core && npm install && cd ../..
         
     - name: Install Expo CLI
       run: npm install -g @expo/cli
@@ -156,7 +154,6 @@ jobs:
     - name: Install dependencies
       run: |
         npm install
-        cd modules/termux-core && npm install && cd ../..
         
     - name: Generate coverage report
       run: npm run test:coverage
@@ -193,7 +190,6 @@ jobs:
     - name: Install dependencies
       run: |
         npm install
-        cd modules/termux-core && npm install && cd ../..
         
     - name: Run ESLint
       run: npm run lint
@@ -227,7 +223,6 @@ jobs:
     - name: Install dependencies
       run: |
         npm install
-        cd modules/termux-core && npm install && cd ../..
         
     - name: Install Expo CLI
       run: npm install -g @expo/cli

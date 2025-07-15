@@ -9,7 +9,7 @@
     "clean": "expo-module clean",
     "lint": "expo-module lint",
     "test": "expo-module test",
-    "prepare": "expo-module prepare",
+    "prepare": "if [ \"$CI\" = \"true\" ]; then echo 'Skipping expo-module prepare in CI'; else expo-module prepare; fi",
     "prepublishOnly": "expo-module prepublishOnly",
     "expo-module": "expo-module"
   },
