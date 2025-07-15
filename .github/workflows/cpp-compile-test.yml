@@ -40,6 +40,15 @@ jobs:
         
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
+      with:
+        cmdline-tools-version: 8512546
+        packages: |
+          tools
+          platform-tools
+          platforms;android-34
+          build-tools;34.0.0
+          ndk;25.1.8937393
+          cmake;3.22.1
       
     - name: Install dependencies
       run: |
@@ -59,7 +68,7 @@ jobs:
         
         # Test if C++ files compile without full APK build
         echo "Testing C++ compilation..."
-        ./gradlew :termux-core:buildCMakeDebug --no-daemon --info
+        ./gradlew :termux-core:externalNativeBuildDebug --no-daemon --info
         
         # Show compilation results
         echo "✅ C++ compilation successful!"
