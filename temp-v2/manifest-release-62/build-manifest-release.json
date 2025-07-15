@@ -1,0 +1,11 @@
+{
+  "build_type": "release",
+  "release_type": "beta",
+  "build_time": "2025-07-15 04:02:28 UTC",
+  "commit_sha": "4f322d63",
+  "build_number": "62",
+  "apk_name": "mobile-dev-studio-beta-release-62-4f322d63.apk",
+  "branch": "main",
+  "workflow_run_id": "16283563740",
+  "actor": "keeganmccallum"
+}

@@ -9,6 +9,7 @@ export default function EditorScreen() {
   const [url, setUrl] = useState('https://vscode.dev');
   const [customUrl, setCustomUrl] = useState('');
   const [showUrlInput, setShowUrlInput] = useState(false);
+  const [showControls, setShowControls] = useState(false);
   const webViewRef = useRef<WebView>(null);
 
   const presetUrls = [
@@ -143,88 +144,112 @@ export default function EditorScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>💻 Code Editor</Text>
-        <Text style={styles.headerSubtitle}>VS Code Integration</Text>
-      </View>
-
-      <View style={styles.urlSection}>
-        <View style={styles.presetUrls}>
-          {presetUrls.map((preset, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.presetButton,
-                url === preset.url && styles.presetButtonActive
-              ]}
-              onPress={() => loadUrl(preset.url)}
-            >
-              <Ionicons 
-                name={preset.icon as any} 
-                size={16} 
-                color={url === preset.url ? '#0969da' : '#7d8590'} 
-              />
-              <Text style={[
-                styles.presetText,
-                url === preset.url && styles.presetTextActive
-              ]}>
-                {preset.name}
-              </Text>
-            </TouchableOpacity>
-          ))}
+      {/* Compact header with toggle button */}
+      <View style={styles.compactHeader}>
+        <View style={styles.headerInfo}>
+          <Text style={styles.compactTitle}>💻 Editor</Text>
+          <Text style={styles.compactSubtitle}>
+            {url.includes('vscode.dev') ? 'VS Code Web' :
+             url.includes('github.com') ? 'Codespaces' :
+             url.includes('localhost') ? 'Local' : 'Custom'}
+          </Text>
         </View>
         
-        <TouchableOpacity
-          style={styles.customUrlButton}
-          onPress={() => setShowUrlInput(!showUrlInput)}
-        >
-          <Ionicons name="link" size={16} color="#7d8590" />
-          <Text style={styles.customUrlText}>Custom URL</Text>
-        </TouchableOpacity>
-      </View>
-
-      {showUrlInput && (
-        <View style={styles.urlInputContainer}>
-          <TextInput
-            style={styles.urlInput}
-            value={customUrl}
-            onChangeText={setCustomUrl}
-            placeholder="Enter custom URL (e.g., http://localhost:8080)"
-            placeholderTextColor="#7d8590"
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-          <TouchableOpacity style={styles.urlInputButton} onPress={openCustomUrl}>
-            <Ionicons name="arrow-forward" size={20} color="#0969da" />
+        <View style={styles.headerActions}>
+          <TouchableOpacity 
+            style={styles.headerButton} 
+            onPress={() => setShowControls(!showControls)}
+          >
+            <Ionicons 
+              name={showControls ? "chevron-up" : "menu"} 
+              size={20} 
+              color="#7d8590" 
+            />
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.headerButton} 
+            onPress={() => webViewRef.current?.reload()}
+          >
+            <Ionicons name="refresh" size={20} color="#58a6ff" />
           </TouchableOpacity>
         </View>
-      )}
-
-      <View style={styles.controls}>
-        <TouchableOpacity 
-          style={styles.controlButton} 
-          onPress={() => webViewRef.current?.reload()}
-        >
-          <Ionicons name="refresh" size={20} color="#58a6ff" />
-          <Text style={styles.controlText}>Refresh</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={styles.controlButton} 
-          onPress={() => runEditorAction('saveFile')}
-        >
-          <Ionicons name="save" size={20} color="#238636" />
-          <Text style={styles.controlText}>Save</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={styles.controlButton} 
-          onPress={() => runEditorAction('openTerminal')}
-        >
-          <Ionicons name="terminal" size={20} color="#f85149" />
-          <Text style={styles.controlText}>Terminal</Text>
-        </TouchableOpacity>
       </View>
+
+      {/* Collapsible controls */}
+      {showControls && (
+        <>
+          <View style={styles.urlSection}>
+            <View style={styles.presetUrls}>
+              {presetUrls.map((preset, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.presetButton,
+                    url === preset.url && styles.presetButtonActive
+                  ]}
+                  onPress={() => loadUrl(preset.url)}
+                >
+                  <Ionicons 
+                    name={preset.icon as any} 
+                    size={14} 
+                    color={url === preset.url ? '#0969da' : '#7d8590'} 
+                  />
+                  <Text style={[
+                    styles.presetText,
+                    url === preset.url && styles.presetTextActive
+                  ]}>
+                    {preset.name}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            
+            <TouchableOpacity
+              style={styles.customUrlButton}
+              onPress={() => setShowUrlInput(!showUrlInput)}
+            >
+              <Ionicons name="link" size={14} color="#7d8590" />
+              <Text style={styles.customUrlText}>Custom URL</Text>
+            </TouchableOpacity>
+          </View>
+
+          {showUrlInput && (
+            <View style={styles.urlInputContainer}>
+              <TextInput
+                style={styles.urlInput}
+                value={customUrl}
+                onChangeText={setCustomUrl}
+                placeholder="Enter custom URL (e.g., http://localhost:8080)"
+                placeholderTextColor="#7d8590"
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+              <TouchableOpacity style={styles.urlInputButton} onPress={openCustomUrl}>
+                <Ionicons name="arrow-forward" size={18} color="#0969da" />
+              </TouchableOpacity>
+            </View>
+          )}
+
+          <View style={styles.controls}>
+            <TouchableOpacity 
+              style={styles.controlButton} 
+              onPress={() => runEditorAction('saveFile')}
+            >
+              <Ionicons name="save" size={18} color="#238636" />
+              <Text style={styles.controlText}>Save</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.controlButton} 
+              onPress={() => runEditorAction('openTerminal')}
+            >
+              <Ionicons name="terminal" size={18} color="#f85149" />
+              <Text style={styles.controlText}>Terminal</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
 
       <View style={styles.webViewContainer}>
         {isLoading && (
@@ -262,20 +287,6 @@ export default function EditorScreen() {
         />
       </View>
 
-      <View style={styles.statusBar}>
-        <Text style={styles.statusText}>
-          <Text style={styles.statusLabel}>Editor:</Text> {
-            url.includes('vscode.dev') ? 'VS Code Web' :
-            url.includes('github.com') ? 'GitHub Codespaces' :
-            url.includes('localhost') ? 'Local Code Server' :
-            'Custom'
-          }
-        </Text>
-        <View style={styles.statusIndicator}>
-          <View style={[styles.statusDot, { backgroundColor: isLoading ? '#f85149' : '#238636' }]} />
-          <Text style={styles.statusText}>{isLoading ? 'Loading' : 'Ready'}</Text>
-        </View>
-      </View>
     </SafeAreaView>
   );
 }
@@ -285,25 +296,46 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0d1117',
   },
-  header: {
-    padding: 20,
+  compactHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#21262d',
+    backgroundColor: '#161b22',
   },
-  headerTitle: {
-    fontSize: 24,
+  headerInfo: {
+    flex: 1,
+  },
+  compactTitle: {
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#f0f6fc',
-    marginBottom: 4,
   },
-  headerSubtitle: {
-    fontSize: 16,
+  compactSubtitle: {
+    fontSize: 12,
     color: '#7d8590',
+    marginTop: 2,
+  },
+  headerActions: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  headerButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 6,
+    backgroundColor: '#21262d',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   urlSection: {
-    padding: 16,
+    padding: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#21262d',
+    backgroundColor: '#161b22',
   },
   presetUrls: {
     flexDirection: 'row',
@@ -379,26 +411,27 @@ const styles = StyleSheet.create({
   },
   controls: {
     flexDirection: 'row',
-    padding: 16,
-    gap: 12,
+    padding: 12,
+    gap: 8,
     borderBottomWidth: 1,
     borderBottomColor: '#21262d',
+    backgroundColor: '#161b22',
   },
   controlButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#161b22',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
+    backgroundColor: '#21262d',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 6,
     borderWidth: 1,
-    borderColor: '#21262d',
-    gap: 6,
+    borderColor: '#30363d',
+    gap: 4,
     flex: 1,
   },
   controlText: {
     color: '#f0f6fc',
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '500',
   },
   webViewContainer: {

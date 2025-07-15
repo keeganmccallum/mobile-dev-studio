@@ -107,6 +107,8 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
     </style>
 </head>
 <body>
+    <!-- Hidden input for mobile keyboard -->
+    <input type="text" id="mobileKeyboard" style="position: absolute; left: -9999px; opacity: 0; z-index: -1;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
     <div id="terminal"></div>
     <script>
         // Initialize terminal
@@ -221,6 +223,48 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
             }
         }
 
+        // Mobile keyboard support
+        const mobileKeyboard = document.getElementById('mobileKeyboard');
+        let mobileKeyboardBuffer = '';
+        
+        // Focus hidden input on terminal click
+        document.getElementById('terminal').addEventListener('click', () => {
+            mobileKeyboard.focus();
+        });
+        
+        // Handle mobile keyboard input
+        mobileKeyboard.addEventListener('input', (e) => {
+            const newValue = e.target.value;
+            const newChar = newValue.slice(mobileKeyboardBuffer.length);
+            
+            if (newChar) {
+                currentLine += newChar;
+                terminal.write(newChar);
+            }
+            
+            mobileKeyboardBuffer = newValue;
+        });
+        
+        // Handle mobile keyboard special keys
+        mobileKeyboard.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                terminal.writeln('');
+                executeCommand(currentLine);
+                currentLine = '';
+                mobileKeyboard.value = '';
+                mobileKeyboardBuffer = '';
+            } else if (e.key === 'Backspace') {
+                e.preventDefault();
+                if (currentLine.length > 0) {
+                    currentLine = currentLine.substr(0, currentLine.length - 1);
+                    terminal.write('\\b \\b');
+                    mobileKeyboard.value = mobileKeyboard.value.slice(0, -1);
+                    mobileKeyboardBuffer = mobileKeyboard.value;
+                }
+            }
+        });
+
         // Handle keyboard input
         terminal.onKey(({ key, domEvent }) => {
             const printable = !domEvent.altKey && !domEvent.altGraphKey && !domEvent.ctrlKey && !domEvent.metaKey;
@@ -328,7 +372,10 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
             write: (text) => terminal.write(text),
             clear: () => terminal.clear(),
             fit: () => fitAddon.fit(),
-            focus: () => terminal.focus()
+            focus: () => {
+                terminal.focus();
+                mobileKeyboard.focus();
+            }
         };
     </script>
 </body>
@@ -420,16 +467,42 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
         overScrollMode="never"
         bounces={false}
         keyboardDisplayRequiresUserAction={false}
+        automaticallyAdjustContentInsets={false}
+        contentInsetAdjustmentBehavior="never"
         onLoadEnd={() => {
           // Focus terminal after load
           setTimeout(() => {
             webViewRef.current?.injectJavaScript(`
-              if (window.mobileTerminal) {
+              if (window.mobileTerminal && window.mobileTerminal.focus) {
                 window.mobileTerminal.focus();
+              }
+              // Also try to focus the terminal element directly
+              const terminalElement = document.querySelector('.xterm-helper-textarea');
+              if (terminalElement) {
+                terminalElement.focus();
+              }
+              // Ensure the terminal canvas is focusable
+              const canvas = document.querySelector('.xterm-screen canvas');
+              if (canvas) {
+                canvas.setAttribute('tabindex', '0');
+                canvas.focus();
               }
               true;
             `);
           }, 500);
+        }}
+        onTouchStart={() => {
+          // Focus terminal on touch
+          webViewRef.current?.injectJavaScript(`
+            if (window.mobileTerminal && window.mobileTerminal.focus) {
+              window.mobileTerminal.focus();
+            }
+            const terminalElement = document.querySelector('.xterm-helper-textarea');
+            if (terminalElement) {
+              terminalElement.focus();
+            }
+            true;
+          `);
         }}
       />
     </View>

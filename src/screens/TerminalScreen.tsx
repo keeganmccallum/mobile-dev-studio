@@ -168,11 +168,11 @@ export default function TerminalScreen() {
         </View>
       )}
 
-      <View style={styles.terminalContainer} testID="terminal-webview">
-        <XTerminal
+      <View style={styles.terminalContainer} testID="terminal-native">
+        <RealTermuxTerminal
           onReady={handleTerminalReady}
           onCommand={handleCommand}
-          theme="dark"
+          style={styles.terminal}
         />
       </View>
 
