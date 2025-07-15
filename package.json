@@ -54,7 +54,8 @@
     "jest-junit": "^16.0.0",
     "@testing-library/react-native": "^12.7.2",
     "react-test-renderer": "19.0.0",
-    "babel-jest": "^29.7.0"
+    "babel-jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   },
   "private": true
 }
