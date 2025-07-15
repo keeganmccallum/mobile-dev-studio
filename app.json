@@ -30,6 +30,12 @@
         "READ_EXTERNAL_STORAGE"
       ]
     },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     }
