@@ -84,6 +84,7 @@ class TermuxCoreModule : Module() {
         }
 
         AsyncFunction("createSession") { 
+            sessionId: String,
             command: String, 
             args: List<String>, 
             cwd: String, 
@@ -98,7 +99,6 @@ class TermuxCoreModule : Module() {
                     return@AsyncFunction
                 }
 
-                val sessionId = UUID.randomUUID().toString()
                 val session = TermuxSession.create(
                     sessionId,
                     command,
@@ -111,6 +111,9 @@ class TermuxCoreModule : Module() {
                 )
                 
                 sessions[sessionId] = session
+                
+                // Set up output monitoring
+                startOutputMonitoring(sessionId, session)
                 
                 val result = HashMap<String, Any>()
                 result["id"] = sessionId
@@ -259,6 +262,36 @@ class TermuxCoreModule : Module() {
         } else {
             0L
         }
+    }
+
+    private fun startOutputMonitoring(sessionId: String, session: TermuxSession) {
+        // Start a background thread to monitor session output
+        Thread {
+            try {
+                while (session.isRunning) {
+                    val output = session.read()
+                    if (output.isNotEmpty()) {
+                        // Send output to React Native
+                        val params = mapOf(
+                            "sessionId" to sessionId,
+                            "data" to output
+                        )
+                        sendEvent("onSessionOutput", params)
+                    }
+                    Thread.sleep(100) // Check every 100ms
+                }
+                
+                // Session has ended
+                val params = mapOf(
+                    "sessionId" to sessionId,
+                    "exitCode" to session.exitCode
+                )
+                sendEvent("onSessionExit", params)
+                
+            } catch (e: Exception) {
+                Log.e(LOG_TAG, "Output monitoring error for session $sessionId", e)
+            }
+        }.start()
     }
 
     companion object {

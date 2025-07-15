@@ -16,6 +16,9 @@ class TermuxSession private constructor(
     var isRunning = true
         private set
     
+    var exitCode: Int = 0
+        private set
+    
     private val outputBuffer = ArrayList<String>()
     private val LOG_TAG = "TermuxSession"
 

@@ -1,55 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import RealTermuxTerminal from '../components/RealTermuxTerminal';
-import XTerminal from '../components/XTerminal';
-import { terminalService } from '../services/TerminalService';
+import { TermuxTerminal, termuxManager, TermuxTerminalRef } from '../lib/termux';
 
 export default function TerminalScreen() {
   const [isTerminalReady, setIsTerminalReady] = useState(false);
   const [showStatus, setShowStatus] = useState(true);
-  const [terminalStatus, setTerminalStatus] = useState<{
-    initialized: boolean;
-    processCount: number;
-    runningProcesses: number;
-    alpineRootPath: string;
-    serverStatus: { status: 'stopped' | 'running' | 'error'; url?: string };
-  }>({
-    initialized: false,
-    processCount: 0,
-    runningProcesses: 0,
-    alpineRootPath: '',
-    serverStatus: { status: 'stopped' }
-  });
+  const [isBootstrapInitialized, setIsBootstrapInitialized] = useState(false);
+  const [sessionCount, setSessionCount] = useState(0);
+  const terminalRef = useRef<TermuxTerminalRef>(null);
 
   useEffect(() => {
-    // Initialize terminal service and get status
-    const initializeTerminal = async () => {
-      await terminalService.initialize();
-      updateStatus();
+    // Initialize Termux bootstrap
+    const initializeBootstrap = async () => {
+      try {
+        await termuxManager.initializeBootstrap();
+        setIsBootstrapInitialized(true);
+      } catch (error) {
+        console.error('Failed to initialize Termux bootstrap:', error);
+      }
     };
     
-    initializeTerminal();
+    initializeBootstrap();
     
-    // Update status every 5 seconds
-    const interval = setInterval(updateStatus, 5000);
+    // Update session count periodically
+    const interval = setInterval(() => {
+      setSessionCount(termuxManager.getActiveSessions().length);
+    }, 2000);
+    
     return () => clearInterval(interval);
   }, []);
 
-  const updateStatus = () => {
-    const status = terminalService.getStatus();
-    setTerminalStatus(status);
-  };
-
   const handleTerminalReady = () => {
     setIsTerminalReady(true);
-    updateStatus();
   };
 
-  const handleCommand = (command: string, args: string[]) => {
-    console.log(`Terminal command: ${command} ${args.join(' ')}`);
-    updateStatus();
+  const handleTerminalData = (data: string) => {
+    console.log('Terminal output:', data);
+  };
+
+  const handleTerminalExit = (code: number) => {
+    console.log('Terminal exited with code:', code);
+    setIsTerminalReady(false);
+  };
+
+  const handleTerminalError = (error: Error) => {
+    console.error('Terminal error:', error);
   };
 
   const toggleStatusView = () => {
@@ -66,9 +63,7 @@ export default function TerminalScreen() {
           text: 'Clear', 
           style: 'destructive',
           onPress: () => {
-            // Clear processes
-            terminalService.clearProcesses();
-            updateStatus();
+            terminalRef.current?.clearTerminal();
           }
         }
       ]
@@ -78,16 +73,16 @@ export default function TerminalScreen() {
   const restartEnvironment = async () => {
     Alert.alert(
       'Restart Environment',
-      'This will restart the Alpine Linux environment. Continue?',
+      'This will restart the Termux environment. Continue?',
       [
         { text: 'Cancel', style: 'cancel' },
         { 
           text: 'Restart', 
           style: 'destructive',
           onPress: async () => {
-            terminalService.clearProcesses();
-            await terminalService.initialize();
-            updateStatus();
+            await termuxManager.killAllSessions();
+            setSessionCount(0);
+            setIsTerminalReady(false);
           }
         }
       ]
@@ -98,9 +93,9 @@ export default function TerminalScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Text style={styles.headerTitle}>🐧 Terminal Environment</Text>
+          <Text style={styles.headerTitle}>🐧 Termux Terminal</Text>
           <Text style={styles.headerSubtitle}>
-            {terminalStatus.initialized ? 'Alpine Linux Ready' : 'Initializing...'}
+            {isBootstrapInitialized ? 'Bootstrap Ready' : 'Initializing...'}
           </Text>
         </View>
         
@@ -129,17 +124,16 @@ export default function TerminalScreen() {
             <View style={styles.statusItem}>
               <View style={[
                 styles.statusDot, 
-                { backgroundColor: terminalStatus.initialized ? '#238636' : '#f85149' }
+                { backgroundColor: isBootstrapInitialized ? '#238636' : '#f85149' }
               ]} />
               <Text style={styles.statusText}>
-                Alpine Linux: {terminalStatus.initialized ? 'Ready' : 'Initializing'}
+                Bootstrap: {isBootstrapInitialized ? 'Ready' : 'Initializing'}
               </Text>
             </View>
             
             <View style={styles.statusItem}>
               <Text style={styles.statusText}>
-                Processes: {terminalStatus.processCount} 
-                ({terminalStatus.runningProcesses} running)
+                Sessions: {sessionCount} active
               </Text>
             </View>
           </View>
@@ -158,37 +152,42 @@ export default function TerminalScreen() {
             <View style={styles.statusItem}>
               <View style={[
                 styles.statusDot, 
-                { backgroundColor: terminalStatus.serverStatus.status === 'running' ? '#238636' : '#7d8590' }
+                { backgroundColor: '#238636' }
               ]} />
               <Text style={styles.statusText}>
-                Dev Server: {terminalStatus.serverStatus.status === 'running' ? 'Running' : 'Stopped'}
+                Native: Connected
               </Text>
             </View>
           </View>
         </View>
       )}
 
-      <View style={styles.terminalContainer} testID="terminal-native">
-        <RealTermuxTerminal
+      <View style={styles.terminalContainer} testID="terminal-termux">
+        <TermuxTerminal
+          ref={terminalRef}
+          sessionId="main"
           onReady={handleTerminalReady}
-          onCommand={handleCommand}
+          onData={handleTerminalData}
+          onExit={handleTerminalExit}
+          onError={handleTerminalError}
           style={styles.terminal}
+          theme="dark"
         />
       </View>
 
       {!isTerminalReady && (
         <View style={styles.loadingOverlay}>
           <View style={styles.loadingContent}>
-            <Text style={styles.loadingTitle}>🚀 Starting Terminal...</Text>
+            <Text style={styles.loadingTitle}>🚀 Starting Termux...</Text>
             <Text style={styles.loadingSubtitle}>
-              Setting up Alpine Linux environment
+              Setting up native terminal environment
             </Text>
             <View style={styles.loadingSteps}>
               <Text style={styles.loadingStep}>
-                ✅ Initializing file system
+                {isBootstrapInitialized ? '✅' : '⏳'} Installing bootstrap
               </Text>
               <Text style={styles.loadingStep}>
-                ✅ Creating environment
+                {isBootstrapInitialized ? '✅' : '⏳'} Creating environment
               </Text>
               <Text style={styles.loadingStep}>
                 {isTerminalReady ? '✅' : '⏳'} Loading terminal interface
