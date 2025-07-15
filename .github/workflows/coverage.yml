@@ -1,0 +1,210 @@
+name: Coverage Report
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        npm install
+        cd modules/termux-core && npm install && cd ../..
+        
+    - name: Run tests with coverage
+      run: npm run test:coverage
+      
+    - name: Generate coverage badge
+      run: |
+        COVERAGE=$(grep -o '"statements":{"pct":[0-9.]*' coverage/coverage-summary.json | grep -o '[0-9.]*')
+        echo "Coverage: $COVERAGE%"
+        
+        # Create coverage badge
+        if (( $(echo "$COVERAGE >= 90" | bc -l) )); then
+          COLOR="brightgreen"
+        elif (( $(echo "$COVERAGE >= 80" | bc -l) )); then
+          COLOR="green"
+        elif (( $(echo "$COVERAGE >= 70" | bc -l) )); then
+          COLOR="yellow"
+        elif (( $(echo "$COVERAGE >= 60" | bc -l) )); then
+          COLOR="orange"
+        else
+          COLOR="red"
+        fi
+        
+        echo "COVERAGE_PERCENTAGE=$COVERAGE" >> $GITHUB_ENV
+        echo "COVERAGE_COLOR=$COLOR" >> $GITHUB_ENV
+        
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+        verbose: true
+        
+    - name: Coverage Summary
+      run: |
+        echo "## 📊 Code Coverage Report" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Overall Coverage**: ${{ env.COVERAGE_PERCENTAGE }}%" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Add detailed coverage breakdown
+        echo "### 📈 Coverage Breakdown" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "| Metric | Coverage |" >> $GITHUB_STEP_SUMMARY
+        echo "|--------|----------|" >> $GITHUB_STEP_SUMMARY
+        
+        # Extract coverage metrics from summary
+        STATEMENTS=$(grep -o '"statements":{"pct":[0-9.]*' coverage/coverage-summary.json | grep -o '[0-9.]*')
+        BRANCHES=$(grep -o '"branches":{"pct":[0-9.]*' coverage/coverage-summary.json | grep -o '[0-9.]*')
+        FUNCTIONS=$(grep -o '"functions":{"pct":[0-9.]*' coverage/coverage-summary.json | grep -o '[0-9.]*')
+        LINES=$(grep -o '"lines":{"pct":[0-9.]*' coverage/coverage-summary.json | grep -o '[0-9.]*')
+        
+        echo "| Statements | ${STATEMENTS}% |" >> $GITHUB_STEP_SUMMARY
+        echo "| Branches | ${BRANCHES}% |" >> $GITHUB_STEP_SUMMARY
+        echo "| Functions | ${FUNCTIONS}% |" >> $GITHUB_STEP_SUMMARY
+        echo "| Lines | ${LINES}% |" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Add quality gates
+        echo "### 🎯 Quality Gates" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        THRESHOLD=80
+        if (( $(echo "$STATEMENTS >= $THRESHOLD" | bc -l) )); then
+          echo "✅ Statements coverage ($STATEMENTS%) meets threshold ($THRESHOLD%)" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Statements coverage ($STATEMENTS%) below threshold ($THRESHOLD%)" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        if (( $(echo "$BRANCHES >= $THRESHOLD" | bc -l) )); then
+          echo "✅ Branch coverage ($BRANCHES%) meets threshold ($THRESHOLD%)" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Branch coverage ($BRANCHES%) below threshold ($THRESHOLD%)" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        if (( $(echo "$FUNCTIONS >= $THRESHOLD" | bc -l) )); then
+          echo "✅ Function coverage ($FUNCTIONS%) meets threshold ($THRESHOLD%)" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Function coverage ($FUNCTIONS%) below threshold ($THRESHOLD%)" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        if (( $(echo "$LINES >= $THRESHOLD" | bc -l) )); then
+          echo "✅ Line coverage ($LINES%) meets threshold ($THRESHOLD%)" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "❌ Line coverage ($LINES%) below threshold ($THRESHOLD%)" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "📊 [View detailed coverage report](https://codecov.io/gh/${{ github.repository }})" >> $GITHUB_STEP_SUMMARY
+        
+    - name: Upload coverage artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: |
+          coverage/
+          test-results/
+        retention-days: 30
+        
+    - name: Comment coverage on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          
+          // Read coverage summary
+          const coverageSummary = JSON.parse(fs.readFileSync('coverage/coverage-summary.json', 'utf8'));
+          const statements = coverageSummary.total.statements.pct;
+          const branches = coverageSummary.total.branches.pct;
+          const functions = coverageSummary.total.functions.pct;
+          const lines = coverageSummary.total.lines.pct;
+          
+          const coverageEmoji = statements >= 90 ? '🟢' : statements >= 80 ? '🟡' : '🔴';
+          
+          const comment = `## ${coverageEmoji} Coverage Report
+          
+          **Overall Coverage**: ${statements}%
+          
+          | Metric | Coverage |
+          |--------|----------|
+          | Statements | ${statements}% |
+          | Branches | ${branches}% |
+          | Functions | ${functions}% |
+          | Lines | ${lines}% |
+          
+          ### Quality Gates
+          ${statements >= 80 ? '✅' : '❌'} Statements: ${statements}% (threshold: 80%)
+          ${branches >= 80 ? '✅' : '❌'} Branches: ${branches}% (threshold: 80%)
+          ${functions >= 80 ? '✅' : '❌'} Functions: ${functions}% (threshold: 80%)
+          ${lines >= 80 ? '✅' : '❌'} Lines: ${lines}% (threshold: 80%)
+          
+          📊 [View detailed coverage report](https://codecov.io/gh/${context.repo.owner}/${context.repo.repo}/pull/${context.issue.number})`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+          
+    - name: Fail on low coverage
+      run: |
+        THRESHOLD=80
+        STATEMENTS=$(grep -o '"statements":{"pct":[0-9.]*' coverage/coverage-summary.json | grep -o '[0-9.]*')
+        BRANCHES=$(grep -o '"branches":{"pct":[0-9.]*' coverage/coverage-summary.json | grep -o '[0-9.]*')
+        FUNCTIONS=$(grep -o '"functions":{"pct":[0-9.]*' coverage/coverage-summary.json | grep -o '[0-9.]*')
+        LINES=$(grep -o '"lines":{"pct":[0-9.]*' coverage/coverage-summary.json | grep -o '[0-9.]*')
+        
+        FAILED=0
+        
+        if (( $(echo "$STATEMENTS < $THRESHOLD" | bc -l) )); then
+          echo "❌ Statements coverage ($STATEMENTS%) below threshold ($THRESHOLD%)"
+          FAILED=1
+        fi
+        
+        if (( $(echo "$BRANCHES < $THRESHOLD" | bc -l) )); then
+          echo "❌ Branch coverage ($BRANCHES%) below threshold ($THRESHOLD%)"
+          FAILED=1
+        fi
+        
+        if (( $(echo "$FUNCTIONS < $THRESHOLD" | bc -l) )); then
+          echo "❌ Function coverage ($FUNCTIONS%) below threshold ($THRESHOLD%)"
+          FAILED=1
+        fi
+        
+        if (( $(echo "$LINES < $THRESHOLD" | bc -l) )); then
+          echo "❌ Line coverage ($LINES%) below threshold ($THRESHOLD%)"
+          FAILED=1
+        fi
+        
+        if [ $FAILED -eq 1 ]; then
+          echo "Coverage thresholds not met. Please add more tests."
+          exit 1
+        else
+          echo "✅ All coverage thresholds met!"
+        fi

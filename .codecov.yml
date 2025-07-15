@@ -1,0 +1,70 @@
+codecov:
+  require_ci_to_pass: yes
+  notify:
+    require_ci_to_pass: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+  
+  status:
+    project:
+      default:
+        threshold: 1%
+        base: auto
+        if_not_found: success
+        if_ci_failed: error
+        only_pulls: false
+        flags:
+          - unittests
+        paths:
+          - "src/"
+          - "modules/termux-core/src/"
+        
+    patch:
+      default:
+        threshold: 70%
+        base: auto
+        if_not_found: success
+        if_ci_failed: error
+        only_pulls: false
+
+  ignore:
+    - "**/__tests__/**"
+    - "**/*.test.ts"
+    - "**/*.test.tsx"
+    - "**/*.spec.ts"
+    - "**/*.spec.tsx"
+    - "**/jest.setup.js"
+    - "**/jest.config.js"
+    - "**/babel.config.js"
+    - "**/metro.config.js"
+    - "**/*.d.ts"
+    - "android/"
+    - "ios/"
+    - "dist/"
+    - "build/"
+    - "coverage/"
+    - "node_modules/"
+    - "temp-v3/"
+
+flags:
+  unittests:
+    paths:
+      - src/
+      - modules/termux-core/src/
+    carryforward: true
+
+comment:
+  layout: "reach,diff,flags,tree"
+  behavior: default
+  require_changes: false
+  require_base: no
+  require_head: yes
+  branches:
+    - main
+    - develop
+
+github_checks:
+  annotations: true

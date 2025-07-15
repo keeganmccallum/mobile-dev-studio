@@ -1,9 +1,6 @@
 {
-  "platforms": ["android", "ios"],
+  "platforms": ["android"],
   "android": {
-    "modules": ["TermuxCoreModule", "TermuxTerminalViewModule"]
-  },
-  "ios": {
-    "modules": ["TermuxCoreModule", "TermuxTerminalViewModule"]
+    "modules": ["expo.modules.termuxcore.TermuxCoreModule"]
   }
 }

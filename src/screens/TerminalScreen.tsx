@@ -100,7 +100,11 @@ export default function TerminalScreen() {
         </View>
         
         <View style={styles.headerControls}>
-          <TouchableOpacity style={styles.controlButton} onPress={toggleStatusView}>
+          <TouchableOpacity 
+            style={styles.controlButton} 
+            onPress={toggleStatusView}
+            testID="status-toggle-button"
+          >
             <Ionicons 
               name={showStatus ? 'eye-off' : 'eye'} 
               size={20} 
@@ -108,11 +112,19 @@ export default function TerminalScreen() {
             />
           </TouchableOpacity>
           
-          <TouchableOpacity style={styles.controlButton} onPress={clearTerminal}>
+          <TouchableOpacity 
+            style={styles.controlButton} 
+            onPress={clearTerminal}
+            testID="clear-terminal-button"
+          >
             <Ionicons name="trash" size={20} color="#f85149" />
           </TouchableOpacity>
           
-          <TouchableOpacity style={styles.controlButton} onPress={restartEnvironment}>
+          <TouchableOpacity 
+            style={styles.controlButton} 
+            onPress={restartEnvironment}
+            testID="restart-environment-button"
+          >
             <Ionicons name="refresh" size={20} color="#58a6ff" />
           </TouchableOpacity>
         </View>
