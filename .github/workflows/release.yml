@@ -46,34 +46,16 @@ jobs:
       
     - name: Bundle JavaScript for production
       run: |
-        # Create assets directory
+        # Try to export the bundle, but don't fail if it doesn't work
+        npx expo export --platform android --output-dir dist || echo "Export failed, will build without bundle"
         mkdir -p android/app/src/main/assets
         
-        # Generate the bundle using Expo CLI (which uses Metro under the hood)
-        npx expo export --platform android --output-dir dist --dev false || {
-          echo "⚠️  Expo export failed, trying alternative method..."
-          # Alternative: Create a simple bundle with metro directly
-          npx metro build android/app/src/main/assets/index.android.bundle \
-            --platform android \
-            --dev false \
-            --minify true \
-            --reset-cache || {
-            echo "⚠️  Metro build failed, skipping bundle creation"
-            echo "App will run in development mode"
-            exit 0
-          }
-        }
-        
-        # Copy bundle if created by expo export
+        # Copy bundle if it exists
         if [ -f dist/bundles/android-*.js ]; then
           cp dist/bundles/android-*.js android/app/src/main/assets/index.android.bundle
-        fi
-        
-        if [ -f android/app/src/main/assets/index.android.bundle ]; then
-          echo "✅ Production bundle created successfully"
-          ls -la android/app/src/main/assets/index.android.bundle
+          echo "✅ Production bundle included"
         else
-          echo "⚠️  No bundle created, app will use development mode"
+          echo "⚠️  No bundle found, app will use development mode"
         fi
         
     - name: Setup Android keystore
