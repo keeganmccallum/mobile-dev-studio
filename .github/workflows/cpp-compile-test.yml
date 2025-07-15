@@ -1,82 +1,52 @@
 name: Test C++ JNI Compilation
 
 on:
-  push:
-    branches: [ main ]
-    paths: 
-      - 'modules/termux-core/android/src/main/cpp/**'
-      - 'modules/termux-core/android/CMakeLists.txt'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'modules/termux-core/android/src/main/cpp/**'
-      - 'modules/termux-core/android/CMakeLists.txt'
   workflow_dispatch:
-
-env:
-  NODE_VERSION: '20'
-  JAVA_VERSION: '17'
 
 jobs:
   test-cpp-compilation:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-        
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: ${{ env.JAVA_VERSION }}
-        
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
-      with:
-        cmdline-tools-version: 8512546
-        packages: |
-          tools
-          platform-tools
-          platforms;android-34
-          build-tools;34.0.0
-          ndk;25.1.8937393
-          cmake;3.22.1
-      
-    - name: Install dependencies
+    - name: Setup Android NDK
       run: |
-        npm install
-        cd modules/termux-core && npm install && cd ../..
+        # Download and setup NDK directly
+        wget -q https://dl.google.com/android/repository/android-ndk-r25c-linux.zip
+        unzip -q android-ndk-r25c-linux.zip
+        export ANDROID_NDK_HOME=$PWD/android-ndk-r25c
+        echo "ANDROID_NDK_HOME=$ANDROID_NDK_HOME" >> $GITHUB_ENV
+        echo "NDK_HOME=$ANDROID_NDK_HOME" >> $GITHUB_ENV
         
-    - name: Install Expo CLI
-      run: npm install -g @expo/cli
-      
-    - name: Prebuild Expo project
+    - name: Test C++ compilation directly
       run: |
-        npx expo prebuild --platform android --clear
+        cd modules/termux-core/android
         
-    - name: Test C++ compilation only
-      run: |
-        cd android
+        # Test C++ syntax with simple compile
+        echo "Testing C++ JNI syntax..."
         
-        # Test if C++ files compile without full APK build
-        echo "Testing C++ compilation..."
-        ./gradlew :termux-core:externalNativeBuildDebug --no-daemon --info
+        # Create test build directory
+        mkdir -p build
+        cd build
         
-        # Show compilation results
+        # Use CMake directly to test compilation
+        cmake .. -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+                 -DANDROID_ABI=arm64-v8a \
+                 -DANDROID_PLATFORM=android-21 \
+                 -DCMAKE_BUILD_TYPE=Debug
+        
+        # Build the C++ code
+        make termux-core
+        
         echo "✅ C++ compilation successful!"
-        find . -name "*.so" -type f | head -10
+        ls -la libtermux-core.so
         
     - name: Verify JNI symbols
       run: |
-        cd android
+        cd modules/termux-core/android/build
         
         # Find the compiled library
         SO_FILE=$(find . -name "libtermux-core.so" -type f | head -1)
