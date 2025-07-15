@@ -73,12 +73,12 @@ export default function RealTermuxTerminal({
 
   return (
     <View style={[styles.container, style]}>
-      <TermuxTerminalView
-        ref={terminalRef}
-        style={styles.terminal}
-        command="/data/data/com.termux/files/usr/bin/bash"
-        workingDirectory="/data/data/com.termux/files/home"
-        environment={{
+      {React.createElement(TermuxTerminalView as any, {
+        ref: terminalRef,
+        style: styles.terminal,
+        command: "/data/data/com.termux/files/usr/bin/bash",
+        workingDirectory: "/data/data/com.termux/files/home",
+        environment: {
           PATH: '/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets',
           HOME: '/data/data/com.termux/files/home',
           PREFIX: '/data/data/com.termux/files/usr',
@@ -87,10 +87,10 @@ export default function RealTermuxTerminal({
           LANG: 'en_US.UTF-8',
           USER: 'termux',
           SHELL: '/data/data/com.termux/files/usr/bin/bash'
-        }}
-        onSessionOutput={handleSessionOutput}
-        onSessionExit={handleSessionExit}
-      />
+        },
+        onSessionOutput: handleSessionOutput,
+        onSessionExit: handleSessionExit
+      })}
     </View>
   );
 }
