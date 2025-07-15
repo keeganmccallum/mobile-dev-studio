@@ -68,8 +68,15 @@ jobs:
         # Create assets directory
         mkdir -p android/app/src/main/assets
         
-        # Generate the bundle using React Native CLI
-        npx react-native bundle \
+        # Generate the bundle using Metro bundler
+        npx @expo/metro-config bundle \
+          --platform android \
+          --dev false \
+          --entry-file index.js \
+          --bundle-output android/app/src/main/assets/index.android.bundle \
+          --assets-dest android/app/src/main/res/ \
+          --reset-cache || \
+        npx metro build \
           --platform android \
           --dev false \
           --entry-file index.js \
