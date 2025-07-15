@@ -185,7 +185,7 @@ jobs:
   create-release:
     needs: build-android
     runs-on: ubuntu-latest
-    if: always() && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch') && needs.build-android.result != 'cancelled'
+    if: always() && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch') && contains(needs.build-android.result, 'success')
     
     steps:
     - name: Checkout code
@@ -223,8 +223,19 @@ jobs:
         # Create release directory
         mkdir -p release-assets
         
-        # Find and copy APKs
-        find artifacts/ -name "*.apk" -type f -exec cp {} release-assets/ \;
+        # Extract APKs from artifact zips and rename them properly
+        for zip_file in artifacts/apk-*/; do
+          if [ -d "$zip_file" ]; then
+            find "$zip_file" -name "*.apk" -type f | while read apk_file; do
+              # Get the build type from the directory name
+              build_type=$(echo "$zip_file" | grep -o 'debug\|release')
+              # Create proper APK name
+              apk_name="mobile-dev-studio-${RELEASE_TYPE}-${build_type}-${BUILD_NUMBER}-${COMMIT_SHA}.apk"
+              cp "$apk_file" "release-assets/$apk_name"
+              echo "✅ Prepared: $apk_name"
+            done
+          fi
+        done
         
         # Copy manifests
         find artifacts/ -name "*.json" -type f -exec cp {} release-assets/ \;
