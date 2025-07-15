@@ -2,8 +2,8 @@
   "name": "termux-core",
   "version": "1.0.0",
   "description": "Real Termux integration for Mobile Dev Studio",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "scripts": {
     "build": "expo-module build",
     "clean": "expo-module clean",
