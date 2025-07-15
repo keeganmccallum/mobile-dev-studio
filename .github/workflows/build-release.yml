@@ -75,16 +75,17 @@ jobs:
         
         # Check what was actually created
         echo "📁 Checking export output:"
-        find dist -name "*.js" -type f || echo "No JS files found in dist"
+        find dist -type f -name "*android*" || echo "No android bundle files found"
         
-        # Copy bundle from wherever expo put it
+        # Find the bundle file (could be .js or .hbc)
         BUNDLE_FILE=""
-        if [ -f dist/_expo/static/js/android/*.js ]; then
-          BUNDLE_FILE=$(find dist/_expo/static/js/android -name "*.js" | head -1)
-        elif [ -f dist/bundles/android-*.js ]; then
-          BUNDLE_FILE=$(find dist/bundles -name "android-*.js" | head -1)
-        elif find dist -name "*.js" -type f | grep -q "android"; then
-          BUNDLE_FILE=$(find dist -name "*.js" -type f | grep android | head -1)
+        if [ -d "dist/_expo/static/js/android" ]; then
+          BUNDLE_FILE=$(find dist/_expo/static/js/android -type f \( -name "*.js" -o -name "*.hbc" \) | head -1)
+        fi
+        
+        # Fallback to other locations
+        if [ -z "$BUNDLE_FILE" ]; then
+          BUNDLE_FILE=$(find dist -type f \( -name "*.js" -o -name "*.hbc" \) | grep -i android | head -1)
         fi
         
         if [ -n "$BUNDLE_FILE" ] && [ -f "$BUNDLE_FILE" ]; then
@@ -94,7 +95,7 @@ jobs:
         else
           echo "❌ Bundle creation failed - no bundle file found"
           echo "Contents of dist directory:"
-          find dist -type f || echo "dist directory is empty"
+          find dist -type f | head -20
           exit 1
         fi
         
