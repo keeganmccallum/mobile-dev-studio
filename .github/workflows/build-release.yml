@@ -69,16 +69,33 @@ jobs:
         
     - name: Bundle JavaScript for production
       run: |
-        # Try to export the bundle, but don't fail if it doesn't work
-        npx expo export --platform android --output-dir dist || echo "Export failed, will build without bundle"
+        # Create the bundle using expo export
+        npx expo export --platform android --output-dir dist
         mkdir -p android/app/src/main/assets
         
-        # Copy bundle if it exists
-        if [ -f dist/bundles/android-*.js ]; then
-          cp dist/bundles/android-*.js android/app/src/main/assets/index.android.bundle
-          echo "✅ Production bundle included"
+        # Check what was actually created
+        echo "📁 Checking export output:"
+        find dist -name "*.js" -type f || echo "No JS files found in dist"
+        
+        # Copy bundle from wherever expo put it
+        BUNDLE_FILE=""
+        if [ -f dist/_expo/static/js/android/*.js ]; then
+          BUNDLE_FILE=$(find dist/_expo/static/js/android -name "*.js" | head -1)
+        elif [ -f dist/bundles/android-*.js ]; then
+          BUNDLE_FILE=$(find dist/bundles -name "android-*.js" | head -1)
+        elif find dist -name "*.js" -type f | grep -q "android"; then
+          BUNDLE_FILE=$(find dist -name "*.js" -type f | grep android | head -1)
+        fi
+        
+        if [ -n "$BUNDLE_FILE" ] && [ -f "$BUNDLE_FILE" ]; then
+          cp "$BUNDLE_FILE" android/app/src/main/assets/index.android.bundle
+          echo "✅ Production bundle included from: $BUNDLE_FILE"
+          ls -la android/app/src/main/assets/index.android.bundle
         else
-          echo "⚠️  No bundle found, app will use development mode"
+          echo "❌ Bundle creation failed - no bundle file found"
+          echo "Contents of dist directory:"
+          find dist -type f || echo "dist directory is empty"
+          exit 1
         fi
         
     - name: Setup Android keystore (Release only)
