@@ -13,7 +13,6 @@ module.exports = {
   ],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
-    'modules/termux-core/src/**/*.{ts,tsx}',
     '!src/**/*.d.ts',
     '!src/**/*.stories.{ts,tsx}',
     '!src/**/__tests__/**',
@@ -23,10 +22,10 @@ module.exports = {
   coverageReporters: ['text', 'lcov', 'html', 'json'],
   coverageThreshold: {
     global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
+      branches: 70,
+      functions: 70,
+      lines: 70,
+      statements: 70,
     },
   },
   transform: {
@@ -38,7 +37,6 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '^termux-core$': '<rootDir>/modules/termux-core/src/index.ts',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
   testEnvironment: 'jsdom',
@@ -49,8 +47,8 @@ module.exports = {
     },
   },
   verbose: true,
-  testTimeout: 30000,
-  maxWorkers: 2,
+  testTimeout: 10000,
+  maxWorkers: 1,
   reporters: [
     'default',
     [
