@@ -80,16 +80,32 @@ jobs:
     - name: Setup Android keystore (Release only)
       if: matrix.build_type == 'release'
       run: |
-        echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/release.keystore
-        echo "KEYSTORE_PATH=release.keystore" >> android/gradle.properties
-        echo "KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/gradle.properties
-        echo "KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/gradle.properties
-        echo "KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/gradle.properties
-      env:
-        ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-        ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-        ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-        ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        # Check if secrets are available, otherwise create a test keystore
+        if [ -z "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ]; then
+          echo "🔑 No production keystore found, creating test keystore for release build..."
+          
+          # Create test keystore
+          keytool -genkey -v -keystore android/app/release.keystore \
+                  -alias androiddebugkey \
+                  -keyalg RSA -keysize 2048 -validity 10000 \
+                  -storepass android -keypass android \
+                  -dname "CN=Test, OU=Test, O=Test, L=Test, S=Test, C=US"
+          
+          # Set properties for test keystore
+          echo "KEYSTORE_PATH=release.keystore" >> android/gradle.properties
+          echo "KEYSTORE_PASSWORD=android" >> android/gradle.properties  
+          echo "KEY_ALIAS=androiddebugkey" >> android/gradle.properties
+          echo "KEY_PASSWORD=android" >> android/gradle.properties
+          
+          echo "✅ Test keystore created successfully"
+        else
+          echo "🔑 Using production keystore from secrets..."
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/release.keystore
+          echo "KEYSTORE_PATH=release.keystore" >> android/gradle.properties
+          echo "KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/gradle.properties
+          echo "KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/gradle.properties
+          echo "KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/gradle.properties
+        fi
         
     - name: Generate release signing config
       if: matrix.build_type == 'release'
