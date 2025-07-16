@@ -16,9 +16,30 @@ export interface TermuxBootstrapInfo {
 
 // Simple static class for native module access
 export class TermuxCore {
-  private static module = NativeModulesProxy.TermuxCore;
+  private static get module() {
+    try {
+      return NativeModulesProxy?.TermuxCore;
+    } catch (error) {
+      console.warn('Failed to access TermuxCore native module:', error);
+      return null;
+    }
+  }
+  
+  // Check if native module is available
+  private static isNativeModuleAvailable(): boolean {
+    try {
+      const mod = this.module;
+      return !!mod && typeof mod === 'object';
+    } catch (error) {
+      console.warn('TermuxCore native module not available:', error);
+      return false;
+    }
+  }
 
   static async getBootstrapInfo(): Promise<TermuxBootstrapInfo> {
+    if (!this.isNativeModuleAvailable()) {
+      return { installed: false, prefixPath: '' };
+    }
     try {
       return await this.module.getBootstrapInfo();
     } catch (error) {
@@ -27,6 +48,10 @@ export class TermuxCore {
   }
 
   static async installBootstrap(): Promise<boolean> {
+    if (!this.isNativeModuleAvailable()) {
+      console.warn('TermuxCore native module not available, cannot install bootstrap');
+      return false;
+    }
     try {
       return await this.module.installBootstrap();
     } catch (error) {
@@ -41,14 +66,24 @@ export class TermuxCore {
     cwd: string,
     env: Record<string, string>
   ): Promise<TermuxSession> {
+    if (!this.isNativeModuleAvailable()) {
+      throw new Error('TermuxCore native module not available, cannot create session');
+    }
     return await this.module.createSession(command, args, cwd, env, 24, 80);
   }
 
   static async writeToSession(sessionId: string, data: string): Promise<void> {
+    if (!this.isNativeModuleAvailable()) {
+      throw new Error('TermuxCore native module not available, cannot write to session');
+    }
     return await this.module.writeToSession(sessionId, data);
   }
 
   static async killSession(sessionId: string): Promise<boolean> {
+    if (!this.isNativeModuleAvailable()) {
+      console.warn('TermuxCore native module not available, cannot kill session');
+      return false;
+    }
     return await this.module.killSession(sessionId);
   }
 
