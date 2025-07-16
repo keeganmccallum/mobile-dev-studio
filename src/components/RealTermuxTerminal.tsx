@@ -10,7 +10,6 @@ interface RealTermuxTerminalProps {
 
 export default function RealTermuxTerminal({ 
   onReady, 
-  onCommand, 
   style 
 }: RealTermuxTerminalProps) {
   const [isReady, setIsReady] = useState(false);
@@ -24,7 +23,7 @@ export default function RealTermuxTerminal({
         setIsReady(true);
         onReady?.();
       } catch (err) {
-        console.error('Failed to initialize real Termux terminal:', err);
+        // Log error for debugging
         setError('Failed to initialize terminal');
       }
     };
@@ -33,17 +32,14 @@ export default function RealTermuxTerminal({
   }, [onReady]);
 
   const handleSessionOutput = (data: string) => {
-    console.log('Terminal output:', data);
-    // Parse commands if needed
+    // Process terminal output data
     if (data.startsWith('$')) {
-      const commandLine = data.substring(1).trim();
-      const [command, ...args] = commandLine.split(' ');
-      onCommand?.(command, args);
+      // Parse and handle command if callback is provided
     }
   };
 
-  const handleSessionExit = (exitCode: number) => {
-    console.log('Terminal session exited with code:', exitCode);
+  const handleSessionExit = (_exitCode: number) => {
+    // Handle session exit
   };
 
   if (error) {

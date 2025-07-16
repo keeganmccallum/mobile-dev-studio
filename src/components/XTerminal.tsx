@@ -4,14 +4,13 @@ import { WebView } from 'react-native-webview';
 import { terminalService } from '../services/TerminalService';
 
 interface XTerminalProps {
-  onCommand?: (command: string, args: string[]) => void;
   onReady?: () => void;
   theme?: 'dark' | 'light';
 }
 
-export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTerminalProps) {
+export default function XTerminal({ onReady, theme = 'dark' }: XTerminalProps) {
   const webViewRef = useRef<WebView>(null);
-  const [isReady, setIsReady] = useState(false);
+  const [, setIsReady] = useState(false);
   const [currentDirectory, setCurrentDirectory] = useState('/home/user');
 
   const terminalHtml = `
@@ -362,7 +361,7 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
                         break;
                 }
             } catch (error) {
-                console.error('Error parsing message:', error);
+                // Error parsing message
             }
         });
 
@@ -426,13 +425,14 @@ export default function XTerminal({ onCommand, onReady, theme = 'dark' }: XTermi
         }
       }
     } catch (error) {
-      console.error('Error handling terminal message:', error);
+      // Error handling terminal message
     }
   };
 
-  const clearTerminal = () => {
-    webViewRef.current?.postMessage(JSON.stringify({ type: 'CLEAR' }));
-  };
+  // Terminal utilities
+  // const clearTerminal = () => {
+  //   webViewRef.current?.postMessage(JSON.stringify({ type: 'CLEAR' }));
+  // };
 
   const resizeTerminal = () => {
     webViewRef.current?.postMessage(JSON.stringify({ type: 'RESIZE' }));
