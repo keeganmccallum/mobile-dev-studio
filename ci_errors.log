@@ -1,0 +1,1151 @@
+=== NPM INSTALL ===
+npm warn deprecated @babel/plugin-proposal-optional-catch-binding@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
+npm warn deprecated @babel/plugin-proposal-numeric-separator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
+npm warn deprecated @babel/plugin-proposal-nullish-coalescing-operator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
+npm warn deprecated @babel/plugin-proposal-export-namespace-from@7.18.9: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-export-namespace-from instead.
+npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+npm warn deprecated @babel/plugin-proposal-optional-chaining@7.21.0: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
+npm warn deprecated @babel/plugin-proposal-async-generator-functions@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
+npm warn deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+
+added 2240 packages, and audited 2242 packages in 40s
+
+198 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+=== LINT CHECK ===
+
+> mobile-dev-studio@1.0.0 lint
+> eslint src/ --ext .ts,.tsx
+
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/components/RealTermuxTerminal.tsx
+   7:16  warning  'command' is defined but never used  no-unused-vars
+   7:33  warning  'args' is defined but never used     no-unused-vars
+  27:9   warning  Unexpected console statement         no-console
+  36:5   warning  Unexpected console statement         no-console
+  46:5   warning  Unexpected console statement         no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/components/XTerminal.tsx
+    7:16  warning  'command' is defined but never used                 no-unused-vars
+    7:33  warning  'args' is defined but never used                    no-unused-vars
+   14:10  warning  'isReady' is assigned a value but never used        no-unused-vars
+  429:7   warning  Unexpected console statement                        no-console
+  433:9   warning  'clearTerminal' is assigned a value but never used  no-unused-vars
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/lib/termux/TermuxManager.ts
+   32:31  warning  'data' is defined but never used                   no-unused-vars
+   33:31  warning  'code' is defined but never used                   no-unused-vars
+  136:28  warning  'data' is defined but never used                   no-unused-vars
+  141:28  warning  'code' is defined but never used                   no-unused-vars
+  175:9   warning  Unexpected console statement                       no-console
+  178:9   warning  Unexpected console statement                       no-console
+  210:11  warning  'stderr' is never reassigned. Use 'const' instead  prefer-const
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/lib/termux/TermuxTerminal.tsx
+   13:13  warning  'data' is defined but never used              no-unused-vars
+   14:13  warning  'code' is defined but never used              no-unused-vars
+   15:14  warning  'error' is defined but never used             no-unused-vars
+   20:21  warning  'data' is defined but never used              no-unused-vars
+   23:20  warning  'cols' is defined but never used              no-unused-vars
+   23:34  warning  'rows' is defined but never used              no-unused-vars
+   42:10  warning  'isReady' is assigned a value but never used  no-unused-vars
+  100:9   warning  Unexpected console statement                  no-console
+  131:11  warning  Unexpected console statement                  no-console
+  135:11  warning  Unexpected console statement                  no-console
+  138:7   warning  Unexpected console statement                  no-console
+  289:11  warning  Unexpected console statement                  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/screens/EditorScreen.tsx
+  114:7   warning  Unexpected console statement  no-console
+  127:11  warning  Unexpected console statement  no-console
+  130:7   warning  Unexpected console statement  no-console
+  276:13  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/screens/PreviewScreen.tsx
+   17:7   warning  Unexpected console statement  no-console
+   28:11  warning  Unexpected console statement  no-console
+   31:7   warning  Unexpected console statement  no-console
+  225:13  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/screens/TerminalScreen.tsx
+  21:9  warning  Unexpected console statement  no-console
+  40:5  warning  Unexpected console statement  no-console
+  44:5  warning  Unexpected console statement  no-console
+  49:5  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/services/TerminalService.ts
+   26:24  warning  'event' is defined but never used               no-unused-vars
+   34:7   warning  Unexpected console statement                    no-console
+   39:9   warning  Unexpected console statement                    no-console
+   56:7   warning  Unexpected console statement                    no-console
+   59:7   warning  Unexpected console statement                    no-console
+   65:5   warning  Unexpected console statement                    no-console
+   82:5   warning  Unexpected console statement                    no-console
+  184:7   warning  Unexpected console statement                    no-console
+  422:9   warning  Unexpected console statement                    no-console
+  440:9   warning  Unexpected console statement                    no-console
+  450:17  warning  'processId' is assigned a value but never used  no-unused-vars
+  454:9   warning  Unexpected console statement                    no-console
+  472:7   warning  Unexpected console statement                    no-console
+  488:7   warning  Unexpected console statement                    no-console
+  499:7   warning  Unexpected console statement                    no-console
+  514:31  warning  'event' is defined but never used               no-unused-vars
+  518:34  warning  'event' is defined but never used               no-unused-vars
+
+✖ 58 problems (0 errors, 58 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+
+
+=== TYPECHECK ===
+
+> mobile-dev-studio@1.0.0 typecheck
+> tsc --noEmit
+
+__tests__/e2e/TerminalFlow.test.ts(5,60): error TS2307: Cannot find module 'detox' or its corresponding type declarations.
+__tests__/e2e/TerminalFlow.test.ts(84,13): error TS2552: Cannot find name 'detoxExpected'. Did you mean 'detoxExpect'?
+typecheck failed
+
+=== TESTS ===
+
+> mobile-dev-studio@1.0.0 test
+> jest
+
+FAIL __tests__/integration/TermuxRealModule.test.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL __tests__/integration/TermuxNativeModule.test.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL __tests__/unit/TermuxTerminal.test.tsx
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL __tests__/unit/TermuxSession.test.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL __tests__/unit/TermuxManagerReal.test.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL __tests__/unit/TermuxManager.test.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL __tests__/integration/TerminalIntegration.test.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL __tests__/mocks/TermuxCoreMock.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL __tests__/unit/TerminalService.test.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL __tests__/unit/TermuxCore.test.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL __tests__/unit/TerminalService.simple.test.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL __tests__/unit/TermuxCore.simple.test.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL src/__tests__/setup.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+FAIL __tests__/unit/simple.simple.test.ts
+  ● Test suite failed to run
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Unexpected token, expected "," (51:22)
+
+    [0m [90m 49 |[39m     _globalHandler [33m&&[39m _globalHandler(error[33m,[39m [36mtrue[39m)[33m;[39m
+     [90m 50 |[39m   }[33m,[39m
+    [31m[1m>[22m[39m[90m 51 |[39m   applyWithGuard[33m<[39m[33mTArgs[39m[33m:[39m $ReadOnlyArray[33m<[39m[33mmixed[39m[33m>[39m[33m,[39m [33mTOut[39m[33m>[39m(
+     [90m    |[39m                       [31m[1m^[22m[39m
+     [90m 52 |[39m     fun[33m:[39m [33mFn[39m[33m<[39m[33mTArgs[39m[33m,[39m [33mTOut[39m[33m>[39m[33m,[39m
+     [90m 53 |[39m     context[33m?[39m[33m:[39m [33m?[39mmixed[33m,[39m
+     [90m 54 |[39m     args[33m?[39m[33m:[39m [33m?[39m[33mTArgs[39m[33m,[39m[0m
+
+      at constructor (node_modules/@babel/parser/lib/index.js:367:19)
+      at TypeScriptParserMixin.raise (node_modules/@babel/parser/lib/index.js:6627:19)
+      at TypeScriptParserMixin.unexpected (node_modules/@babel/parser/lib/index.js:6647:16)
+      at TypeScriptParserMixin.expect (node_modules/@babel/parser/lib/index.js:6927:12)
+      at TypeScriptParserMixin.tsParseDelimitedListWorker (node_modules/@babel/parser/lib/index.js:7929:14)
+      at TypeScriptParserMixin.tsParseDelimitedList (node_modules/@babel/parser/lib/index.js:7906:25)
+      at TypeScriptParserMixin.tsParseBracketedList (node_modules/@babel/parser/lib/index.js:7946:25)
+      at TypeScriptParserMixin.tsParseTypeParameters (node_modules/@babel/parser/lib/index.js:8103:24)
+      at TypeScriptParserMixin.tsTryParseTypeParameters (node_modules/@babel/parser/lib/index.js:8090:19)
+      at TypeScriptParserMixin.parseObjPropValue (node_modules/@babel/parser/lib/index.js:9757:33)
+      at TypeScriptParserMixin.parsePropertyDefinition (node_modules/@babel/parser/lib/index.js:11916:17)
+      at TypeScriptParserMixin.parseObjectLike (node_modules/@babel/parser/lib/index.js:11831:21)
+      at TypeScriptParserMixin.parseExprAtom (node_modules/@babel/parser/lib/index.js:11334:23)
+      at TypeScriptParserMixin.parseExprSubscripts (node_modules/@babel/parser/lib/index.js:11076:23)
+      at TypeScriptParserMixin.parseUpdate (node_modules/@babel/parser/lib/index.js:11061:21)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:11041:23)
+      at TypeScriptParserMixin.parseMaybeUnary (node_modules/@babel/parser/lib/index.js:9852:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (node_modules/@babel/parser/lib/index.js:10894:61)
+      at TypeScriptParserMixin.parseExprOps (node_modules/@babel/parser/lib/index.js:10899:23)
+      at TypeScriptParserMixin.parseMaybeConditional (node_modules/@babel/parser/lib/index.js:10876:23)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:10826:21)
+      at TypeScriptParserMixin.parseMaybeAssign (node_modules/@babel/parser/lib/index.js:9801:20)
+      at node_modules/@babel/parser/lib/index.js:10795:39
+      at TypeScriptParserMixin.allowInAnd (node_modules/@babel/parser/lib/index.js:12422:16)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (node_modules/@babel/parser/lib/index.js:10795:17)
+      at TypeScriptParserMixin.parseVar (node_modules/@babel/parser/lib/index.js:13384:91)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:13230:10)
+      at TypeScriptParserMixin.parseVarStatement (node_modules/@babel/parser/lib/index.js:9493:31)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:12851:23)
+      at TypeScriptParserMixin.parseStatementContent (node_modules/@babel/parser/lib/index.js:9527:18)
+      at TypeScriptParserMixin.parseStatementLike (node_modules/@babel/parser/lib/index.js:12767:17)
+      at TypeScriptParserMixin.parseModuleItem (node_modules/@babel/parser/lib/index.js:12744:17)
+      at TypeScriptParserMixin.parseBlockOrModuleBlockBody (node_modules/@babel/parser/lib/index.js:13316:36)
+      at TypeScriptParserMixin.parseBlockBody (node_modules/@babel/parser/lib/index.js:13309:10)
+      at TypeScriptParserMixin.parseProgram (node_modules/@babel/parser/lib/index.js:12625:10)
+      at TypeScriptParserMixin.parseTopLevel (node_modules/@babel/parser/lib/index.js:12615:25)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:14492:10)
+      at TypeScriptParserMixin.parse (node_modules/@babel/parser/lib/index.js:10144:18)
+      at parse (node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+
+Test Suites: 14 failed, 14 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        1.035 s
+Ran all test suites.
+tests failed
+
+=== PREBUILD ===
+- Creating native directory (./android)
+✔ Created native directory | reusing /android
+- Updating package.json
+✔ Updated package.json | no changes
+- Running prebuild
+» android: EDGE_TO_EDGE_PLUGIN: No configuration found for `edgeToEdgeEnabled` field in the project app config, falling back to false. In Android 16+ (targetSdkVersion 36) it will no longer be possible to disable edge-to-edge. Learn more: https://expo.fyi/edge-to-edge-rollout
+- Running prebuild
+» android: userInterfaceStyle: Install expo-system-ui in your project to enable this feature.
+- Running prebuild
+✖ Prebuild failed
+Error: [android.gradleProperties]: withAndroidGradlePropertiesBaseMod: ENOENT: no such file or directory, open '/home/runner/work/mobile-dev-studio/mobile-dev-studio/android/gradle.properties'
+Error: [android.gradleProperties]: withAndroidGradlePropertiesBaseMod: ENOENT: no such file or directory, open '/home/runner/work/mobile-dev-studio/mobile-dev-studio/android/gradle.properties'
+    at async open (node:internal/fs/promises:639:25)
+    at async readFile (node:internal/fs/promises:1246:14)
+    at async read (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/withAndroidBaseMods.js:188:64)
+    at async action (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/createBaseMod.js:59:30)
+    at async interceptingMod (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/withMod.js:104:21)
+    at async evalModsAsync (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/mod-compiler.js:206:25)
+    at async compileModsAsync (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/mod-compiler.js:123:10)
+    at async configureProjectAsync (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/cli/build/src/prebuild/configureProjectAsync.js:92:14)
+    at async prebuildAsync (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/cli/build/src/prebuild/prebuildAsync.js:146:9)
+prebuild failed
+
+=== BUILD ATTEMPT ===
+Downloading https://services.gradle.org/distributions/gradle-8.13-bin.zip
+.............10%.............20%.............30%.............40%.............50%.............60%.............70%.............80%.............90%.............100%
+
+Welcome to Gradle 8.13!
+
+Here are the highlights of this release:
+ - Daemon JVM auto-provisioning
+ - Enhancements for Scala plugin and JUnit testing
+ - Improvements for build authors and plugin developers
+
+For more details see https://docs.gradle.org/8.13/release-notes.html
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.13/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :expo-gradle-plugin:expo-autolinking-plugin-shared
+w: file:///home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/expo-modules-autolinking/android/expo-gradle-plugin/expo-autolinking-plugin-shared/build.gradle.kts:32:9: The expression is unused
+
+> Task :gradle-plugin:settings-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:processResources NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:pluginDescriptors
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:processResources
+> Task :gradle-plugin:shared:processResources NO-SOURCE
+> Task :gradle-plugin:settings-plugin:pluginDescriptors
+> Task :gradle-plugin:settings-plugin:processResources
+> Task :gradle-plugin:shared:compileKotlin
+> Task :gradle-plugin:shared:compileJava NO-SOURCE
+> Task :gradle-plugin:shared:classes UP-TO-DATE
+> Task :gradle-plugin:shared:jar
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:compileKotlin
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:classes UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:jar
+> Task :gradle-plugin:settings-plugin:compileKotlin
+> Task :gradle-plugin:settings-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:settings-plugin:classes
+> Task :gradle-plugin:settings-plugin:jar
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:compileKotlin
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:classes
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:jar
+> Task :gradle-plugin:react-native-gradle-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-gradle-plugin:expo-autolinking-plugin:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-gradle-plugin:expo-autolinking-plugin:pluginDescriptors
+> Task :expo-gradle-plugin:expo-autolinking-plugin:processResources
+> Task :expo-module-gradle-plugin:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-module-gradle-plugin:pluginDescriptors
+> Task :expo-module-gradle-plugin:processResources
+
+> Task :expo-gradle-plugin:expo-autolinking-plugin:compileKotlin
+w: file:///home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/expo-modules-autolinking/android/expo-gradle-plugin/expo-autolinking-plugin/src/main/kotlin/expo/modules/plugin/ExpoAutolinkingPlugin.kt:29:71 Name shadowed: project
+
+> Task :expo-gradle-plugin:expo-autolinking-plugin:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-plugin:classes
+> Task :expo-gradle-plugin:expo-autolinking-plugin:jar
+> Task :gradle-plugin:react-native-gradle-plugin:pluginDescriptors
+> Task :gradle-plugin:react-native-gradle-plugin:processResources
+> Task :gradle-plugin:react-native-gradle-plugin:compileKotlin
+> Task :gradle-plugin:react-native-gradle-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:react-native-gradle-plugin:classes
+> Task :gradle-plugin:react-native-gradle-plugin:jar
+
+> Task :expo-module-gradle-plugin:compileKotlin
+w: file:///home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/expo-modules-core/expo-module-gradle-plugin/src/main/kotlin/expo/modules/plugin/android/AndroidLibraryExtension.kt:9:24 'targetSdk: Int?' is deprecated. Will be removed from library DSL in v9.0. Use testOptions.targetSdk or/and lint.targetSdk instead
+
+> Task :expo-module-gradle-plugin:compileJava NO-SOURCE
+> Task :expo-module-gradle-plugin:classes
+> Task :expo-module-gradle-plugin:jar
+
+> Configure project :
+[32m[ExpoRootProject][0m Using the following versions:
+  - buildTools:  [32m35.0.0[0m
+  - minSdk:      [32m24[0m
+  - compileSdk:  [32m35[0m
+  - targetSdk:   [32m35[0m
+  - ndk:         [32m27.1.12297006[0m
+  - kotlin:      [32m2.0.21[0m
+  - ksp:         [32m2.0.21-1.0.28[0m
+
+[Incubating] Problems report is available at: file:///home/runner/work/mobile-dev-studio/mobile-dev-studio/android/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/home/runner/work/mobile-dev-studio/mobile-dev-studio/android/app/build.gradle' line: 172
+
+* What went wrong:
+A problem occurred evaluating project ':app'.
+> Could not get unknown property 'hermesEnabled' for object of type org.gradle.api.internal.artifacts.dsl.dependencies.DefaultDependencyHandler.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 4m 5s
+28 actionable tasks: 28 executed
+build failed
