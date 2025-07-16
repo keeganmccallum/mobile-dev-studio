@@ -152,7 +152,7 @@ describe('TermuxTerminal', () => {
 
     it('should forward session data to WebView and callback', async () => {
       const onData = jest.fn();
-      let dataCallback: (data: string) => void;
+      let dataCallback: (data: string) => void = jest.fn();
 
       mockSession.onData.mockImplementation((callback) => {
         dataCallback = callback;
@@ -179,7 +179,7 @@ describe('TermuxTerminal', () => {
 
     it('should handle session exit events', async () => {
       const onExit = jest.fn();
-      let exitCallback: (code: number) => void;
+      let exitCallback: (code: number) => void = jest.fn();
 
       mockSession.onExit.mockImplementation((callback) => {
         exitCallback = callback;

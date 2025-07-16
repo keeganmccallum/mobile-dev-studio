@@ -29,7 +29,7 @@ class TermuxTerminalViewModule : Module() {
     }
 }
 
-class TermuxTerminalView(context: Context) : ExpoView(context) {
+class TermuxTerminalView(context: Context, appContext: expo.modules.kotlin.AppContext) : ExpoView(context, appContext) {
     private var command: String = "/data/data/com.termux/files/usr/bin/bash"
     private var workingDirectory: String = "/data/data/com.termux/files/home"
     private var environment: Map<String, String> = emptyMap()

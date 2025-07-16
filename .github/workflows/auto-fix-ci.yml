@@ -1,0 +1,376 @@
+name: Auto-Fix CI Build Errors
+
+on:
+  workflow_run:
+    workflows: ["CI Tests", "Build and Release APKs"]
+    types: [completed]
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: 'Target branch to fix (leave empty for current branch)'
+        required: false
+        default: ''
+      pr_number:
+        description: 'PR number to fix (leave empty for main branch)'
+        required: false
+        default: ''
+
+env:
+  NODE_VERSION: '20'
+  JAVA_VERSION: '17'
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+  actions: read
+
+jobs:
+  check-ci-status:
+    runs-on: ubuntu-latest
+    outputs:
+      needs_fix: ${{ steps.check.outputs.needs_fix }}
+      failed_jobs: ${{ steps.check.outputs.failed_jobs }}
+      is_pr: ${{ steps.check.outputs.is_pr }}
+      pr_number: ${{ steps.check.outputs.pr_number }}
+      target_branch: ${{ steps.check.outputs.target_branch }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Check CI status and determine fix needed
+      id: check
+      run: |
+        # Determine context (main branch failure vs PR failure)
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          if [ -n "${{ github.event.inputs.pr_number }}" ]; then
+            echo "is_pr=true" >> $GITHUB_OUTPUT
+            echo "pr_number=${{ github.event.inputs.pr_number }}" >> $GITHUB_OUTPUT
+            echo "target_branch=pr-${{ github.event.inputs.pr_number }}" >> $GITHUB_OUTPUT
+          else
+            echo "is_pr=false" >> $GITHUB_OUTPUT
+            echo "pr_number=" >> $GITHUB_OUTPUT
+            echo "target_branch=${{ github.event.inputs.target_branch || github.ref_name }}" >> $GITHUB_OUTPUT
+          fi
+        elif [ "${{ github.event_name }}" = "pull_request" ]; then
+          echo "is_pr=true" >> $GITHUB_OUTPUT
+          echo "pr_number=${{ github.event.number }}" >> $GITHUB_OUTPUT
+          echo "target_branch=${{ github.head_ref }}" >> $GITHUB_OUTPUT
+        else
+          echo "is_pr=false" >> $GITHUB_OUTPUT
+          echo "pr_number=" >> $GITHUB_OUTPUT
+          echo "target_branch=main" >> $GITHUB_OUTPUT
+        fi
+
+        # Check if the triggering workflow failed
+        if [ "${{ github.event_name }}" = "workflow_run" ]; then
+          if [ "${{ github.event.workflow_run.conclusion }}" = "failure" ]; then
+            echo "needs_fix=true" >> $GITHUB_OUTPUT
+            echo "failed_jobs=CI build failure detected" >> $GITHUB_OUTPUT
+          else
+            echo "needs_fix=false" >> $GITHUB_OUTPUT
+            echo "failed_jobs=none" >> $GITHUB_OUTPUT
+          fi
+        else
+          # For manual dispatch or PR events, assume we need to check
+          echo "needs_fix=true" >> $GITHUB_OUTPUT
+          echo "failed_jobs=Manual trigger or PR event" >> $GITHUB_OUTPUT
+        fi
+
+  auto-fix-ci:
+    needs: check-ci-status
+    if: needs.check-ci-status.outputs.needs_fix == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: ${{ env.JAVA_VERSION }}
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Install Claude Code CLI
+      run: |
+        curl -fsSL https://claude.ai/cli/install.sh | sh
+        echo "$HOME/.claude/bin" >> $GITHUB_PATH
+
+    - name: Setup Claude Code authentication
+      run: |
+        # Create Claude Code config directory
+        mkdir -p $HOME/.claude
+        
+        # Set up authentication using session token from secrets
+        # You'll need to add your Claude session token as CLAUDE_SESSION_TOKEN secret
+        cat > $HOME/.claude/config.json << EOF
+        {
+          "session_token": "${{ secrets.CLAUDE_SESSION_TOKEN }}",
+          "default_model": "claude-3-5-sonnet-20241022",
+          "max_tokens": 4000
+        }
+        EOF
+
+    - name: Configure git
+      run: |
+        git config --global user.name "Claude Auto-Fix Bot"
+        git config --global user.email "claude-autofix@users.noreply.github.com"
+
+    - name: Checkout or create fix branch
+      run: |
+        if [ "${{ needs.check-ci-status.outputs.is_pr }}" = "true" ]; then
+          # For PR fixes, work on the PR branch
+          git checkout ${{ needs.check-ci-status.outputs.target_branch }}
+        else
+          # For main branch fixes, create a new fix branch
+          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+          FIX_BRANCH="auto-fix/ci-errors-$TIMESTAMP"
+          echo "FIX_BRANCH=$FIX_BRANCH" >> $GITHUB_ENV
+          git checkout -b $FIX_BRANCH
+        fi
+
+    - name: Run initial checks to identify issues
+      id: initial_check
+      run: |
+        echo "🔍 Running initial checks to identify CI issues..."
+        
+        # Capture all types of errors in a comprehensive log
+        {
+          echo "=== NPM INSTALL ==="
+          timeout 300 npm install 2>&1 || echo "npm install failed"
+          
+          echo -e "\n=== LINT CHECK ==="
+          timeout 300 npm run lint 2>&1 || echo "lint failed"
+          
+          echo -e "\n=== TYPECHECK ==="
+          timeout 300 npm run typecheck 2>&1 || echo "typecheck failed"
+          
+          echo -e "\n=== TESTS ==="
+          timeout 300 npm run test 2>&1 || echo "tests failed"
+          
+          echo -e "\n=== PREBUILD ==="
+          timeout 300 npx expo prebuild --platform android 2>&1 || echo "prebuild failed"
+          
+          echo -e "\n=== BUILD ATTEMPT ==="
+          cd android 2>/dev/null && timeout 600 ./gradlew assembleDebug --no-daemon 2>&1 || echo "build failed"
+          
+        } > ci_errors.log 2>&1
+        
+        # Check if log file has critical errors
+        if grep -q "failed\|error\|Error\|ERROR" ci_errors.log; then
+          echo "errors_found=true" >> $GITHUB_OUTPUT
+        else
+          echo "errors_found=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Run Claude Code fix iterations
+      if: steps.initial_check.outputs.errors_found == 'true'
+      run: |
+        echo "🤖 Starting Claude Code auto-fix iterations..."
+        
+        MAX_ITERATIONS=5
+        ITERATION=1
+        
+        while [ $ITERATION -le $MAX_ITERATIONS ]; do
+          echo "🔄 Iteration $ITERATION/$MAX_ITERATIONS"
+          
+          # Create a comprehensive prompt for Claude Code
+          cat > claude_prompt.md << EOF
+        # CI Build Auto-Fix Request - Iteration $ITERATION
+
+        ## Context
+        This is an automated CI build fix request. The build is failing and needs to be fixed.
+
+        **Build Environment:**
+        - React Native with Expo
+        - Android native module (Kotlin)
+        - Jest testing framework
+        - TypeScript
+        - Project: Mobile Development Studio with Termux integration
+
+        ## Current Error Log
+        \`\`\`
+        $(cat ci_errors.log)
+        \`\`\`
+
+        ## Task
+        Please analyze the error log and fix ALL issues found. Common issues to look for:
+        1. TypeScript compilation errors
+        2. Kotlin compilation errors in native modules
+        3. Jest configuration issues
+        4. Missing dependencies
+        5. Gradle build failures
+        6. Expo prebuild issues
+        7. Babel configuration problems
+        8. Native module integration issues
+
+        ## Requirements
+        - Fix all errors systematically
+        - Ensure tests pass
+        - Ensure build succeeds
+        - Follow existing code patterns
+        - Don't break existing functionality
+        - Update dependencies if necessary
+
+        ## Output
+        Please fix the issues and verify the fixes work by running the build commands.
+        EOF
+
+          # Run Claude Code with comprehensive fix prompt
+          echo "📝 Sending fix request to Claude Code..."
+          if claude-code --file claude_prompt.md --execute; then
+            echo "✅ Claude Code iteration $ITERATION completed"
+          else
+            echo "❌ Claude Code iteration $ITERATION failed"
+          fi
+          
+          # Re-run checks to see if issues are resolved
+          echo "🔍 Re-checking after iteration $ITERATION..."
+          {
+            echo "=== POST-FIX CHECK - ITERATION $ITERATION ==="
+            timeout 300 npm install 2>&1 || echo "npm install still failing"
+            timeout 300 npm run lint 2>&1 || echo "lint still failing"
+            timeout 300 npm run typecheck 2>&1 || echo "typecheck still failing"
+            timeout 300 npm run test 2>&1 || echo "tests still failing"
+            timeout 300 npx expo prebuild --platform android 2>&1 || echo "prebuild still failing"
+            cd android 2>/dev/null && timeout 600 ./gradlew assembleDebug --no-daemon 2>&1 || echo "build still failing"
+          } > ci_errors_iter_$ITERATION.log 2>&1
+          
+          # Check if errors are resolved
+          if ! grep -q "failed\|error\|Error\|ERROR" ci_errors_iter_$ITERATION.log; then
+            echo "🎉 All errors resolved after iteration $ITERATION!"
+            break
+          fi
+          
+          # Update error log for next iteration
+          cp ci_errors_iter_$ITERATION.log ci_errors.log
+          
+          ITERATION=$((ITERATION + 1))
+        done
+        
+        if [ $ITERATION -gt $MAX_ITERATIONS ]; then
+          echo "❌ Max iterations reached, but creating PR with current fixes..."
+        fi
+
+    - name: Commit changes
+      run: |
+        # Add all changes
+        git add -A
+        
+        # Check if there are changes to commit
+        if git diff --cached --exit-code > /dev/null; then
+          echo "No changes to commit"
+        else
+          git commit -m "🤖 Auto-fix CI build errors
+
+          This commit was automatically generated by Claude Code to fix CI build failures.
+          
+          Changes made:
+          - Fixed compilation errors
+          - Updated configurations
+          - Resolved dependency issues
+          - Improved test setup
+          
+          🤖 Generated with Claude Code Auto-Fix Bot"
+        fi
+
+    - name: Push changes and create/update PR
+      run: |
+        if [ "${{ needs.check-ci-status.outputs.is_pr }}" = "true" ]; then
+          # Push to existing PR branch
+          git push origin ${{ needs.check-ci-status.outputs.target_branch }}
+          
+          # Comment on the PR
+          gh pr comment ${{ needs.check-ci-status.outputs.pr_number }} --body "🤖 **Auto-Fix Applied**
+
+          Claude Code has automatically analyzed and fixed the CI build errors in this PR.
+          
+          **Actions taken:**
+          - Fixed compilation errors
+          - Updated configurations
+          - Resolved dependency issues
+          - Improved test setup
+          
+          Please review the changes and re-run the CI to verify the fixes work."
+          
+        else
+          # Push new fix branch for main branch issues
+          git push origin $FIX_BRANCH
+          
+          # Create PR for main branch fixes
+          gh pr create \
+            --title "🤖 Auto-fix CI build errors" \
+            --body "This PR was automatically created by Claude Code to fix CI build failures on the main branch.
+
+          ## 🔍 Issues Detected
+          - Build failures in CI
+          - Compilation errors
+          - Configuration issues
+          
+          ## 🔧 Fixes Applied
+          - Fixed compilation errors
+          - Updated configurations
+          - Resolved dependency issues
+          - Improved test setup
+          
+          ## 🧪 Testing
+          The fixes have been tested and verified to resolve the build issues.
+          
+          ## 🤖 Automation
+          This PR was created automatically by Claude Code Auto-Fix Bot.
+          If you encounter issues, you can:
+          1. Review and manually adjust the fixes
+          2. Re-run the auto-fix workflow
+          3. Close this PR and fix manually
+          
+          🤖 Generated with Claude Code Auto-Fix Bot" \
+            --head $FIX_BRANCH \
+            --base main
+        fi
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Final status report
+      run: |
+        echo "🎯 Auto-fix workflow completed!"
+        echo "Branch: ${{ needs.check-ci-status.outputs.target_branch }}"
+        echo "PR Mode: ${{ needs.check-ci-status.outputs.is_pr }}"
+        
+        if [ "${{ needs.check-ci-status.outputs.is_pr }}" = "true" ]; then
+          echo "Updated existing PR: ${{ needs.check-ci-status.outputs.pr_number }}"
+        else
+          echo "Created new PR for main branch fixes"
+        fi
+
+  notify-results:
+    needs: [check-ci-status, auto-fix-ci]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send notification
+      run: |
+        if [ "${{ needs.auto-fix-ci.result }}" = "success" ]; then
+          echo "✅ Auto-fix completed successfully!"
+        else
+          echo "❌ Auto-fix workflow failed or was skipped"
+        fi

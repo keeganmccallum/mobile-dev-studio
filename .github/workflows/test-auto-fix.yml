@@ -1,0 +1,44 @@
+name: Test Auto-Fix System
+
+on:
+  workflow_dispatch:
+    inputs:
+      simulate_error:
+        description: 'Simulate CI error to test auto-fix'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+        - 'true'
+        - 'false'
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Simulate error (if requested)
+      if: github.event.inputs.simulate_error == 'true'
+      run: |
+        echo "Simulating CI failure to test auto-fix system..."
+        # Create a temporary TypeScript error
+        echo "const invalidCode: string = 123; // This will cause a TypeScript error" > temp_error.ts
+        npm run typecheck
+        
+    - name: Run normal build
+      if: github.event.inputs.simulate_error != 'true'
+      run: |
+        npm run lint
+        npm run typecheck
+        npm run test

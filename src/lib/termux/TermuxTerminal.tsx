@@ -13,6 +13,7 @@ export interface TermuxTerminalProps {
   onData?: (data: string) => void;
   onExit?: (code: number) => void;
   onError?: (error: Error) => void;
+  testID?: string;
 }
 
 export interface TermuxTerminalRef {
@@ -33,6 +34,7 @@ const TermuxTerminal = forwardRef<TermuxTerminalRef, TermuxTerminalProps>((props
     onData,
     onExit,
     onError,
+    testID,
   } = props;
 
   const webViewRef = useRef<WebView>(null);
@@ -69,7 +71,7 @@ const TermuxTerminal = forwardRef<TermuxTerminalRef, TermuxTerminalProps>((props
       try {
         // Get or create session
         if (sessionId) {
-          currentSession = termuxManager.getSession(sessionId);
+          currentSession = termuxManager.getSession(sessionId) ?? null;
         }
         
         if (!currentSession) {
@@ -271,7 +273,7 @@ const TermuxTerminal = forwardRef<TermuxTerminalRef, TermuxTerminalProps>((props
   `;
 
   return (
-    <View style={[{ flex: 1 }, style]}>
+    <View style={[{ flex: 1 }, style]} testID={testID}>
       <WebView
         ref={webViewRef}
         source={{ html: terminalHtml }}

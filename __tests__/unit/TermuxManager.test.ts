@@ -178,8 +178,8 @@ describe('TermuxManager', () => {
       
       // Simulate session output
       setTimeout(() => {
-        dataCallback({ sessionId: expect.any(String), data: 'test\n' });
-        exitCallback({ sessionId: expect.any(String), exitCode: 0 });
+        dataCallback('test\n');
+        exitCallback(0);
       }, 10);
 
       const result = await commandPromise;
@@ -220,7 +220,7 @@ describe('TermuxManager', () => {
       
       // Simulate session exit
       setTimeout(() => {
-        exitCallback({ sessionId, exitCode: 0 });
+        exitCallback(0);
       }, 10);
 
       await commandPromise;
