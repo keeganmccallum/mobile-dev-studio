@@ -6,6 +6,7 @@ module.exports = function(api) {
     plugins: [
       '@babel/plugin-transform-export-namespace-from',
       '@babel/plugin-proposal-export-default-from',
+      '@babel/plugin-transform-private-methods',
     ],
   };
 };
