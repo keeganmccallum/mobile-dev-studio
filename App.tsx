@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 
+import ErrorBoundary from './src/components/ErrorBoundary';
 import TerminalScreen from './src/screens/TerminalScreen';
 import PreviewScreen from './src/screens/PreviewScreen';
 import EditorScreen from './src/screens/EditorScreen';
@@ -14,8 +15,9 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
+    <ErrorBoundary>
+      <SafeAreaProvider>
+        <NavigationContainer>
         <Tab.Navigator
           screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
@@ -86,8 +88,9 @@ export default function App() {
             }}
           />
         </Tab.Navigator>
-      </NavigationContainer>
-      <StatusBar style="light" backgroundColor="#0d1117" />
-    </SafeAreaProvider>
+        </NavigationContainer>
+        <StatusBar style="light" backgroundColor="#0d1117" />
+      </SafeAreaProvider>
+    </ErrorBoundary>
   );
 }

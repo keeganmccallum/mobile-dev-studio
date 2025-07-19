@@ -1,17 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { termuxManager } from '../../modules/termux-core/src/TermuxManager';
 
 const TermuxTestScreen: React.FC = () => {
   const [logs, setLogs] = useState<string[]>(['🔧 Termux Integration Test Screen Ready']);
   const [sessions, setSessions] = useState<any[]>([]);
+  const [termuxManager, setTermuxManager] = useState<any>(null);
+  const [moduleAvailable, setModuleAvailable] = useState(false);
+
+  useEffect(() => {
+    // Safely import and initialize termux manager
+    const initializeTermux = async () => {
+      try {
+        addLog('🔍 Checking Termux module availability...');
+        const { termuxManager: manager } = await import('../lib/termux/TermuxManager');
+        setTermuxManager(manager);
+        setModuleAvailable(true);
+        addLog('✅ Termux module loaded successfully');
+      } catch (error) {
+        addLog(`❌ Failed to load Termux module: ${error}`);
+        addLog('📝 Module is running in fallback mode');
+        setModuleAvailable(false);
+      }
+    };
+    
+    initializeTermux();
+  }, []);
 
   const addLog = (message: string) => {
     setLogs(prev => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`]);
   };
 
   const testSessionCreation = async () => {
+    if (!moduleAvailable || !termuxManager) {
+      addLog('❌ Termux module not available');
+      return;
+    }
+    
     try {
       addLog('Creating new Termux session...');
       const sessionId = await termuxManager.createSession({
@@ -30,6 +55,11 @@ const TermuxTestScreen: React.FC = () => {
   };
 
   const testCommandExecution = async () => {
+    if (!moduleAvailable || !termuxManager) {
+      addLog('❌ Termux module not available');
+      return;
+    }
+    
     try {
       addLog('Executing test command...');
       const result = await termuxManager.executeCommand('echo "Hello from Termux!"');
@@ -40,6 +70,11 @@ const TermuxTestScreen: React.FC = () => {
   };
 
   const testSessionManager = async () => {
+    if (!moduleAvailable || !termuxManager) {
+      addLog('❌ Termux module not available');
+      return;
+    }
+    
     try {
       addLog('Testing session manager...');
       const activeSessions = termuxManager.getActiveSessions();
@@ -68,6 +103,11 @@ const TermuxTestScreen: React.FC = () => {
       <View style={styles.header}>
         <Text style={styles.title}>Termux Integration Test</Text>
         <Text style={styles.subtitle}>Testing core functionality</Text>
+        <View style={styles.statusContainer}>
+          <Text style={[styles.statusText, moduleAvailable ? styles.statusSuccess : styles.statusError]}>
+            {moduleAvailable ? '✅ Module Available' : '❌ Module Unavailable'}
+          </Text>
+        </View>
       </View>
       
       <View style={styles.buttonContainer}>
@@ -130,6 +170,23 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 14,
     color: '#7d8590',
+  },
+  statusContainer: {
+    marginTop: 8,
+    padding: 8,
+    backgroundColor: '#161b22',
+    borderRadius: 4,
+    alignSelf: 'flex-start',
+  },
+  statusText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  statusSuccess: {
+    color: '#238636',
+  },
+  statusError: {
+    color: '#f85149',
   },
   buttonContainer: {
     flexDirection: 'row',

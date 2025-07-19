@@ -32,7 +32,13 @@
       "jsEngine": "jsc"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": null
+    },
+    "extra": {
+      "eas": {
+        "projectId": "mobile-dev-studio"
+      }
     },
     "assetBundlePatterns": [
       "**/*"
