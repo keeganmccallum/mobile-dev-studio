@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "description": "A revolutionary mobile development studio with embedded Termux, live preview testing, and VS Code integration",
     "splash": {
       "image": "./assets/splash-icon.png",
@@ -28,7 +28,8 @@
         "ACCESS_NETWORK_STATE",
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE"
-      ]
+      ],
+      "jsEngine": "jsc"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
