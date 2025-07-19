@@ -4,7 +4,6 @@ import { TermuxTerminalView } from 'termux-core';
 
 interface RealTermuxTerminalProps {
   onReady?: () => void;
-  onCommand?: (command: string, args: string[]) => void;
   style?: any;
 }
 

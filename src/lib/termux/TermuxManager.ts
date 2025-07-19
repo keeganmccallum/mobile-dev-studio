@@ -138,7 +138,7 @@ export class TermuxSession {
     return () => this.dataListeners.delete(listener);
   }
 
-  public onExit(listener: (code: number) => void): () => void {
+  public onExit(listener: (_code: number) => void): () => void {
     this.exitListeners.add(listener);
     return () => this.exitListeners.delete(listener);
   }
@@ -172,10 +172,8 @@ export class TermuxManager {
       this.isBootstrapInstalled = bootstrapInfo.isInstalled;
 
       if (!this.isBootstrapInstalled) {
-        console.log('Installing Termux bootstrap...');
         await TermuxCore.installBootstrap();
         this.isBootstrapInstalled = true;
-        console.log('Bootstrap installed successfully');
       }
     } catch (error) {
       throw new Error(`Failed to initialize bootstrap: ${error}`);
@@ -207,7 +205,7 @@ export class TermuxManager {
     
     return new Promise((resolve, reject) => {
       let stdout = '';
-      let stderr = '';
+      const stderr = '';
       let hasExited = false;
 
       const timeout = options.timeout || 30000; // 30 second default timeout
