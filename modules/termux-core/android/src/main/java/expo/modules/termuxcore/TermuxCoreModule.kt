@@ -13,6 +13,9 @@ import android.util.Log
 import java.io.*
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
+
+// Termux imports
+import com.termux.terminal.TerminalSession
 import java.util.zip.ZipInputStream
 import kotlin.collections.HashMap
 
