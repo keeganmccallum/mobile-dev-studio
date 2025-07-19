@@ -55,21 +55,23 @@ android {
     versionCode 1
     versionName "1.0.0"
 
-    externalNativeBuild {
-      cmake {
-        cppFlags "-O2 -frtti -fexceptions"
-        abiFilters 'x86', 'x86_64', 'arm64-v8a', 'armeabi-v7a'
-        arguments "-DANDROID_STL=c++_shared"
-      }
-    }
+    // Temporarily disabled native build
+    // externalNativeBuild {
+    //   cmake {
+    //     cppFlags "-O2 -frtti -fexceptions"
+    //     abiFilters 'x86', 'x86_64', 'arm64-v8a', 'armeabi-v7a'
+    //     arguments "-DANDROID_STL=c++_shared"
+    //   }
+    // }
   }
 
 
-  externalNativeBuild {
-    cmake {
-      path "CMakeLists.txt"
-    }
-  }
+  // Temporarily disabled native build
+  // externalNativeBuild {
+  //   cmake {
+  //     path "CMakeLists.txt"
+  //   }
+  // }
 
   lintOptions {
     abortOnError false
@@ -94,6 +96,11 @@ repositories {
 dependencies {
   implementation project(':expo-modules-core')
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${getKotlinVersion()}"
+  
+  // Termux terminal dependencies
+  api project(':terminal-view')
+  api project(':terminal-emulator')
+  api project(':termux-shared')
 }
 
 // Configure all Kotlin compilation tasks to use JVM 17

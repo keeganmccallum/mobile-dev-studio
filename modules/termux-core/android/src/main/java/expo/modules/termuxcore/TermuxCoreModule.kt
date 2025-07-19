@@ -38,15 +38,9 @@ class TermuxCoreModule : Module() {
             termuxFilesDir = File(context.filesDir, "termux")
             termuxPrefixDir = File(termuxFilesDir, "usr")
             
-            // Check if native library is available
-            try {
-                System.loadLibrary("termux")
-                useNativeImplementation = true
-                Log.i(LOG_TAG, "Native library loaded successfully")
-            } catch (e: UnsatisfiedLinkError) {
-                useNativeImplementation = false
-                Log.w(LOG_TAG, "Native library not available, using fallback implementation", e)
-            }
+            // For now, always use fallback implementation until we get proper Termux integration
+            useNativeImplementation = false
+            Log.i(LOG_TAG, "Using fallback implementation")
             
             checkBootstrapInstallation()
         }

@@ -1,34 +1,20 @@
 package expo.modules.termuxcore
 
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import androidx.annotation.NonNull
-import androidx.annotation.Nullable
-import com.termux.terminal.*
+import com.termux.terminal.TerminalSession
+import com.termux.terminal.TerminalSessionClient
+import com.termux.view.TerminalView
+import com.termux.view.TerminalViewClient
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.kotlin.views.ExpoView
-import java.util.concurrent.ConcurrentHashMap
 
 class TermuxTerminalViewModule : Module() {
     override fun definition() = ModuleDefinition {
         Name("TermuxTerminalView")
         
         View(TermuxTerminalView::class) {
-            Prop("command") { view: TermuxTerminalView, command: String ->
-                view.setCommand(command)
-            }
-            
-            Prop("workingDirectory") { view: TermuxTerminalView, workingDirectory: String ->
-                view.setWorkingDirectory(workingDirectory)
-            }
-            
-            Prop("environment") { view: TermuxTerminalView, environment: Map<String, String> ->
-                view.setEnvironment(environment)
-            }
-            
             Events("onSessionOutput", "onSessionExit", "onTitleChanged")
             
             AsyncFunction("createSession") { view: TermuxTerminalView ->
@@ -46,17 +32,12 @@ class TermuxTerminalViewModule : Module() {
     }
 }
 
-class TermuxTerminalView(context: Context, appContext: expo.modules.kotlin.AppContext) : ExpoView(context, appContext), TerminalSessionClient {
-    private var command: String = "/data/data/com.termux/files/usr/bin/bash"
-    private var workingDirectory: String = "/data/data/com.termux/files/home"
-    private var environment: Map<String, String> = emptyMap()
+class TermuxTerminalView(context: Context, appContext: expo.modules.kotlin.AppContext) : ExpoView(context, appContext) {
+    private var terminalView: TerminalView? = null
     private var terminalSession: TerminalSession? = null
-    private var terminalView: com.termux.terminal.TerminalView? = null
-    private val handler = Handler(Looper.getMainLooper())
     
     companion object {
         private const val LOG_TAG = "TermuxTerminalView"
-        private val activeSessions = ConcurrentHashMap<String, TerminalSession>()
     }
     
     init {
@@ -64,253 +45,107 @@ class TermuxTerminalView(context: Context, appContext: expo.modules.kotlin.AppCo
     }
     
     private fun initializeTerminalView() {
-        // Create the actual Termux terminal view
-        terminalView = com.termux.terminal.TerminalView(context, null).apply {
-            setTerminalViewClient(object : TerminalViewClient {
-                override fun copyModeChanged(copyMode: Boolean) {
-                    // Handle copy mode changes
-                }
-                
-                override fun onKeyDown(keyCode: Int, event: android.view.KeyEvent, session: TerminalSession): Boolean {
-                    // Handle key events
-                    return false
-                }
-                
-                override fun onKeyUp(keyCode: Int, event: android.view.KeyEvent): Boolean {
-                    return false
-                }
-                
-                override fun onTouchEvent(event: android.view.MotionEvent): Boolean {
-                    return false
-                }
-                
-                override fun onLongPress(event: android.view.MotionEvent): Boolean {
-                    return false
-                }
-                
-                override fun readControlKey(): Boolean {
-                    return false
-                }
-                
-                override fun readAltKey(): Boolean {
-                    return false
-                }
-                
-                override fun readShiftKey(): Boolean {
-                    return false
-                }
-                
-                override fun readFnKey(): Boolean {
-                    return false
-                }
-                
-                override fun onCodePoint(codePoint: Int, ctrlDown: Boolean, session: TerminalSession): Boolean {
-                    // Handle code point input
-                    session.writeCodePoint(false, codePoint)
-                    return true
-                }
-                
-                override fun onEmulatorSet() {
-                    // Handle emulator setup
-                }
-                
-                override fun logError(tag: String, message: String) {
-                    Log.e(tag, message)
-                }
-                
-                override fun logWarn(tag: String, message: String) {
-                    Log.w(tag, message)
-                }
-                
-                override fun logInfo(tag: String, message: String) {
-                    Log.i(tag, message)
-                }
-                
-                override fun logDebug(tag: String, message: String) {
-                    Log.d(tag, message)
-                }
-                
-                override fun logVerbose(tag: String, message: String) {
-                    Log.v(tag, message)
-                }
-                
-                override fun logStackTraceWithMessage(tag: String, message: String, e: Exception) {
-                    Log.e(tag, message, e)
-                }
-                
-                override fun logStackTrace(tag: String, e: Exception) {
-                    Log.e(tag, "Stack trace", e)
-                }
-            })
-        }
-        
-        addView(terminalView)
-    }
-    
-    fun setCommand(command: String) {
-        this.command = command
-    }
-    
-    fun setWorkingDirectory(workingDirectory: String) {
-        this.workingDirectory = workingDirectory
-    }
-    
-    fun setEnvironment(environment: Map<String, String>) {
-        this.environment = environment
-    }
-    
-    fun createSession() {
         try {
-            // Build environment array
-            val defaultEnv = mapOf(
-                "HOME" to "/data/data/com.termux/files/home",
-                "PREFIX" to "/data/data/com.termux/files/usr",
-                "TMPDIR" to "/data/data/com.termux/files/usr/tmp",
-                "SHELL" to command,
-                "PATH" to "/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets",
-                "LD_LIBRARY_PATH" to "/data/data/com.termux/files/usr/lib",
-                "LANG" to "en_US.UTF-8",
-                "TERM" to "xterm-256color"
-            )
+            // Create the actual Termux terminal view
+            terminalView = TerminalView(context, null).apply {
+                setTerminalViewClient(object : TerminalViewClient {
+                    override fun copyModeChanged(copyMode: Boolean) {}
+                    override fun onKeyDown(keyCode: Int, event: android.view.KeyEvent, session: TerminalSession): Boolean = false
+                    override fun onKeyUp(keyCode: Int, event: android.view.KeyEvent): Boolean = false
+                    override fun onTouchEvent(event: android.view.MotionEvent): Boolean = false
+                    override fun onLongPress(event: android.view.MotionEvent): Boolean = false
+                    override fun readControlKey(): Boolean = false
+                    override fun readAltKey(): Boolean = false
+                    override fun readShiftKey(): Boolean = false
+                    override fun readFnKey(): Boolean = false
+                    override fun onCodePoint(codePoint: Int, ctrlDown: Boolean, session: TerminalSession): Boolean {
+                        session.writeCodePoint(false, codePoint)
+                        return true
+                    }
+                })
+            }
             
-            val finalEnv = defaultEnv + environment
-            val envArray = finalEnv.map { "${it.key}=${it.value}" }.toTypedArray()
+            addView(terminalView)
+            Log.i(LOG_TAG, "TerminalView initialized successfully")
+        } catch (e: Exception) {
+            Log.e(LOG_TAG, "Failed to initialize TerminalView", e)
+        }
+    }
+    
+    fun createSession(): Boolean {
+        return try {
+            val sessionClient = object : TerminalSessionClient {
+                override fun onTextChanged(changedSession: TerminalSession) {
+                    appContext.eventEmitter?.emit("onSessionOutput", mapOf(
+                        "sessionId" to changedSession.pid.toString(),
+                        "data" to "Text changed"
+                    ))
+                }
+                
+                override fun onTitleChanged(changedSession: TerminalSession) {
+                    appContext.eventEmitter?.emit("onTitleChanged", mapOf(
+                        "sessionId" to changedSession.pid.toString(),
+                        "title" to changedSession.title
+                    ))
+                }
+                
+                override fun onSessionFinished(finishedSession: TerminalSession) {
+                    appContext.eventEmitter?.emit("onSessionExit", mapOf(
+                        "sessionId" to finishedSession.pid.toString(),
+                        "exitCode" to finishedSession.exitStatus
+                    ))
+                }
+                
+                override fun onCopyTextToClipboard(session: TerminalSession, text: String) {}
+                override fun onPasteTextFromClipboard(session: TerminalSession?) {}
+                override fun onBell(session: TerminalSession) {}
+                override fun onColorsChanged(session: TerminalSession) {}
+                override fun onTerminalCursorStateChange(state: Boolean) {}
+                override fun setTerminalShellPid(session: TerminalSession, pid: Int) {}
+                override fun getTerminalCursorStyle(): Int = 0
+                override fun logError(tag: String, message: String) = Log.e(tag, message)
+                override fun logWarn(tag: String, message: String) = Log.w(tag, message)
+                override fun logInfo(tag: String, message: String) = Log.i(tag, message)
+                override fun logDebug(tag: String, message: String) = Log.d(tag, message)
+                override fun logVerbose(tag: String, message: String) = Log.v(tag, message)
+                override fun logStackTraceWithMessage(tag: String, message: String, e: Exception) = Log.e(tag, message, e)
+                override fun logStackTrace(tag: String, e: Exception) = Log.e(tag, "Stack trace", e)
+            }
             
-            // Create terminal session
+            // Create a basic shell session
             terminalSession = TerminalSession(
-                command,
-                workingDirectory,
-                arrayOf(), // args
-                envArray,
-                4000, // transcript rows
-                this // TerminalSessionClient
+                "/system/bin/sh",
+                "/",
+                arrayOf(),
+                arrayOf("PATH=/system/bin"),
+                4000,
+                sessionClient
             )
             
-            // Set the session in the terminal view
             terminalView?.attachSession(terminalSession)
-            
-            // Start the session with initial size
-            terminalSession?.updateSize(80, 24, 12, 24)
-            
             Log.i(LOG_TAG, "Terminal session created successfully")
-            
+            true
         } catch (e: Exception) {
             Log.e(LOG_TAG, "Failed to create terminal session", e)
-            sendEvent("onSessionError", mapOf("error" to e.message))
+            false
         }
     }
     
     fun writeToSession(data: String) {
-        terminalSession?.let { session ->
-            try {
-                val bytes = data.toByteArray(Charsets.UTF_8)
-                session.write(bytes, 0, bytes.size)
-            } catch (e: Exception) {
-                Log.e(LOG_TAG, "Failed to write to session", e)
-            }
+        try {
+            terminalSession?.write(data.toByteArray(), 0, data.length)
+            Log.d(LOG_TAG, "Wrote data to session: $data")
+        } catch (e: Exception) {
+            Log.e(LOG_TAG, "Failed to write to session", e)
         }
     }
     
     fun killSession() {
-        terminalSession?.finishIfRunning()
-        terminalSession = null
-        terminalView?.attachSession(null)
-    }
-    
-    // TerminalSessionClient implementation
-    override fun onTextChanged(@NonNull changedSession: TerminalSession) {
-        handler.post {
-            // Get the terminal buffer content and send to React Native
-            val emulator = changedSession.emulator
-            if (emulator != null) {
-                val screen = emulator.screen
-                val lines = mutableListOf<String>()
-                
-                for (i in 0 until screen.activeRows) {
-                    val row = screen.getLine(i)
-                    lines.add(row.text)
-                }
-                
-                sendEvent("onSessionOutput", mapOf(
-                    "sessionId" to changedSession.mHandle,
-                    "lines" to lines
-                ))
-            }
+        try {
+            terminalSession?.finishIfRunning()
+            Log.i(LOG_TAG, "Terminal session killed")
+        } catch (e: Exception) {
+            Log.e(LOG_TAG, "Failed to kill session", e)
         }
-    }
-    
-    override fun onTitleChanged(@NonNull changedSession: TerminalSession) {
-        handler.post {
-            sendEvent("onTitleChanged", mapOf(
-                "sessionId" to changedSession.mHandle,
-                "title" to (changedSession.title ?: "Terminal")
-            ))
-        }
-    }
-    
-    override fun onSessionFinished(@NonNull finishedSession: TerminalSession) {
-        handler.post {
-            sendEvent("onSessionExit", mapOf(
-                "sessionId" to finishedSession.mHandle,
-                "exitCode" to finishedSession.exitStatus
-            ))
-        }
-    }
-    
-    override fun onCopyTextToClipboard(@NonNull session: TerminalSession, text: String) {
-        // Handle clipboard copy
-    }
-    
-    override fun onPasteTextFromClipboard(@Nullable session: TerminalSession?) {
-        // Handle clipboard paste
-    }
-    
-    override fun onBell(@NonNull session: TerminalSession) {
-        // Handle terminal bell
-    }
-    
-    override fun onColorsChanged(@NonNull session: TerminalSession) {
-        // Handle color changes
-    }
-    
-    override fun onTerminalCursorStateChange(state: Boolean) {
-        // Handle cursor state changes
-    }
-    
-    override fun setTerminalShellPid(@NonNull session: TerminalSession, pid: Int) {
-        Log.i(LOG_TAG, "Terminal shell PID set: $pid")
-    }
-    
-    override fun getTerminalCursorStyle(): Integer? {
-        return 0 // Default cursor style
-    }
-    
-    // Logging methods
-    override fun logError(tag: String, message: String) {
-        Log.e(tag, message)
-    }
-    
-    override fun logWarn(tag: String, message: String) {
-        Log.w(tag, message)
-    }
-    
-    override fun logInfo(tag: String, message: String) {
-        Log.i(tag, message)
-    }
-    
-    override fun logDebug(tag: String, message: String) {
-        Log.d(tag, message)
-    }
-    
-    override fun logVerbose(tag: String, message: String) {
-        Log.v(tag, message)
-    }
-    
-    override fun logStackTraceWithMessage(tag: String, message: String, e: Exception) {
-        Log.e(tag, message, e)
-    }
-    
-    override fun logStackTrace(tag: String, e: Exception) {
-        Log.e(tag, "Stack trace", e)
     }
 }
