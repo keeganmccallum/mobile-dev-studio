@@ -31,6 +31,13 @@ allprojects {
     mavenCentral()
     maven { url 'https://www.jitpack.io' }
   }
+  
+  // Set common Android configuration for all projects
+  project.ext {
+    compileSdkVersion = 34
+    targetSdkVersion = 34
+    minSdkVersion = 21
+  }
 }
 
 apply plugin: "expo-root-project"
