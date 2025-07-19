@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import TerminalScreen from './src/screens/TerminalScreen';
 import PreviewScreen from './src/screens/PreviewScreen';
 import EditorScreen from './src/screens/EditorScreen';
+import TermuxTestScreen from './src/screens/TermuxTestScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,6 +27,8 @@ export default function App() {
                 iconName = focused ? 'phone-portrait' : 'phone-portrait-outline';
               } else if (route.name === 'Editor') {
                 iconName = focused ? 'code-slash' : 'code-slash-outline';
+              } else if (route.name === 'TermuxTest') {
+                iconName = focused ? 'bug' : 'bug-outline';
               } else {
                 iconName = 'help-outline';
               }
@@ -72,6 +75,14 @@ export default function App() {
             options={{
               tabBarLabel: 'Editor',
               tabBarBadge: undefined, // Could show unsaved changes
+            }}
+          />
+          <Tab.Screen 
+            name="TermuxTest" 
+            component={TermuxTestScreen}
+            options={{
+              tabBarLabel: 'Termux',
+              tabBarBadge: undefined, // Could show test status
             }}
           />
         </Tab.Navigator>

@@ -3,7 +3,11 @@
  */
 
 // Mock React Native modules that are needed for unit tests
-jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+try {
+  jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+} catch (error) {
+  // Ignore if module doesn't exist
+}
 
 // Mock React Native WebView for unit tests
 jest.mock('react-native-webview', () => ({
