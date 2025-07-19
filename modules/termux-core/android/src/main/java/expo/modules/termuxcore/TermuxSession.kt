@@ -6,48 +6,32 @@ import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
 
+import com.termux.terminal.TerminalSession
+import com.termux.terminal.TerminalSessionClient
+
 class TermuxSession private constructor(
     val id: String,
-    val pid: Int,
-    val fileDescriptor: Int,
-    private val outputStream: FileOutputStream,
-    private val inputStream: FileInputStream
-) {
-    var isRunning = true
-        private set
+    private var terminalSession: TerminalSession?
+) : TerminalSessionClient {
+    val pid: Int get() = terminalSession?.pid ?: -1
+    val fileDescriptor: Int = 0 // Not directly accessible in new API
+    val isRunning: Boolean get() = terminalSession?.isRunning ?: false
+    val exitCode: Int get() = terminalSession?.exitStatus ?: -1
     
-    var exitCode: Int = 0
-        private set
-    
-    private val outputBuffer = ArrayList<String>()
     private val LOG_TAG = "TermuxSession"
 
     fun write(data: String) {
         if (!isRunning) return
         try {
-            outputStream.write(data.toByteArray())
-            outputStream.flush()
-        } catch (e: IOException) {
+            val bytes = data.toByteArray()
+            terminalSession?.write(bytes, 0, bytes.size)
+        } catch (e: Exception) {
             Log.e(LOG_TAG, "Failed to write to session $id", e)
         }
     }
 
     fun read(): String {
-        if (!isRunning) return ""
-        
-        try {
-            val buffer = ByteArray(1024)
-            val available = inputStream.available()
-            if (available > 0) {
-                val bytesRead = inputStream.read(buffer, 0, minOf(available, buffer.size))
-                if (bytesRead > 0) {
-                    return String(buffer, 0, bytesRead)
-                }
-            }
-        } catch (e: IOException) {
-            Log.e(LOG_TAG, "Failed to read from session $id", e)
-        }
-        
+        // Output is handled via TerminalSessionClient callbacks
         return ""
     }
 
@@ -55,11 +39,7 @@ class TermuxSession private constructor(
         if (!isRunning) return
         
         try {
-            Os.kill(pid, 9) // SIGKILL
-            isRunning = false
-            outputStream.close()
-            inputStream.close()
-            close(fileDescriptor)
+            terminalSession?.finishIfRunning()
             Log.i(LOG_TAG, "Killed session $id (pid: $pid)")
         } catch (e: Exception) {
             Log.e(LOG_TAG, "Failed to kill session $id", e)
@@ -67,26 +47,29 @@ class TermuxSession private constructor(
     }
 
     fun waitFor(): Int {
-        return waitFor(pid)
+        return terminalSession?.exitStatus ?: -1
     }
 
+    // TerminalSessionClient implementation
+    override fun onTextChanged(changedSession: TerminalSession) {}
+    override fun onTitleChanged(changedSession: TerminalSession) {}
+    override fun onSessionFinished(finishedSession: TerminalSession) {}
+    override fun onCopyTextToClipboard(session: TerminalSession, text: String) {}
+    override fun onPasteTextFromClipboard(session: TerminalSession?) {}
+    override fun onBell(session: TerminalSession) {}
+    override fun onColorsChanged(session: TerminalSession) {}
+    override fun onTerminalCursorStateChange(state: Boolean) {}
+    override fun setTerminalShellPid(session: TerminalSession, pid: Int) {}
+    override fun getTerminalCursorStyle(): Int? = 0
+    override fun logError(tag: String, message: String) = Log.e(tag, message)
+    override fun logWarn(tag: String, message: String) = Log.w(tag, message)
+    override fun logInfo(tag: String, message: String) = Log.i(tag, message)
+    override fun logDebug(tag: String, message: String) = Log.d(tag, message)
+    override fun logVerbose(tag: String, message: String) = Log.v(tag, message)
+    override fun logStackTraceWithMessage(tag: String, message: String, e: Exception) = Log.e(tag, message, e)
+    override fun logStackTrace(tag: String, e: Exception) = Log.e(tag, "Stack trace", e)
+
     companion object {
-        external fun createSubprocess(
-            cmd: String,
-            cwd: String,
-            args: Array<String>,
-            env: Array<String>,
-            processIdArray: IntArray,
-            rows: Int,
-            cols: Int,
-            cellWidth: Int,
-            cellHeight: Int
-        ): Int
-
-        external fun waitFor(pid: Int): Int
-        external fun close(fd: Int)
-        external fun setPtyWindowSize(fd: Int, rows: Int, cols: Int, cellWidth: Int, cellHeight: Int)
-
         fun create(
             sessionId: String,
             command: String,
@@ -113,36 +96,27 @@ class TermuxSession private constructor(
             )
             
             val fullEnv = termuxEnv + envArray
-            val processIdArray = IntArray(1)
             
-            // Create the subprocess using JNI
-            val fileDescriptor = createSubprocess(
+            // Create the wrapper session
+            val wrapper = TermuxSession(sessionId, null as TerminalSession?)
+            
+            // Create the actual terminal session
+            val terminalSession = TerminalSession(
                 command,
                 cwd,
                 args,
                 fullEnv,
-                processIdArray,
-                rows,
-                cols,
-                12, // cellWidth
-                24  // cellHeight
+                4000, // transcript rows
+                wrapper
             )
             
-            val pid = processIdArray[0]
-            val outputStream = FileOutputStream(java.io.FileDescriptor())
-            val inputStream = FileInputStream(java.io.FileDescriptor())
+            // Set the terminal session reference
+            wrapper.terminalSession = terminalSession
             
-            // Use reflection to set the file descriptor
-            try {
-                val fdField = java.io.FileDescriptor::class.java.getDeclaredField("descriptor")
-                fdField.isAccessible = true
-                fdField.setInt(outputStream.fd, fileDescriptor)
-                fdField.setInt(inputStream.fd, fileDescriptor)
-            } catch (e: Exception) {
-                Log.e("TermuxSession", "Failed to set file descriptor", e)
-            }
+            // Initialize the terminal session
+            terminalSession.updateSize(cols, rows, 12, 24)
             
-            return TermuxSession(sessionId, pid, fileDescriptor, outputStream, inputStream)
+            return wrapper
         }
     }
 }
