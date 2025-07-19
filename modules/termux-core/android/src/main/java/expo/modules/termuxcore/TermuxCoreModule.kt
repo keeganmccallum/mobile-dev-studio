@@ -38,8 +38,14 @@ class TermuxCoreModule : Module() {
             termuxFilesDir = File(context.filesDir, "termux")
             termuxPrefixDir = File(termuxFilesDir, "usr")
             
-            // Use fallback implementation until Termux dependencies are properly configured
-            useNativeImplementation = false
+            // Try to load native library, fallback if it fails
+            useNativeImplementation = try {
+                System.loadLibrary("termux")
+                true
+            } catch (e: UnsatisfiedLinkError) {
+                Log.w(LOG_TAG, "Native library not available, using fallback", e)
+                false
+            }
             Log.i(LOG_TAG, "Using ${if (useNativeImplementation) "native" else "fallback"} implementation")
             
             checkBootstrapInstallation()
@@ -101,10 +107,36 @@ class TermuxCoreModule : Module() {
             promise: Promise ->
             
             try {
-                // Always use fallback implementation for now
-                if (false) {
-                    // Disabled native implementation
-                    promise.reject("NATIVE_DISABLED", "Native implementation disabled", null)
+                if (useNativeImplementation) {
+                    // Use native implementation
+                    if (!isBootstrapInstalled) {
+                        promise.reject("BOOTSTRAP_NOT_INSTALLED", "Bootstrap must be installed first", null)
+                        return@AsyncFunction
+                    }
+
+                    val session = TermuxSession.create(
+                        sessionId,
+                        command,
+                        args.toTypedArray(),
+                        cwd,
+                        env,
+                        rows,
+                        cols,
+                        termuxPrefixDir.absolutePath
+                    )
+                    
+                    sessions[sessionId] = session
+                    
+                    // Set up output monitoring
+                    startOutputMonitoring(sessionId, session)
+                    
+                    val result = HashMap<String, Any>()
+                    result["id"] = sessionId
+                    result["pid"] = session.pid
+                    result["fileDescriptor"] = session.fileDescriptor
+                    result["isRunning"] = session.isRunning
+                    
+                    promise.resolve(result)
                 } else {
                     // Use fallback implementation
                     Log.i(LOG_TAG, "Creating fallback session: $sessionId")
@@ -141,9 +173,13 @@ class TermuxCoreModule : Module() {
 
         AsyncFunction("writeToSession") { sessionId: String, data: String, promise: Promise ->
             try {
-                // Always use fallback implementation
-                val session = fallbackSessions[sessionId] ?: throw Exception("Session not found")
-                session.write(data)
+                if (useNativeImplementation) {
+                    val session = sessions[sessionId] as? TermuxSession ?: throw Exception("Session not found")
+                    session.write(data)
+                } else {
+                    val session = fallbackSessions[sessionId] ?: throw Exception("Session not found")
+                    session.write(data)
+                }
                 promise.resolve(null)
             } catch (e: Exception) {
                 promise.reject("WRITE_SESSION_ERROR", e.message, e)
@@ -152,9 +188,13 @@ class TermuxCoreModule : Module() {
 
         AsyncFunction("readFromSession") { sessionId: String, promise: Promise ->
             try {
-                // Always use fallback implementation
-                val session = fallbackSessions[sessionId] ?: throw Exception("Session not found")
-                val output = session.read()
+                val output = if (useNativeImplementation) {
+                    val session = sessions[sessionId] as? TermuxSession ?: throw Exception("Session not found")
+                    session.read()
+                } else {
+                    val session = fallbackSessions[sessionId] ?: throw Exception("Session not found")
+                    session.read()
+                }
                 promise.resolve(output)
             } catch (e: Exception) {
                 promise.reject("READ_SESSION_ERROR", e.message, e)
@@ -163,13 +203,21 @@ class TermuxCoreModule : Module() {
 
         AsyncFunction("killSession") { sessionId: String, promise: Promise ->
             try {
-                // Always use fallback implementation
-                val session = fallbackSessions[sessionId]
-                val found = if (session != null) {
-                    session.kill()
-                    fallbackSessions.remove(sessionId)
-                    true
-                } else false
+                val found = if (useNativeImplementation) {
+                    val session = sessions[sessionId] as? TermuxSession
+                    if (session != null) {
+                        session.kill()
+                        sessions.remove(sessionId)
+                        true
+                    } else false
+                } else {
+                    val session = fallbackSessions[sessionId]
+                    if (session != null) {
+                        session.kill()
+                        fallbackSessions.remove(sessionId)
+                        true
+                    } else false
+                }
                 promise.resolve(found)
             } catch (e: Exception) {
                 promise.reject("KILL_SESSION_ERROR", e.message, e)
@@ -277,7 +325,35 @@ class TermuxCoreModule : Module() {
         }
     }
 
-    // Removed native output monitoring function
+    private fun startOutputMonitoring(sessionId: String, session: TermuxSession) {
+        // Start a background thread to monitor session output
+        Thread {
+            try {
+                while (session.isRunning) {
+                    val output = session.read()
+                    if (output.isNotEmpty()) {
+                        // Send output to React Native
+                        val params = mapOf(
+                            "sessionId" to sessionId,
+                            "data" to output
+                        )
+                        sendEvent("onSessionOutput", params)
+                    }
+                    Thread.sleep(100) // Check every 100ms
+                }
+                
+                // Session has ended
+                val params = mapOf(
+                    "sessionId" to sessionId,
+                    "exitCode" to session.exitCode
+                )
+                sendEvent("onSessionExit", params)
+                
+            } catch (e: Exception) {
+                Log.e(LOG_TAG, "Output monitoring error for session $sessionId", e)
+            }
+        }.start()
+    }
 
     private fun startFallbackOutputMonitoring(sessionId: String, session: TermuxSessionFallback) {
         // Start a background thread to monitor fallback session output
