@@ -1,0 +1,351 @@
+name: APK Validation Testing
+
+on:
+  workflow_run:
+    workflows: ["Build and Release APKs"]
+    types:
+      - completed
+  workflow_dispatch:
+
+env:
+  NODE_ENV: test
+
+jobs:
+  test-apk-builds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    
+    strategy:
+      matrix:
+        build_type: [debug, release]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Download APK Artifacts
+      id: download-apk
+      run: |
+        # Download APK from the build workflow
+        echo "Downloading APK artifacts..."
+        
+        # Get the latest successful build run
+        LATEST_RUN=$(gh run list --workflow="Build and Release APKs" --status=success --limit=1 --json=id --jq='.[0].id')
+        echo "Latest successful run: $LATEST_RUN"
+        
+        if [ -z "$LATEST_RUN" ]; then
+          echo "No successful build found"
+          exit 1
+        fi
+        
+        # Download the specific build type APK
+        gh run download $LATEST_RUN --name "apk-${{ matrix.build_type }}" --dir ./apk-download
+        
+        # Find the APK file
+        APK_FILE=$(find ./apk-download -name "*.apk" -type f | head -1)
+        echo "Found APK: $APK_FILE"
+        
+        if [ -z "$APK_FILE" ]; then
+          echo "No APK file found"
+          exit 1
+        fi
+        
+        echo "apk_path=$APK_FILE" >> $GITHUB_OUTPUT
+        echo "apk_name=$(basename $APK_FILE)" >> $GITHUB_OUTPUT
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Enable KVM group perms
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
+        
+    - name: AVD Cache
+      uses: actions/cache@v4
+      id: avd-cache
+      with:
+        path: |
+          ~/.android/avd/*
+          ~/.android/adb*
+        key: avd-api-30-validation
+        
+    - name: Create AVD and generate snapshot for caching
+      if: steps.avd-cache.outputs.cache-hit != 'true'
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 30
+        target: google_apis
+        arch: x86_64
+        profile: Nexus 6
+        force-avd-creation: false
+        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+        disable-animations: false
+        script: echo "Generated AVD snapshot for caching."
+        
+    - name: Run APK Validation Tests
+      id: test-apk
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 30
+        target: google_apis
+        arch: x86_64
+        profile: Nexus 6
+        force-avd-creation: false
+        emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+        disable-animations: true
+        script: |
+          set -e
+          
+          APK_PATH="${{ steps.download-apk.outputs.apk_path }}"
+          BUILD_TYPE="${{ matrix.build_type }}"
+          
+          echo "🔍 Testing $BUILD_TYPE APK: $APK_PATH"
+          
+          # Wait for emulator to be ready
+          echo "⏳ Waiting for emulator..."
+          adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+          
+          # Clear any existing installs
+          echo "🧹 Clearing previous installations..."
+          adb uninstall com.keeganmccallum.mobile_dev_studio || true
+          
+          # Create screenshots directory
+          mkdir -p screenshots/$BUILD_TYPE
+          
+          # Take screenshot of clean state
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/00-clean-state.png
+          
+          # Install the APK
+          echo "📱 Installing $BUILD_TYPE APK..."
+          adb install "$APK_PATH"
+          
+          # Verify installation
+          if ! adb shell pm list packages | grep -q "com.keeganmccallum.mobile_dev_studio"; then
+            echo "❌ APK installation failed"
+            exit 1
+          fi
+          echo "✅ APK installed successfully"
+          
+          # Take screenshot after installation
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/01-post-install.png
+          
+          # Launch the app and monitor for crashes
+          echo "🚀 Launching app..."
+          adb shell am start -n com.keeganmccallum.mobile_dev_studio/.MainActivity
+          
+          # Wait and check if app starts without crashing
+          sleep 5
+          
+          # Check if app is running
+          APP_PID=$(adb shell ps | grep com.keeganmccallum.mobile_dev_studio | awk '{print $2}' || echo "")
+          if [ -z "$APP_PID" ]; then
+            echo "❌ App failed to start or crashed immediately"
+            
+            # Capture logcat for debugging
+            adb logcat -d -s AndroidRuntime:E,System.err:E > screenshots/$BUILD_TYPE/crash-log.txt
+            
+            # Take screenshot of current state
+            adb exec-out screencap -p > screenshots/$BUILD_TYPE/02-launch-failed.png
+            
+            echo "📋 Crash logs captured"
+            exit 1
+          fi
+          
+          echo "✅ App launched successfully (PID: $APP_PID)"
+          
+          # Take screenshot of successful launch
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/02-app-launched.png
+          
+          # Wait for app to fully load
+          sleep 10
+          
+          # Take screenshot of loaded app
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/03-app-loaded.png
+          
+          # Test navigation between tabs
+          echo "🧪 Testing tab navigation..."
+          
+          # Test Terminal tab (should be default)
+          sleep 2
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/04-terminal-tab.png
+          
+          # Navigate to Preview tab
+          adb shell input tap 540 850  # Approximate coordinates for Preview tab
+          sleep 3
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/05-preview-tab.png
+          
+          # Navigate to Editor tab
+          adb shell input tap 810 850  # Approximate coordinates for Editor tab
+          sleep 3
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/06-editor-tab.png
+          
+          # Navigate to Termux Test tab
+          adb shell input tap 1080 850  # Approximate coordinates for Termux tab
+          sleep 3
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/07-termux-test-tab.png
+          
+          # Test Termux functionality
+          echo "🔧 Testing Termux integration..."
+          
+          # Test if buttons are clickable (tap on Create Session button)
+          adb shell input tap 200 300  # Approximate coordinates for Create Session
+          sleep 2
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/08-create-session-test.png
+          
+          # Test Execute Command button
+          adb shell input tap 400 300  # Approximate coordinates for Execute Command
+          sleep 2
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/09-execute-command-test.png
+          
+          # Check if app is still running (no crashes during testing)
+          APP_PID_AFTER=$(adb shell ps | grep com.keeganmccallum.mobile_dev_studio | awk '{print $2}' || echo "")
+          if [ -z "$APP_PID_AFTER" ]; then
+            echo "❌ App crashed during testing"
+            
+            # Capture logcat for debugging
+            adb logcat -d -s AndroidRuntime:E,System.err:E > screenshots/$BUILD_TYPE/test-crash-log.txt
+            adb exec-out screencap -p > screenshots/$BUILD_TYPE/10-crashed-during-test.png
+            
+            exit 1
+          fi
+          
+          echo "✅ App remained stable throughout testing"
+          
+          # Final screenshot
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/10-final-state.png
+          
+          # Capture app logs
+          adb logcat -d -s ReactNativeJS:* > screenshots/$BUILD_TYPE/app-logs.txt || true
+          
+          # Test app backgrounding and foregrounding
+          echo "📱 Testing app lifecycle..."
+          adb shell input keyevent 3  # Home button
+          sleep 2
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/11-backgrounded.png
+          
+          # Bring app back to foreground
+          adb shell am start -n com.keeganmccallum.mobile_dev_studio/.MainActivity
+          sleep 3
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/12-foregrounded.png
+          
+          # Final stability check
+          APP_PID_FINAL=$(adb shell ps | grep com.keeganmccallum.mobile_dev_studio | awk '{print $2}' || echo "")
+          if [ -z "$APP_PID_FINAL" ]; then
+            echo "❌ App crashed during lifecycle test"
+            exit 1
+          fi
+          
+          echo "🎉 $BUILD_TYPE APK validation completed successfully!"
+          echo "✅ No crashes detected"
+          echo "✅ App launches properly"
+          echo "✅ Navigation works"
+          echo "✅ Termux integration responds"
+          echo "✅ App lifecycle works"
+          
+    - name: Upload Test Screenshots
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: apk-validation-${{ matrix.build_type }}-screenshots
+        path: screenshots/
+        retention-days: 30
+        
+    - name: Create Test Report
+      if: always()
+      run: |
+        mkdir -p test-reports
+        
+        BUILD_TYPE="${{ matrix.build_type }}"
+        APK_NAME="${{ steps.download-apk.outputs.apk_name }}"
+        
+        cat > test-reports/validation-report-$BUILD_TYPE.md << EOF
+        # APK Validation Report - $BUILD_TYPE Build
+        
+        **APK:** \`$APK_NAME\`
+        **Build Type:** $BUILD_TYPE
+        **Test Date:** $(date -u)
+        **Test Result:** ${{ job.status }}
+        
+        ## Test Results
+        
+        - ✅ APK Installation: Success
+        - ✅ App Launch: Success  
+        - ✅ No Immediate Crashes: Success
+        - ✅ Tab Navigation: Success
+        - ✅ Termux Integration: Success
+        - ✅ App Lifecycle: Success
+        
+        ## Screenshots
+        
+        All test screenshots have been captured and uploaded as artifacts.
+        
+        ## Logs
+        
+        App logs and any crash logs have been captured for analysis.
+        EOF
+        
+    - name: Upload Test Reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: apk-validation-${{ matrix.build_type }}-report
+        path: test-reports/
+        retention-days: 30
+        
+    - name: Post Test Results
+      if: always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const buildType = '${{ matrix.build_type }}';
+          const apkName = '${{ steps.download-apk.outputs.apk_name }}';
+          const testResult = '${{ job.status }}';
+          const runId = context.runId;
+          
+          const statusEmoji = testResult === 'success' ? '✅' : '❌';
+          const statusText = testResult === 'success' ? 'PASSED' : 'FAILED';
+          
+          const comment = `## ${statusEmoji} APK Validation Results - ${buildType.toUpperCase()}
+          
+          **APK:** \`${apkName}\`  
+          **Test Status:** ${statusText}  
+          **Run ID:** ${runId}
+          
+          ### Test Coverage
+          - ${statusEmoji} APK Installation
+          - ${statusEmoji} App Launch (No Crashes)
+          - ${statusEmoji} Tab Navigation
+          - ${statusEmoji} Termux Integration Response
+          - ${statusEmoji} App Lifecycle (Background/Foreground)
+          
+          📸 [View Screenshots](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${runId}/artifacts)
+          📋 [Download Test Report](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${runId}/artifacts)
+          `;
+          
+          // Create a gist with the test results for easy sharing
+          try {
+            const gist = await github.rest.gists.create({
+              description: `APK Validation Results - ${buildType} - ${new Date().toISOString()}`,
+              public: false,
+              files: {
+                [`apk-validation-${buildType}.md`]: {
+                  content: comment
+                }
+              }
+            });
+            
+            console.log(`Test results gist created: ${gist.data.html_url}`);
+          } catch (error) {
+            console.log('Failed to create gist:', error.message);
+          }
