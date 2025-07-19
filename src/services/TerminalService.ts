@@ -1,5 +1,5 @@
 import * as FileSystem from 'expo-file-system';
-import { TermuxCore, TermuxSession } from 'termux-core';
+import { TermuxCore } from 'termux-core';
 
 export interface TerminalConfig {
   workingDirectory: string;
@@ -19,7 +19,7 @@ export interface TerminalProcess {
 
 export class TerminalService {
   private processes: Map<string, TerminalProcess> = new Map();
-  private sessions: Map<string, TermuxSession> = new Map();
+  private sessions: Map<string, { id: string; pid: number; fileDescriptor: number; isRunning: boolean }> = new Map();
   private alpineRootPath: string;
   private isInitialized: boolean = false;
   private serverStatus: { status: 'stopped' | 'running' | 'error'; url?: string } = { status: 'stopped' };
@@ -186,7 +186,7 @@ exec /bin/sh "$@"
     }
   }
 
-  private setupSessionListeners(processId: string, session: TermuxSession): void {
+  private setupSessionListeners(processId: string, session: { id: string; pid: number; fileDescriptor: number; isRunning: boolean }): void {
     // Set up real-time data listeners for the Termux session
     TermuxCore.onSessionOutput(session.id, (data: string) => {
       const process = this.processes.get(processId);

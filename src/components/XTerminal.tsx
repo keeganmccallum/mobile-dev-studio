@@ -418,9 +418,7 @@ export default function XTerminal({ onReady, theme = 'dark' }: XTerminalProps) {
             }
           }, 100);
           
-          if (onCommand) {
-            onCommand(command, args);
-          }
+          // Command executed via terminal service
           break;
         }
       }

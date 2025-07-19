@@ -1,10 +1,11 @@
-import { NativeModulesProxy } from 'expo-modules-core';
-
+// Core interfaces and types
 export interface TermuxSession {
   id: string;
   pid: number;
-  fileDescriptor: number;
   isRunning: boolean;
+  command: string;
+  cwd: string;
+  title?: string;
 }
 
 export interface TermuxBootstrapInfo {
@@ -14,7 +15,26 @@ export interface TermuxBootstrapInfo {
   size?: number;
 }
 
-// Simple static class for native module access
+export interface TermuxSessionOptions {
+  command?: string;
+  cwd?: string;
+  environment?: Record<string, string>;
+}
+
+// Export all components and managers
+export { default as TermuxTerminalView } from './TermuxTerminalView';
+export { default as XTermWebTerminal } from './XTermWebTerminal';
+export { default as TermuxDemo } from './TermuxDemo';
+export { TermuxManager, termuxManager } from './TermuxManager';
+
+// Export component interfaces
+export type { TermuxTerminalViewProps, TermuxTerminalRef } from './TermuxTerminalView';
+export type { XTermWebTerminalProps, XTermWebTerminalRef } from './XTermWebTerminal';
+
+// Legacy TermuxCore class for backward compatibility
+import { NativeModulesProxy } from 'expo-modules-core';
+import { termuxManager } from './TermuxManager';
+
 export class TermuxCore {
   private static get module() {
     try {
@@ -25,7 +45,6 @@ export class TermuxCore {
     }
   }
   
-  // Check if native module is available
   private static isNativeModuleAvailable(): boolean {
     try {
       const mod = this.module;
@@ -41,7 +60,8 @@ export class TermuxCore {
       return { installed: false, prefixPath: '' };
     }
     try {
-      return await this.module.getBootstrapInfo();
+      const module = this.module;
+      return module ? await module.getBootstrapInfo() : { installed: false, prefixPath: '' };
     } catch (error) {
       return { installed: false, prefixPath: '' };
     }
@@ -53,50 +73,64 @@ export class TermuxCore {
       return false;
     }
     try {
-      return await this.module.installBootstrap();
+      const module = this.module;
+      return module ? await module.installBootstrap() : false;
     } catch (error) {
       console.error('Failed to install bootstrap:', error);
       return false;
     }
   }
 
+  // Delegate to TermuxManager for session management
   static async createSession(
     command: string,
     args: string[],
     cwd: string,
     env: Record<string, string>
-  ): Promise<TermuxSession> {
-    if (!this.isNativeModuleAvailable()) {
-      throw new Error('TermuxCore native module not available, cannot create session');
+  ): Promise<{ id: string; pid: number; fileDescriptor: number; isRunning: boolean }> {
+    const sessionId = await termuxManager.createSession({
+      command,
+      cwd,
+      environment: env
+    });
+    
+    const session = termuxManager.getSession(sessionId);
+    if (!session) {
+      throw new Error('Failed to create session');
     }
-    return await this.module.createSession(command, args, cwd, env, 24, 80);
+    
+    return {
+      id: session.id,
+      pid: session.pid,
+      fileDescriptor: 0, // Mock for compatibility
+      isRunning: session.isRunning
+    };
   }
 
   static async writeToSession(sessionId: string, data: string): Promise<void> {
-    if (!this.isNativeModuleAvailable()) {
-      throw new Error('TermuxCore native module not available, cannot write to session');
-    }
-    return await this.module.writeToSession(sessionId, data);
+    return await termuxManager.writeToSession(sessionId, data);
   }
 
   static async killSession(sessionId: string): Promise<boolean> {
-    if (!this.isNativeModuleAvailable()) {
-      console.warn('TermuxCore native module not available, cannot kill session');
-      return false;
-    }
-    return await this.module.killSession(sessionId);
+    return await termuxManager.killSession(sessionId);
   }
 
-  // Simple callback-based event handlers
-  static onSessionOutput(sessionId: string, callback: (data: string) => void): void {
-    // This would be implemented via native events in a real implementation
-    // For now, we'll implement basic polling or use a different approach
+  static onSessionOutput(sessionId: string, callback: (data: string) => void): () => void {
+    return termuxManager.onSessionOutput((id, lines) => {
+      if (id === sessionId) {
+        callback(lines.join('\n'));
+      }
+    });
   }
 
-  static onSessionExit(sessionId: string, callback: (exitCode: number) => void): void {
-    // This would be implemented via native events in a real implementation  
+  static onSessionExit(sessionId: string, callback: (exitCode: number) => void): () => void {
+    return termuxManager.onSessionExit((id, exitCode) => {
+      if (id === sessionId) {
+        callback(exitCode);
+      }
+    });
   }
 }
 
-export { default as TermuxTerminalView } from './TermuxTerminalView';
+// Default export for backward compatibility
 export default TermuxCore;
