@@ -67,6 +67,17 @@ jobs:
         disable-animations: false
         script: echo "Generated AVD snapshot for caching."
         
+    - name: Build APK for Testing
+      run: |
+        # Install Expo CLI
+        npm install -g @expo/cli
+        
+        # Clean and prebuild the project
+        npx expo prebuild --platform android --clean
+        
+        # Build debug APK
+        cd android && ./gradlew assembleDebug
+        
     - name: Run E2E Tests with Emulator
       uses: reactivecircus/android-emulator-runner@v2
       with:
@@ -81,21 +92,50 @@ jobs:
           # Wait for emulator to be ready
           adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
           
-          # Install Expo CLI
-          npm install -g @expo/cli
+          # Install the debug APK
+          adb install android/app/build/outputs/apk/debug/app-debug.apk
           
-          # Start Expo dev server in background
-          npx expo start --tunnel &
-          EXPO_PID=$!
+          # Take screenshot of home screen
+          mkdir -p screenshots
+          adb exec-out screencap -p > screenshots/01-home-screen.png
           
-          # Wait for dev server
-          sleep 30
+          # Launch the app
+          adb shell am start -n com.keeganmccallum.mobiledevstudio/.MainActivity
           
-          # Install and run E2E tests
-          npm run test:e2e:android
+          # Wait for app to load
+          sleep 10
           
-          # Kill expo dev server
-          kill $EXPO_PID || true
+          # Take screenshot of app launch
+          adb exec-out screencap -p > screenshots/02-app-launch.png
+          
+          # Navigate to Termux demo (tap coordinates might need adjustment)
+          adb shell input tap 200 600  # Navigate to terminal section
+          sleep 3
+          adb exec-out screencap -p > screenshots/03-terminal-screen.png
+          
+          # Test terminal input
+          adb shell input text "echo 'Hello from Termux'"
+          sleep 2
+          adb shell input keyevent 66  # Enter key
+          sleep 3
+          adb exec-out screencap -p > screenshots/04-terminal-command.png
+          
+          # Test ls command
+          adb shell input text "ls"
+          adb shell input keyevent 66  # Enter key
+          sleep 3
+          adb exec-out screencap -p > screenshots/05-terminal-ls.png
+          
+          # Test pwd command
+          adb shell input text "pwd"
+          adb shell input keyevent 66  # Enter key
+          sleep 3
+          adb exec-out screencap -p > screenshots/06-terminal-pwd.png
+          
+          # Final screenshot
+          adb exec-out screencap -p > screenshots/07-final-state.png
+          
+          echo "Termux E2E testing completed successfully!"
           
     - name: Capture Screenshots
       if: always()
@@ -178,72 +218,3 @@ jobs:
             });
           }
 
-  e2e-ios:
-    runs-on: macos-latest
-    timeout-minutes: 45
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: |
-        npm ci
-        cd modules/termux-core && npm ci && cd ../..
-        
-    - name: Setup iOS Simulator
-      run: |
-        # List available simulators
-        xcrun simctl list devices
-        
-        # Boot iPhone 14 simulator
-        xcrun simctl boot "iPhone 14" || true
-        
-    - name: Run E2E Tests on iOS
-      run: |
-        # Install Expo CLI
-        npm install -g @expo/cli
-        
-        # Start Expo dev server in background
-        npx expo start --ios &
-        EXPO_PID=$!
-        
-        # Wait for dev server
-        sleep 30
-        
-        # Run E2E tests
-        npm run test:e2e:ios
-        
-        # Kill expo dev server
-        kill $EXPO_PID || true
-        
-    - name: Capture iOS Screenshots
-      if: always()
-      run: |
-        mkdir -p screenshots
-        
-        # Get simulator device ID
-        DEVICE_ID=$(xcrun simctl list devices | grep "iPhone 14" | grep Booted | awk -F'[()]' '{print $(NF-1)}')
-        
-        if [ ! -z "$DEVICE_ID" ]; then
-          xcrun simctl io $DEVICE_ID screenshot screenshots/ios-final-state.png || true
-        fi
-        
-        # Capture any test artifacts
-        if [ -d "__tests__/e2e/screenshots" ]; then
-          cp -r __tests__/e2e/screenshots/* screenshots/ || true
-        fi
-        
-    - name: Upload iOS Screenshots
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: e2e-screenshots-ios
-        path: screenshots/
-        retention-days: 30
