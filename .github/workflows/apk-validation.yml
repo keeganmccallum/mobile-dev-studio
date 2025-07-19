@@ -40,7 +40,7 @@ jobs:
         echo "Downloading APK artifacts..."
         
         # Get the latest successful build run
-        LATEST_RUN=$(gh run list --workflow="Build and Release APKs" --status=success --limit=1 --json=id --jq='.[0].id')
+        LATEST_RUN=$(gh run list --workflow="Build and Release APKs" --status=success --limit=1 --json=databaseId --jq='.[0].databaseId')
         echo "Latest successful run: $LATEST_RUN"
         
         if [ -z "$LATEST_RUN" ]; then
@@ -48,8 +48,17 @@ jobs:
           exit 1
         fi
         
+        # Get the artifact name pattern (includes build number)
+        ARTIFACT_NAME=$(gh api /repos/${{ github.repository }}/actions/runs/$LATEST_RUN/artifacts --jq='.artifacts[] | select(.name | startswith("apk-${{ matrix.build_type }}")) | .name' | head -1)
+        echo "Artifact name: $ARTIFACT_NAME"
+        
+        if [ -z "$ARTIFACT_NAME" ]; then
+          echo "No artifact found for build type: ${{ matrix.build_type }}"
+          exit 1
+        fi
+        
         # Download the specific build type APK
-        gh run download $LATEST_RUN --name "apk-${{ matrix.build_type }}" --dir ./apk-download
+        gh run download $LATEST_RUN --name "$ARTIFACT_NAME" --dir ./apk-download
         
         # Find the APK file
         APK_FILE=$(find ./apk-download -name "*.apk" -type f | head -1)
