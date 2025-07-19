@@ -1,0 +1,901 @@
+=== NPM INSTALL ===
+npm warn deprecated @babel/plugin-proposal-optional-catch-binding@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
+npm warn deprecated @babel/plugin-proposal-nullish-coalescing-operator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
+npm warn deprecated @babel/plugin-proposal-numeric-separator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
+npm warn deprecated @babel/plugin-proposal-export-namespace-from@7.18.9: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-export-namespace-from instead.
+npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+npm warn deprecated @babel/plugin-proposal-optional-chaining@7.21.0: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
+npm warn deprecated @babel/plugin-proposal-async-generator-functions@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
+npm warn deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+
+added 2237 packages, and audited 2239 packages in 34s
+
+198 packages are looking for funding
+  run `npm fund` for details
+
+2 low severity vulnerabilities
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+=== LINT CHECK ===
+
+> mobile-dev-studio@1.0.0 lint
+> eslint src/ --ext .ts,.tsx
+
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/components/RealTermuxTerminal.tsx
+  40:30  warning  '_exitCode' is defined but never used  no-unused-vars
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/lib/termux/TermuxManager.ts
+   32:31  warning  'data' is defined but never used   no-unused-vars
+   33:31  warning  'code' is defined but never used   no-unused-vars
+  136:28  warning  'data' is defined but never used   no-unused-vars
+  141:28  warning  '_code' is defined but never used  no-unused-vars
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/lib/termux/TermuxTerminal.tsx
+   13:13  warning  'data' is defined but never used              no-unused-vars
+   14:13  warning  'code' is defined but never used              no-unused-vars
+   15:14  warning  'error' is defined but never used             no-unused-vars
+   20:21  warning  'data' is defined but never used              no-unused-vars
+   23:20  warning  'cols' is defined but never used              no-unused-vars
+   23:34  warning  'rows' is defined but never used              no-unused-vars
+   42:10  warning  'isReady' is assigned a value but never used  no-unused-vars
+  100:9   warning  Unexpected console statement                  no-console
+  131:11  warning  Unexpected console statement                  no-console
+  135:11  warning  Unexpected console statement                  no-console
+  138:7   warning  Unexpected console statement                  no-console
+  289:11  warning  Unexpected console statement                  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/screens/EditorScreen.tsx
+  114:7   warning  Unexpected console statement  no-console
+  127:11  warning  Unexpected console statement  no-console
+  130:7   warning  Unexpected console statement  no-console
+  276:13  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/screens/PreviewScreen.tsx
+   17:7   warning  Unexpected console statement  no-console
+   28:11  warning  Unexpected console statement  no-console
+   31:7   warning  Unexpected console statement  no-console
+  225:13  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/screens/TerminalScreen.tsx
+  21:9  warning  Unexpected console statement  no-console
+  40:5  warning  Unexpected console statement  no-console
+  44:5  warning  Unexpected console statement  no-console
+  49:5  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/services/TerminalService.ts
+   26:24  warning  'event' is defined but never used               no-unused-vars
+   34:7   warning  Unexpected console statement                    no-console
+   39:9   warning  Unexpected console statement                    no-console
+   56:7   warning  Unexpected console statement                    no-console
+   59:7   warning  Unexpected console statement                    no-console
+   65:5   warning  Unexpected console statement                    no-console
+   82:5   warning  Unexpected console statement                    no-console
+  184:7   warning  Unexpected console statement                    no-console
+  422:9   warning  Unexpected console statement                    no-console
+  440:9   warning  Unexpected console statement                    no-console
+  450:17  warning  'processId' is assigned a value but never used  no-unused-vars
+  454:9   warning  Unexpected console statement                    no-console
+  472:7   warning  Unexpected console statement                    no-console
+  488:7   warning  Unexpected console statement                    no-console
+  499:7   warning  Unexpected console statement                    no-console
+  514:31  warning  'event' is defined but never used               no-unused-vars
+  518:34  warning  'event' is defined but never used               no-unused-vars
+
+✖ 46 problems (0 errors, 46 warnings)
+
+
+=== TYPECHECK ===
+
+> mobile-dev-studio@1.0.0 typecheck
+> tsc --noEmit
+
+__tests__/e2e/TerminalFlow.test.ts(5,60): error TS2307: Cannot find module 'detox' or its corresponding type declarations.
+__tests__/e2e/TerminalFlow.test.ts(84,13): error TS2552: Cannot find name 'detoxExpected'. Did you mean 'detoxExpect'?
+typecheck failed
+
+=== TESTS ===
+
+> mobile-dev-studio@1.0.0 test
+> jest
+
+ts-jest[ts-jest-transformer] (WARN) Define `ts-jest` config under `globals` is deprecated. Please do
+transform: {
+    <transform_regex>: ['ts-jest', { /* ts-jest config goes here in Jest */ }],
+},
+See more at https://kulshekhar.github.io/ts-jest/docs/getting-started/presets#advanced
+FAIL __tests__/integration/TermuxRealModule.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/react-native/index.js: Missing semicolon. (313:1)
+
+    [0m [90m 311 |[39m   }[33m,[39m
+     [90m 312 |[39m   [90m// #endregion[39m
+    [31m[1m>[22m[39m[90m 313 |[39m } [36mas[39m [33mReactNativePublicAPI[39m[33m;[39m
+     [90m     |[39m  [31m[1m^[22m[39m
+     [90m 314 |[39m
+     [90m 315 |[39m [36mif[39m (__DEV__) {
+     [90m 316 |[39m   [90m/* $FlowFixMe[prop-missing] This is intentional: Flow will error when[39m[0m
+
+    [0m [90m 49 |[39m [90m// Mock React Native modules for unit tests only[39m
+     [90m 50 |[39m jest[33m.[39mmock([32m'react-native'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 51 |[39m   [36mconst[39m [33mRN[39m [33m=[39m jest[33m.[39mrequireActual([32m'react-native'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 52 |[39m   
+     [90m 53 |[39m   [90m// Mock NativeModules for unit tests[39m
+     [90m 54 |[39m   [33mRN[39m[33m.[39m[33mNativeModules[39m [33m=[39m {[0m
+
+      at constructor (node_modules/@babel/parser/src/parse-error.ts:95:45)
+      at FlowParserMixin.toParseError [as raise] (node_modules/@babel/parser/src/tokenizer/index.ts:1503:19)
+      at FlowParserMixin.raise [as semicolon] (node_modules/@babel/parser/src/parser/util.ts:149:10)
+      at FlowParserMixin.semicolon (node_modules/@babel/parser/src/parser/statement.ts:1358:10)
+      at FlowParserMixin.parseExpressionStatement (node_modules/@babel/parser/src/plugins/flow/index.ts:2034:20)
+      at FlowParserMixin.parseExpressionStatement [as parseStatementContent] (node_modules/@babel/parser/src/parser/statement.ts:697:19)
+      at FlowParserMixin.parseStatementContent (node_modules/@babel/parser/src/parser/statement.ts:477:17)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/src/plugins/flow/index.ts:1994:26)
+      at FlowParserMixin.parseStatementLike [as parseModuleItem] (node_modules/@babel/parser/src/parser/statement.ts:414:17)
+      at FlowParserMixin.parseModuleItem [as parseBlockOrModuleBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1438:16)
+      at FlowParserMixin.parseBlockOrModuleBlockBody [as parseBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1412:10)
+      at FlowParserMixin.parseBlockBody [as parseProgram] (node_modules/@babel/parser/src/parser/statement.ts:229:10)
+      at FlowParserMixin.parseProgram (node_modules/@babel/parser/src/parser/statement.ts:203:25)
+      at FlowParserMixin.parseTopLevel (node_modules/@babel/parser/src/plugins/flow/index.ts:3375:30)
+      at FlowParserMixin.parseTopLevel [as parse] (node_modules/@babel/parser/src/parser/index.ts:93:10)
+      at parse (node_modules/@babel/parser/src/index.ts:92:38)
+      at parser (node_modules/@babel/core/src/parser/index.ts:28:19)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/src/transformation/normalize-file.ts:49:24)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/src/transformation/index.ts:40:36)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/src/transform.ts:29:20)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at fn (node_modules/@babel/core/src/errors/rewrite-stack-trace.ts:99:14)
+      at transformSync (node_modules/@babel/core/src/transform.ts:66:52)
+      at ScriptTransformer.transformSource (node_modules/@jest/transform/build/ScriptTransformer.js:545:31)
+      at ScriptTransformer._transformAndBuildScript (node_modules/@jest/transform/build/ScriptTransformer.js:674:40)
+      at ScriptTransformer.transform (node_modules/@jest/transform/build/ScriptTransformer.js:726:19)
+      at requireActual (jest.setup.js:51:19)
+      at Object.<anonymous> (__tests__/integration/TermuxRealModule.test.ts:6:1)
+
+FAIL __tests__/integration/TermuxNativeModule.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/react-native/index.js: Missing semicolon. (313:1)
+
+    [0m [90m 311 |[39m   }[33m,[39m
+     [90m 312 |[39m   [90m// #endregion[39m
+    [31m[1m>[22m[39m[90m 313 |[39m } [36mas[39m [33mReactNativePublicAPI[39m[33m;[39m
+     [90m     |[39m  [31m[1m^[22m[39m
+     [90m 314 |[39m
+     [90m 315 |[39m [36mif[39m (__DEV__) {
+     [90m 316 |[39m   [90m/* $FlowFixMe[prop-missing] This is intentional: Flow will error when[39m[0m
+
+    [0m [90m 49 |[39m [90m// Mock React Native modules for unit tests only[39m
+     [90m 50 |[39m jest[33m.[39mmock([32m'react-native'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 51 |[39m   [36mconst[39m [33mRN[39m [33m=[39m jest[33m.[39mrequireActual([32m'react-native'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 52 |[39m   
+     [90m 53 |[39m   [90m// Mock NativeModules for unit tests[39m
+     [90m 54 |[39m   [33mRN[39m[33m.[39m[33mNativeModules[39m [33m=[39m {[0m
+
+      at constructor (node_modules/@babel/parser/src/parse-error.ts:95:45)
+      at FlowParserMixin.toParseError [as raise] (node_modules/@babel/parser/src/tokenizer/index.ts:1503:19)
+      at FlowParserMixin.raise [as semicolon] (node_modules/@babel/parser/src/parser/util.ts:149:10)
+      at FlowParserMixin.semicolon (node_modules/@babel/parser/src/parser/statement.ts:1358:10)
+      at FlowParserMixin.parseExpressionStatement (node_modules/@babel/parser/src/plugins/flow/index.ts:2034:20)
+      at FlowParserMixin.parseExpressionStatement [as parseStatementContent] (node_modules/@babel/parser/src/parser/statement.ts:697:19)
+      at FlowParserMixin.parseStatementContent (node_modules/@babel/parser/src/parser/statement.ts:477:17)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/src/plugins/flow/index.ts:1994:26)
+      at FlowParserMixin.parseStatementLike [as parseModuleItem] (node_modules/@babel/parser/src/parser/statement.ts:414:17)
+      at FlowParserMixin.parseModuleItem [as parseBlockOrModuleBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1438:16)
+      at FlowParserMixin.parseBlockOrModuleBlockBody [as parseBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1412:10)
+      at FlowParserMixin.parseBlockBody [as parseProgram] (node_modules/@babel/parser/src/parser/statement.ts:229:10)
+      at FlowParserMixin.parseProgram (node_modules/@babel/parser/src/parser/statement.ts:203:25)
+      at FlowParserMixin.parseTopLevel (node_modules/@babel/parser/src/plugins/flow/index.ts:3375:30)
+      at FlowParserMixin.parseTopLevel [as parse] (node_modules/@babel/parser/src/parser/index.ts:93:10)
+      at parse (node_modules/@babel/parser/src/index.ts:92:38)
+      at parser (node_modules/@babel/core/src/parser/index.ts:28:19)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/src/transformation/normalize-file.ts:49:24)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/src/transformation/index.ts:40:36)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/src/transform.ts:29:20)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at fn (node_modules/@babel/core/src/errors/rewrite-stack-trace.ts:99:14)
+      at transformSync (node_modules/@babel/core/src/transform.ts:66:52)
+      at ScriptTransformer.transformSource (node_modules/@jest/transform/build/ScriptTransformer.js:545:31)
+      at ScriptTransformer._transformAndBuildScript (node_modules/@jest/transform/build/ScriptTransformer.js:674:40)
+      at ScriptTransformer.transform (node_modules/@jest/transform/build/ScriptTransformer.js:726:19)
+      at requireActual (jest.setup.js:51:19)
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:6:1)
+
+FAIL __tests__/unit/TermuxTerminal.test.tsx
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/runner/work/mobile-dev-studio/mobile-dev-studio/__tests__/unit/TermuxTerminal.test.tsx:48
+                const { getByTestId } = (0, react_native_1.render)(<TermuxTerminal_1.default testID="terminal-component"/>);
+                                                                   ^
+
+    SyntaxError: Unexpected token '<'
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+
+FAIL __tests__/unit/TermuxSession.test.ts
+  ● Test suite failed to run
+
+    ReferenceError: Cannot access 'mockTermuxCore' before initialization
+
+    [0m [90m 22 |[39m jest[33m.[39mmock([32m'react-native'[39m[33m,[39m () [33m=>[39m ({
+     [90m 23 |[39m   [33mNativeModules[39m[33m:[39m {
+    [31m[1m>[22m[39m[90m 24 |[39m     [33mTermuxCore[39m[33m:[39m mockTermuxCore[33m,[39m
+     [90m    |[39m                 [31m[1m^[22m[39m
+     [90m 25 |[39m   }[33m,[39m
+     [90m 26 |[39m   [33mNativeEventEmitter[39m[33m:[39m jest[33m.[39mfn(() [33m=>[39m mockNativeEventEmitter)[33m,[39m
+     [90m 27 |[39m }))[33m;[39m[0m
+
+      at __tests__/unit/TermuxSession.test.ts:24:17
+      at Object.<anonymous> (src/lib/termux/TermuxManager.ts:6:1)
+      at Object.<anonymous> (__tests__/unit/TermuxSession.test.ts:5:1)
+
+FAIL __tests__/unit/TermuxManagerReal.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/react-native/index.js: Missing semicolon. (313:1)
+
+    [0m [90m 311 |[39m   }[33m,[39m
+     [90m 312 |[39m   [90m// #endregion[39m
+    [31m[1m>[22m[39m[90m 313 |[39m } [36mas[39m [33mReactNativePublicAPI[39m[33m;[39m
+     [90m     |[39m  [31m[1m^[22m[39m
+     [90m 314 |[39m
+     [90m 315 |[39m [36mif[39m (__DEV__) {
+     [90m 316 |[39m   [90m/* $FlowFixMe[prop-missing] This is intentional: Flow will error when[39m[0m
+
+    [0m [90m 49 |[39m [90m// Mock React Native modules for unit tests only[39m
+     [90m 50 |[39m jest[33m.[39mmock([32m'react-native'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 51 |[39m   [36mconst[39m [33mRN[39m [33m=[39m jest[33m.[39mrequireActual([32m'react-native'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 52 |[39m   
+     [90m 53 |[39m   [90m// Mock NativeModules for unit tests[39m
+     [90m 54 |[39m   [33mRN[39m[33m.[39m[33mNativeModules[39m [33m=[39m {[0m
+
+      at constructor (node_modules/@babel/parser/src/parse-error.ts:95:45)
+      at FlowParserMixin.toParseError [as raise] (node_modules/@babel/parser/src/tokenizer/index.ts:1503:19)
+      at FlowParserMixin.raise [as semicolon] (node_modules/@babel/parser/src/parser/util.ts:149:10)
+      at FlowParserMixin.semicolon (node_modules/@babel/parser/src/parser/statement.ts:1358:10)
+      at FlowParserMixin.parseExpressionStatement (node_modules/@babel/parser/src/plugins/flow/index.ts:2034:20)
+      at FlowParserMixin.parseExpressionStatement [as parseStatementContent] (node_modules/@babel/parser/src/parser/statement.ts:697:19)
+      at FlowParserMixin.parseStatementContent (node_modules/@babel/parser/src/parser/statement.ts:477:17)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/src/plugins/flow/index.ts:1994:26)
+      at FlowParserMixin.parseStatementLike [as parseModuleItem] (node_modules/@babel/parser/src/parser/statement.ts:414:17)
+      at FlowParserMixin.parseModuleItem [as parseBlockOrModuleBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1438:16)
+      at FlowParserMixin.parseBlockOrModuleBlockBody [as parseBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1412:10)
+      at FlowParserMixin.parseBlockBody [as parseProgram] (node_modules/@babel/parser/src/parser/statement.ts:229:10)
+      at FlowParserMixin.parseProgram (node_modules/@babel/parser/src/parser/statement.ts:203:25)
+      at FlowParserMixin.parseTopLevel (node_modules/@babel/parser/src/plugins/flow/index.ts:3375:30)
+      at FlowParserMixin.parseTopLevel [as parse] (node_modules/@babel/parser/src/parser/index.ts:93:10)
+      at parse (node_modules/@babel/parser/src/index.ts:92:38)
+      at parser (node_modules/@babel/core/src/parser/index.ts:28:19)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/src/transformation/normalize-file.ts:49:24)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/src/transformation/index.ts:40:36)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/src/transform.ts:29:20)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at fn (node_modules/@babel/core/src/errors/rewrite-stack-trace.ts:99:14)
+      at transformSync (node_modules/@babel/core/src/transform.ts:66:52)
+      at ScriptTransformer.transformSource (node_modules/@jest/transform/build/ScriptTransformer.js:545:31)
+      at ScriptTransformer._transformAndBuildScript (node_modules/@jest/transform/build/ScriptTransformer.js:674:40)
+      at ScriptTransformer.transform (node_modules/@jest/transform/build/ScriptTransformer.js:726:19)
+      at requireActual (jest.setup.js:51:19)
+      at Object.<anonymous> (__tests__/unit/TermuxManagerReal.test.ts:6:1)
+
+FAIL __tests__/unit/TermuxManager.test.ts
+  ● Test suite failed to run
+
+    ReferenceError: Cannot access 'mockTermuxCore' before initialization
+
+    [0m [90m 24 |[39m jest[33m.[39mmock([32m'react-native'[39m[33m,[39m () [33m=>[39m ({
+     [90m 25 |[39m   [33mNativeModules[39m[33m:[39m {
+    [31m[1m>[22m[39m[90m 26 |[39m     [33mTermuxCore[39m[33m:[39m mockTermuxCore[33m,[39m
+     [90m    |[39m                 [31m[1m^[22m[39m
+     [90m 27 |[39m   }[33m,[39m
+     [90m 28 |[39m   [33mNativeEventEmitter[39m[33m:[39m jest[33m.[39mfn(() [33m=>[39m mockNativeEventEmitter)[33m,[39m
+     [90m 29 |[39m }))[33m;[39m[0m
+
+      at __tests__/unit/TermuxManager.test.ts:26:17
+      at Object.<anonymous> (src/lib/termux/TermuxManager.ts:6:1)
+      at Object.<anonymous> (__tests__/unit/TermuxManager.test.ts:5:1)
+
+FAIL __tests__/integration/TerminalIntegration.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/react-native/index.js: Missing semicolon. (313:1)
+
+    [0m [90m 311 |[39m   }[33m,[39m
+     [90m 312 |[39m   [90m// #endregion[39m
+    [31m[1m>[22m[39m[90m 313 |[39m } [36mas[39m [33mReactNativePublicAPI[39m[33m;[39m
+     [90m     |[39m  [31m[1m^[22m[39m
+     [90m 314 |[39m
+     [90m 315 |[39m [36mif[39m (__DEV__) {
+     [90m 316 |[39m   [90m/* $FlowFixMe[prop-missing] This is intentional: Flow will error when[39m[0m
+
+    [0m [90m 49 |[39m [90m// Mock React Native modules for unit tests only[39m
+     [90m 50 |[39m jest[33m.[39mmock([32m'react-native'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 51 |[39m   [36mconst[39m [33mRN[39m [33m=[39m jest[33m.[39mrequireActual([32m'react-native'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 52 |[39m   
+     [90m 53 |[39m   [90m// Mock NativeModules for unit tests[39m
+     [90m 54 |[39m   [33mRN[39m[33m.[39m[33mNativeModules[39m [33m=[39m {[0m
+
+      at constructor (node_modules/@babel/parser/src/parse-error.ts:95:45)
+      at FlowParserMixin.toParseError [as raise] (node_modules/@babel/parser/src/tokenizer/index.ts:1503:19)
+      at FlowParserMixin.raise [as semicolon] (node_modules/@babel/parser/src/parser/util.ts:149:10)
+      at FlowParserMixin.semicolon (node_modules/@babel/parser/src/parser/statement.ts:1358:10)
+      at FlowParserMixin.parseExpressionStatement (node_modules/@babel/parser/src/plugins/flow/index.ts:2034:20)
+      at FlowParserMixin.parseExpressionStatement [as parseStatementContent] (node_modules/@babel/parser/src/parser/statement.ts:697:19)
+      at FlowParserMixin.parseStatementContent (node_modules/@babel/parser/src/parser/statement.ts:477:17)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/src/plugins/flow/index.ts:1994:26)
+      at FlowParserMixin.parseStatementLike [as parseModuleItem] (node_modules/@babel/parser/src/parser/statement.ts:414:17)
+      at FlowParserMixin.parseModuleItem [as parseBlockOrModuleBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1438:16)
+      at FlowParserMixin.parseBlockOrModuleBlockBody [as parseBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1412:10)
+      at FlowParserMixin.parseBlockBody [as parseProgram] (node_modules/@babel/parser/src/parser/statement.ts:229:10)
+      at FlowParserMixin.parseProgram (node_modules/@babel/parser/src/parser/statement.ts:203:25)
+      at FlowParserMixin.parseTopLevel (node_modules/@babel/parser/src/plugins/flow/index.ts:3375:30)
+      at FlowParserMixin.parseTopLevel [as parse] (node_modules/@babel/parser/src/parser/index.ts:93:10)
+      at parse (node_modules/@babel/parser/src/index.ts:92:38)
+      at parser (node_modules/@babel/core/src/parser/index.ts:28:19)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/src/transformation/normalize-file.ts:49:24)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/src/transformation/index.ts:40:36)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/src/transform.ts:29:20)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at fn (node_modules/@babel/core/src/errors/rewrite-stack-trace.ts:99:14)
+      at transformSync (node_modules/@babel/core/src/transform.ts:66:52)
+      at ScriptTransformer.transformSource (node_modules/@jest/transform/build/ScriptTransformer.js:545:31)
+      at ScriptTransformer._transformAndBuildScript (node_modules/@jest/transform/build/ScriptTransformer.js:674:40)
+      at ScriptTransformer.transform (node_modules/@jest/transform/build/ScriptTransformer.js:726:19)
+      at requireActual (jest.setup.js:51:19)
+      at Object.<anonymous> (node_modules/expo-modules-core/src/NativeModulesProxy.native.ts:6:1)
+      at Object.<anonymous> (node_modules/expo-modules-core/src/sweet/NativeErrorManager.ts:1:1)
+      at Object.<anonymous> (node_modules/expo-modules-core/src/sweet/setUpErrorManager.fx.ts:1:1)
+      at Object.<anonymous> (node_modules/expo-modules-core/src/index.ts:1:1)
+      at Object.<anonymous> (node_modules/expo-file-system/src/FileSystem.ts:1:1)
+      at Object.<anonymous> (node_modules/expo-file-system/src/index.ts:1:1)
+      at Object.<anonymous> (src/services/TerminalService.ts:1:1)
+      at Object.<anonymous> (__tests__/integration/TerminalIntegration.test.ts:1:1)
+
+FAIL __tests__/mocks/TermuxCoreMock.ts
+  ● Test suite failed to run
+
+    Your test suite must contain at least one test.
+
+      at onResult (node_modules/@jest/core/build/TestScheduler.js:133:18)
+      at node_modules/@jest/core/build/TestScheduler.js:254:19
+      at node_modules/emittery/index.js:363:13
+          at Array.map (<anonymous>)
+      at Emittery.emit (node_modules/emittery/index.js:361:23)
+
+FAIL __tests__/unit/TerminalService.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/react-native/index.js: Missing semicolon. (313:1)
+
+    [0m [90m 311 |[39m   }[33m,[39m
+     [90m 312 |[39m   [90m// #endregion[39m
+    [31m[1m>[22m[39m[90m 313 |[39m } [36mas[39m [33mReactNativePublicAPI[39m[33m;[39m
+     [90m     |[39m  [31m[1m^[22m[39m
+     [90m 314 |[39m
+     [90m 315 |[39m [36mif[39m (__DEV__) {
+     [90m 316 |[39m   [90m/* $FlowFixMe[prop-missing] This is intentional: Flow will error when[39m[0m
+
+    [0m [90m 49 |[39m [90m// Mock React Native modules for unit tests only[39m
+     [90m 50 |[39m jest[33m.[39mmock([32m'react-native'[39m[33m,[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 51 |[39m   [36mconst[39m [33mRN[39m [33m=[39m jest[33m.[39mrequireActual([32m'react-native'[39m)[33m;[39m
+     [90m    |[39m                   [31m[1m^[22m[39m
+     [90m 52 |[39m   
+     [90m 53 |[39m   [90m// Mock NativeModules for unit tests[39m
+     [90m 54 |[39m   [33mRN[39m[33m.[39m[33mNativeModules[39m [33m=[39m {[0m
+
+      at constructor (node_modules/@babel/parser/src/parse-error.ts:95:45)
+      at FlowParserMixin.toParseError [as raise] (node_modules/@babel/parser/src/tokenizer/index.ts:1503:19)
+      at FlowParserMixin.raise [as semicolon] (node_modules/@babel/parser/src/parser/util.ts:149:10)
+      at FlowParserMixin.semicolon (node_modules/@babel/parser/src/parser/statement.ts:1358:10)
+      at FlowParserMixin.parseExpressionStatement (node_modules/@babel/parser/src/plugins/flow/index.ts:2034:20)
+      at FlowParserMixin.parseExpressionStatement [as parseStatementContent] (node_modules/@babel/parser/src/parser/statement.ts:697:19)
+      at FlowParserMixin.parseStatementContent (node_modules/@babel/parser/src/parser/statement.ts:477:17)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/src/plugins/flow/index.ts:1994:26)
+      at FlowParserMixin.parseStatementLike [as parseModuleItem] (node_modules/@babel/parser/src/parser/statement.ts:414:17)
+      at FlowParserMixin.parseModuleItem [as parseBlockOrModuleBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1438:16)
+      at FlowParserMixin.parseBlockOrModuleBlockBody [as parseBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1412:10)
+      at FlowParserMixin.parseBlockBody [as parseProgram] (node_modules/@babel/parser/src/parser/statement.ts:229:10)
+      at FlowParserMixin.parseProgram (node_modules/@babel/parser/src/parser/statement.ts:203:25)
+      at FlowParserMixin.parseTopLevel (node_modules/@babel/parser/src/plugins/flow/index.ts:3375:30)
+      at FlowParserMixin.parseTopLevel [as parse] (node_modules/@babel/parser/src/parser/index.ts:93:10)
+      at parse (node_modules/@babel/parser/src/index.ts:92:38)
+      at parser (node_modules/@babel/core/src/parser/index.ts:28:19)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/src/transformation/normalize-file.ts:49:24)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/src/transformation/index.ts:40:36)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/src/transform.ts:29:20)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at fn (node_modules/@babel/core/src/errors/rewrite-stack-trace.ts:99:14)
+      at transformSync (node_modules/@babel/core/src/transform.ts:66:52)
+      at ScriptTransformer.transformSource (node_modules/@jest/transform/build/ScriptTransformer.js:545:31)
+      at ScriptTransformer._transformAndBuildScript (node_modules/@jest/transform/build/ScriptTransformer.js:674:40)
+      at ScriptTransformer.transform (node_modules/@jest/transform/build/ScriptTransformer.js:726:19)
+      at requireActual (jest.setup.js:51:19)
+      at Object.<anonymous> (node_modules/expo-modules-core/src/NativeModulesProxy.native.ts:6:1)
+      at Object.<anonymous> (node_modules/expo-modules-core/src/sweet/NativeErrorManager.ts:1:1)
+      at Object.<anonymous> (node_modules/expo-modules-core/src/sweet/setUpErrorManager.fx.ts:1:1)
+      at Object.<anonymous> (node_modules/expo-modules-core/src/index.ts:1:1)
+      at Object.<anonymous> (node_modules/expo-file-system/src/FileSystem.ts:1:1)
+      at Object.<anonymous> (node_modules/expo-file-system/src/index.ts:1:1)
+      at Object.<anonymous> (src/services/TerminalService.ts:1:1)
+      at Object.<anonymous> (__tests__/unit/TerminalService.test.ts:1:1)
+
+FAIL __tests__/unit/TermuxIntegration.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/modules/termux-core/node_modules/react-native/index.js: Missing semicolon. (320:1)
+
+    [0m [90m 318 |[39m   }[33m,[39m
+     [90m 319 |[39m   [90m// #endregion[39m
+    [31m[1m>[22m[39m[90m 320 |[39m } [36mas[39m [33mReactNativePublicAPI[39m[33m;[39m
+     [90m     |[39m  [31m[1m^[22m[39m
+     [90m 321 |[39m
+     [90m 322 |[39m [36mif[39m (__DEV__) {
+     [90m 323 |[39m   [90m/* $FlowFixMe[prop-missing] This is intentional: Flow will error when[39m[0m
+
+    [0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { [33mNativeModules[39m[33m,[39m [33mNativeEventEmitter[39m } [36mfrom[39m [32m'react-native'[39m[33m;[39m
+     [90m   |[39m [31m[1m^[22m[39m
+     [90m 2 |[39m
+     [90m 3 |[39m [36mexport[39m [36minterface[39m [33mTermuxSession[39m {
+     [90m 4 |[39m   id[33m:[39m string[33m;[39m[0m
+
+      at constructor (node_modules/@babel/parser/src/parse-error.ts:95:45)
+      at FlowParserMixin.toParseError [as raise] (node_modules/@babel/parser/src/tokenizer/index.ts:1503:19)
+      at FlowParserMixin.raise [as semicolon] (node_modules/@babel/parser/src/parser/util.ts:149:10)
+      at FlowParserMixin.semicolon (node_modules/@babel/parser/src/parser/statement.ts:1358:10)
+      at FlowParserMixin.parseExpressionStatement (node_modules/@babel/parser/src/plugins/flow/index.ts:2034:20)
+      at FlowParserMixin.parseExpressionStatement [as parseStatementContent] (node_modules/@babel/parser/src/parser/statement.ts:697:19)
+      at FlowParserMixin.parseStatementContent (node_modules/@babel/parser/src/parser/statement.ts:477:17)
+      at FlowParserMixin.parseStatementLike (node_modules/@babel/parser/src/plugins/flow/index.ts:1994:26)
+      at FlowParserMixin.parseStatementLike [as parseModuleItem] (node_modules/@babel/parser/src/parser/statement.ts:414:17)
+      at FlowParserMixin.parseModuleItem [as parseBlockOrModuleBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1438:16)
+      at FlowParserMixin.parseBlockOrModuleBlockBody [as parseBlockBody] (node_modules/@babel/parser/src/parser/statement.ts:1412:10)
+      at FlowParserMixin.parseBlockBody [as parseProgram] (node_modules/@babel/parser/src/parser/statement.ts:229:10)
+      at FlowParserMixin.parseProgram (node_modules/@babel/parser/src/parser/statement.ts:203:25)
+      at FlowParserMixin.parseTopLevel (node_modules/@babel/parser/src/plugins/flow/index.ts:3375:30)
+      at FlowParserMixin.parseTopLevel [as parse] (node_modules/@babel/parser/src/parser/index.ts:93:10)
+      at parse (node_modules/@babel/parser/src/index.ts:92:38)
+      at parser (node_modules/@babel/core/src/parser/index.ts:28:19)
+          at parser.next (<anonymous>)
+      at normalizeFile (node_modules/@babel/core/src/transformation/normalize-file.ts:49:24)
+          at normalizeFile.next (<anonymous>)
+      at run (node_modules/@babel/core/src/transformation/index.ts:40:36)
+          at run.next (<anonymous>)
+      at transform (node_modules/@babel/core/src/transform.ts:29:20)
+          at transform.next (<anonymous>)
+      at evaluateSync (node_modules/gensync/index.js:251:28)
+      at sync (node_modules/gensync/index.js:89:14)
+      at fn (node_modules/@babel/core/src/errors/rewrite-stack-trace.ts:99:14)
+      at transformSync (node_modules/@babel/core/src/transform.ts:66:52)
+      at ScriptTransformer.transformSource (node_modules/@jest/transform/build/ScriptTransformer.js:545:31)
+      at ScriptTransformer._transformAndBuildScript (node_modules/@jest/transform/build/ScriptTransformer.js:674:40)
+      at ScriptTransformer.transform (node_modules/@jest/transform/build/ScriptTransformer.js:726:19)
+      at Object.<anonymous> (modules/termux-core/src/TermuxManager.ts:1:1)
+      at Object.<anonymous> (__tests__/unit/TermuxIntegration.test.ts:1:1)
+
+FAIL __tests__/unit/TermuxCore.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/runner/work/mobile-dev-studio/mobile-dev-studio/modules/termux-core/src/TermuxTerminalView.tsx:70
+        return (<NativeView {...props} ref={nativeRef} command={props.command || '/data/data/com.termux/files/usr/bin/bash'} workingDirectory={props.workingDirectory || '/data/data/com.termux/files/home'} environment={props.environment || {
+                ^
+
+    SyntaxError: Unexpected token '<'
+
+    [0m [90m 23 |[39m
+     [90m 24 |[39m [90m// Export all components and managers[39m
+    [31m[1m>[22m[39m[90m 25 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mTermuxTerminalView[39m } [36mfrom[39m [32m'./TermuxTerminalView'[39m[33m;[39m
+     [90m    |[39m [31m[1m^[22m[39m
+     [90m 26 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mXTermWebTerminal[39m } [36mfrom[39m [32m'./XTermWebTerminal'[39m[33m;[39m
+     [90m 27 |[39m [36mexport[39m { [36mdefault[39m [36mas[39m [33mTermuxDemo[39m } [36mfrom[39m [32m'./TermuxDemo'[39m[33m;[39m
+     [90m 28 |[39m [36mexport[39m { [33mTermuxManager[39m[33m,[39m termuxManager } [36mfrom[39m [32m'./TermuxManager'[39m[33m;[39m[0m
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.<anonymous> (modules/termux-core/src/index.ts:25:1)
+      at Object.<anonymous> (__tests__/unit/TermuxCore.test.ts:1:1)
+
+PASS __tests__/unit/TerminalService.simple.test.ts
+  TerminalService (CI Safe)
+    Initialization
+      ✓ should create a new TerminalService instance (3 ms)
+      ✓ should have correct initial status (1 ms)
+    Process Management
+      ✓ should return empty processes list initially (1 ms)
+      ✓ should return undefined for non-existent process (1 ms)
+      ✓ should handle process killing for non-existent process
+    Server Status Management
+      ✓ should have initial server status as stopped
+      ✓ should handle event listeners
+    File Operations
+      ✓ should handle directory listing (1 ms)
+      ✓ should handle file reading
+    Service Cleanup
+      ✓ should clear all processes (4 ms)
+      ✓ should handle session writing for non-existent session
+    Environment Setup
+      ✓ should have proper alpine root path (1 ms)
+      ✓ should maintain process count correctly
+
+PASS __tests__/unit/TermuxCore.simple.test.ts
+  TermuxCore Module (CI Safe)
+    Bootstrap Management
+      ✓ should have getBootstrapInfo method (1 ms)
+      ✓ should handle bootstrap installation
+      ✓ should handle bootstrap info retrieval (1 ms)
+    Session Management
+      ✓ should create terminal sessions
+      ✓ should write to sessions (1 ms)
+      ✓ should kill sessions
+    Event Handling
+      ✓ should register output listeners
+      ✓ should register exit listeners (1 ms)
+    Error Handling
+      ✓ should handle bootstrap installation failures
+      ✓ should handle session creation failures (5 ms)
+
+FAIL src/__tests__/setup.ts
+  ● Test suite failed to run
+
+    Your test suite must contain at least one test.
+
+      at onResult (node_modules/@jest/core/build/TestScheduler.js:133:18)
+      at node_modules/@jest/core/build/TestScheduler.js:254:19
+      at node_modules/emittery/index.js:363:13
+          at Array.map (<anonymous>)
+      at Emittery.emit (node_modules/emittery/index.js:361:23)
+
+PASS __tests__/unit/simple.simple.test.ts
+  Simple Test
+    ✓ should pass basic math test (1 ms)
+    ✓ should handle string operations
+    ✓ should work with arrays
+
+Test Suites: 12 failed, 3 passed, 15 total
+Tests:       26 passed, 26 total
+Snapshots:   0 total
+Time:        9.255 s
+Ran all test suites.
+tests failed
+
+=== PREBUILD ===
+- Creating native directory (./android)
+✔ Created native directory | reusing /android
+- Updating package.json
+✔ Updated package.json | no changes
+- Running prebuild
+» android: EDGE_TO_EDGE_PLUGIN: No configuration found for `edgeToEdgeEnabled` field in the project app config, falling back to false. In Android 16+ (targetSdkVersion 36) it will no longer be possible to disable edge-to-edge. Learn more: https://expo.fyi/edge-to-edge-rollout
+- Running prebuild
+» android: userInterfaceStyle: Install expo-system-ui in your project to enable this feature.
+- Running prebuild
+✖ Prebuild failed
+Error: [android.gradleProperties]: withAndroidGradlePropertiesBaseMod: ENOENT: no such file or directory, open '/home/runner/work/mobile-dev-studio/mobile-dev-studio/android/gradle.properties'
+Error: [android.gradleProperties]: withAndroidGradlePropertiesBaseMod: ENOENT: no such file or directory, open '/home/runner/work/mobile-dev-studio/mobile-dev-studio/android/gradle.properties'
+    at async open (node:internal/fs/promises:639:25)
+    at async readFile (node:internal/fs/promises:1246:14)
+    at async read (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/withAndroidBaseMods.js:188:64)
+    at async action (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/createBaseMod.js:59:30)
+    at async interceptingMod (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/withMod.js:104:21)
+    at async evalModsAsync (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/mod-compiler.js:206:25)
+    at async compileModsAsync (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/mod-compiler.js:123:10)
+    at async configureProjectAsync (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/cli/build/src/prebuild/configureProjectAsync.js:92:14)
+    at async prebuildAsync (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/cli/build/src/prebuild/prebuildAsync.js:146:9)
+prebuild failed
+
+=== BUILD ATTEMPT ===
+Downloading https://services.gradle.org/distributions/gradle-8.13-bin.zip
+.............10%.............20%.............30%.............40%.............50%.............60%.............70%.............80%.............90%.............100%
+
+Welcome to Gradle 8.13!
+
+Here are the highlights of this release:
+ - Daemon JVM auto-provisioning
+ - Enhancements for Scala plugin and JUnit testing
+ - Improvements for build authors and plugin developers
+
+For more details see https://docs.gradle.org/8.13/release-notes.html
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.13/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :expo-gradle-plugin:expo-autolinking-plugin-shared
+w: file:///home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/expo-modules-autolinking/android/expo-gradle-plugin/expo-autolinking-plugin-shared/build.gradle.kts:32:9: The expression is unused
+
+> Task :gradle-plugin:settings-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :gradle-plugin:shared:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:processResources NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:pluginDescriptors
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:processResources
+> Task :gradle-plugin:shared:processResources NO-SOURCE
+> Task :gradle-plugin:settings-plugin:pluginDescriptors
+> Task :gradle-plugin:settings-plugin:processResources
+> Task :gradle-plugin:shared:compileKotlin
+> Task :gradle-plugin:shared:compileJava NO-SOURCE
+> Task :gradle-plugin:shared:classes UP-TO-DATE
+> Task :gradle-plugin:shared:jar
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:compileKotlin
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:classes UP-TO-DATE
+> Task :expo-gradle-plugin:expo-autolinking-plugin-shared:jar
+> Task :gradle-plugin:settings-plugin:compileKotlin
+> Task :gradle-plugin:settings-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:settings-plugin:classes
+> Task :gradle-plugin:settings-plugin:jar
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:compileKotlin
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:classes
+> Task :expo-gradle-plugin:expo-autolinking-settings-plugin:jar
+> Task :expo-gradle-plugin:expo-autolinking-plugin:checkKotlinGradlePluginConfigurationErrors
+> Task :gradle-plugin:react-native-gradle-plugin:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :expo-module-gradle-plugin:checkKotlinGradlePluginConfigurationErrors
+> Task :expo-module-gradle-plugin:pluginDescriptors
+> Task :expo-module-gradle-plugin:processResources
+> Task :expo-gradle-plugin:expo-autolinking-plugin:pluginDescriptors
+> Task :expo-gradle-plugin:expo-autolinking-plugin:processResources
+> Task :gradle-plugin:react-native-gradle-plugin:pluginDescriptors
+> Task :gradle-plugin:react-native-gradle-plugin:processResources
+
+> Task :expo-gradle-plugin:expo-autolinking-plugin:compileKotlin
+w: file:///home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/expo-modules-autolinking/android/expo-gradle-plugin/expo-autolinking-plugin/src/main/kotlin/expo/modules/plugin/ExpoAutolinkingPlugin.kt:29:71 Name shadowed: project
+
+> Task :expo-gradle-plugin:expo-autolinking-plugin:compileJava NO-SOURCE
+> Task :expo-gradle-plugin:expo-autolinking-plugin:classes
+> Task :expo-gradle-plugin:expo-autolinking-plugin:jar
+> Task :gradle-plugin:react-native-gradle-plugin:compileKotlin
+> Task :gradle-plugin:react-native-gradle-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:react-native-gradle-plugin:classes
+> Task :gradle-plugin:react-native-gradle-plugin:jar
+
+> Task :expo-module-gradle-plugin:compileKotlin
+w: file:///home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/expo-modules-core/expo-module-gradle-plugin/src/main/kotlin/expo/modules/plugin/android/AndroidLibraryExtension.kt:9:24 'targetSdk: Int?' is deprecated. Will be removed from library DSL in v9.0. Use testOptions.targetSdk or/and lint.targetSdk instead
+
+> Task :expo-module-gradle-plugin:compileJava NO-SOURCE
+> Task :expo-module-gradle-plugin:classes
+> Task :expo-module-gradle-plugin:jar
+
+> Configure project :
+[32m[ExpoRootProject][0m Using the following versions:
+  - buildTools:  [32m35.0.0[0m
+  - minSdk:      [32m24[0m
+  - compileSdk:  [32m35[0m
+  - targetSdk:   [32m35[0m
+  - ndk:         [32m27.1.12297006[0m
+  - kotlin:      [32m2.0.21[0m
+  - ksp:         [32m2.0.21-1.0.28[0m
+
+[Incubating] Problems report is available at: file:///home/runner/work/mobile-dev-studio/mobile-dev-studio/android/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/home/runner/work/mobile-dev-studio/mobile-dev-studio/android/app/build.gradle' line: 172
+
+* What went wrong:
+A problem occurred evaluating project ':app'.
+> Could not get unknown property 'hermesEnabled' for object of type org.gradle.api.internal.artifacts.dsl.dependencies.DefaultDependencyHandler.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 2m 15s
+28 actionable tasks: 28 executed
+build failed
