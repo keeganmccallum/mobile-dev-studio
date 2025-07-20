@@ -196,7 +196,7 @@ const TermuxTerminal = forwardRef<TermuxTerminalRef, TermuxTerminalProps>((props
                 brightWhite: '${theme === 'dark' ? '#f0f6fc' : '#24292f'}'
             },
             fontFamily: 'SFMono-Regular, Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace',
-            fontSize: ${fontSize},
+            fontSize: ${fontSize || 14},
             lineHeight: 1.2,
             cursorBlink: true,
             cursorStyle: 'block',
