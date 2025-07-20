@@ -157,6 +157,14 @@ const XTermWebTerminal = forwardRef<XTermWebTerminalRef, XTermWebTerminalProps>(
     }
   };
 
+  // Pre-compute theme values to avoid ternary operators in WebView JavaScript
+  const themeColors = {
+    background: props.theme === 'light' ? '#ffffff' : '#000000',
+    foreground: props.theme === 'light' ? '#000000' : '#ffffff',
+    cursor: props.theme === 'light' ? '#000000' : '#ffffff',
+    selection: props.theme === 'light' ? '#4a4a4a' : '#ffffff44'
+  };
+
   const terminalHtml = `
     <!DOCTYPE html>
     <html>
@@ -172,7 +180,7 @@ const XTermWebTerminal = forwardRef<XTermWebTerminalRef, XTermWebTerminalProps>(
         body {
           margin: 0;
           padding: 8px;
-          background-color: ${props.theme === 'light' ? '#ffffff' : '#000000'};
+          background-color: ${themeColors.background};
           font-family: ${props.fontFamily || "'Courier New', monospace"};
           overflow: hidden;
         }
@@ -192,10 +200,10 @@ const XTermWebTerminal = forwardRef<XTermWebTerminalRef, XTermWebTerminalProps>(
         // Initialize XTerm
         const terminal = new Terminal({
           theme: {
-            background: '${props.theme === 'light' ? '#ffffff' : '#000000'}',
-            foreground: '${props.theme === 'light' ? '#000000' : '#ffffff'}',
-            cursor: '${props.theme === 'light' ? '#000000' : '#ffffff'}',
-            selection: '${props.theme === 'light' ? '#4a4a4a' : '#ffffff44'}'
+            background: '${themeColors.background}',
+            foreground: '${themeColors.foreground}',
+            cursor: '${themeColors.cursor}',
+            selection: '${themeColors.selection}'
           },
           fontSize: ${props.fontSize || 14},
           fontFamily: '${props.fontFamily || 'Courier New, monospace'}',
@@ -303,7 +311,7 @@ const XTermWebTerminal = forwardRef<XTermWebTerminalRef, XTermWebTerminalProps>(
         showsVerticalScrollIndicator={false}
         allowsInlineMediaPlayback={true}
         mediaPlaybackRequiresUserAction={false}
-        style={{ backgroundColor: props.theme === 'light' ? '#ffffff' : '#000000' }}
+        style={{ backgroundColor: themeColors.background }}
       />
     </View>
   );
