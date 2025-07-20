@@ -143,6 +143,12 @@ When app crashes on launch, common causes:
 - Result: ❌ Still crashing immediately
 - Conclusion: Config complexity not the issue
 
+**Build 127 (Hermes Engine)**:
+- Switched from JSC to Hermes
+- Screenshots: `00-clean-state.png` only
+- Result: ❌ Still crashing immediately
+- Conclusion: NOT an engine-specific issue
+
 ### Iteration Strategy
 
 Since minimal RN apps crash, we must fix the runtime foundation:
@@ -153,13 +159,28 @@ Since minimal RN apps crash, we must fix the runtime foundation:
 4. 🔄 Investigate Gradle/Android build configuration
 5. 🔄 Test with different JS engines (if JSC fails)
 
-### Testing Loop Commands
+### Testing Loop Commands (Safe - No rm required)
 
 ```bash
 # Complete test cycle
 git add . && git commit -m "Fix attempt X" && git push
 gh workflow run "APK Validation Testing"
 sleep 60 && gh run list --workflow="APK Validation Testing" --limit 1
-gh run download [RUN_ID] --name apk-validation-debug-screenshots
-ls -la *.png  # Only 00-clean-state.png = still crashing
+
+# Safe artifact checking - use unique directory per run
+RUN_ID=$(gh run list --workflow="APK Validation Testing" --limit 1 --json databaseId --jq '.[0].databaseId')
+mkdir -p test-results/run-$RUN_ID
+gh run download $RUN_ID --name apk-validation-debug-screenshots --dir test-results/run-$RUN_ID
+ls -la test-results/run-$RUN_ID/  # Check what screenshots exist
+
+# Alternative: Check artifact list without downloading
+gh api repos/:owner/:repo/actions/runs/$RUN_ID/artifacts --jq '.artifacts[].name'
+```
+
+### Quick Status Check (No Downloads)
+
+```bash
+# Just check if run passed/failed
+gh run list --workflow="APK Validation Testing" --limit 1
+# If status is 'failure' and no other screenshots mentioned = immediate crash
 ```
