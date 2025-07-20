@@ -32,8 +32,7 @@
       "jsEngine": "jsc"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0,
-      "url": null
+      "fallbackToCacheTimeout": 0
     },
     "extra": {
       "eas": {

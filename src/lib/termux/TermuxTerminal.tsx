@@ -48,17 +48,21 @@ const TermuxTerminal = forwardRef<TermuxTerminalRef, TermuxTerminalProps>((props
       }
     },
     clearTerminal: () => {
-      webViewRef.current?.postMessage(JSON.stringify({
-        type: 'clear'
-      }));
+      if (webViewRef.current) {
+        webViewRef.current.postMessage(JSON.stringify({
+          type: 'clear'
+        }));
+      }
     },
     getSession: () => session,
     resizeTerminal: (cols: number, rows: number) => {
-      webViewRef.current?.postMessage(JSON.stringify({
-        type: 'resize',
-        cols,
-        rows
-      }));
+      if (webViewRef.current) {
+        webViewRef.current.postMessage(JSON.stringify({
+          type: 'resize',
+          cols,
+          rows
+        }));
+      }
     }
   }));
 
@@ -83,30 +87,42 @@ const TermuxTerminal = forwardRef<TermuxTerminalRef, TermuxTerminalProps>((props
         // Set up event listeners
         dataUnsubscribe = currentSession.onData((data) => {
           // Send data to xterm.js
-          webViewRef.current?.postMessage(JSON.stringify({
-            type: 'data',
-            data: data
-          }));
+          if (webViewRef.current) {
+            webViewRef.current.postMessage(JSON.stringify({
+              type: 'data',
+              data: data
+            }));
+          }
           
-          onData?.(data);
+          if (onData) {
+            onData(data);
+          }
         });
 
         exitUnsubscribe = currentSession.onExit((code) => {
           setSession(null);
-          onExit?.(code);
+          if (onExit) {
+            onExit(code);
+          }
         });
 
       } catch (error) {
         console.error('Failed to initialize Termux session:', error);
-        onError?.(error instanceof Error ? error : new Error(String(error)));
+        if (onError) {
+          onError(error instanceof Error ? error : new Error(String(error)));
+        }
       }
     };
 
     initializeSession();
 
     return () => {
-      dataUnsubscribe?.();
-      exitUnsubscribe?.();
+      if (dataUnsubscribe) {
+        dataUnsubscribe();
+      }
+      if (exitUnsubscribe) {
+        exitUnsubscribe();
+      }
     };
   }, [sessionId, sessionConfig]);
 
@@ -117,7 +133,9 @@ const TermuxTerminal = forwardRef<TermuxTerminalRef, TermuxTerminalProps>((props
       switch (message.type) {
         case 'ready':
           setIsReady(true);
-          onReady?.();
+          if (onReady) {
+            onReady();
+          }
           break;
           
         case 'input':
@@ -300,7 +318,9 @@ const TermuxTerminal = forwardRef<TermuxTerminalRef, TermuxTerminalProps>((props
         style={{ flex: 1 }}
         onError={(error) => {
           console.error('WebView error:', error);
-          onError?.(new Error('WebView loading failed'));
+          if (onError) {
+            onError(new Error('WebView loading failed'));
+          }
         }}
       />
     </View>

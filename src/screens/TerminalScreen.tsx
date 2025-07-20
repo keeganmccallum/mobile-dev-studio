@@ -63,7 +63,9 @@ export default function TerminalScreen() {
           text: 'Clear', 
           style: 'destructive',
           onPress: () => {
-            terminalRef.current?.clearTerminal();
+            if (terminalRef.current) {
+              terminalRef.current.clearTerminal();
+            }
           }
         }
       ]
