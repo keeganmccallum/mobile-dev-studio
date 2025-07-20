@@ -5,8 +5,12 @@
 
 import { NativeModules, NativeEventEmitter } from 'react-native';
 
+// Safely access TermuxCore native module
 const { TermuxCore } = NativeModules;
-const termuxEmitter = new NativeEventEmitter(TermuxCore);
+const termuxEmitter = TermuxCore ? new NativeEventEmitter(TermuxCore) : null;
+
+// Check if native module is available
+const isNativeModuleAvailable = !!TermuxCore;
 
 export interface TermuxSessionConfig {
   command?: string;
@@ -39,6 +43,11 @@ export class TermuxSession {
   }
 
   private setupEventListeners() {
+    if (!termuxEmitter) {
+      console.warn('TermuxCore native module not available - event listeners disabled');
+      return;
+    }
+
     this.subscription = termuxEmitter.addListener('onSessionOutput', (event) => {
       if (event.sessionId === this.id) {
         this.dataListeners.forEach(listener => listener(event.data));
@@ -54,6 +63,10 @@ export class TermuxSession {
   }
 
   public async start(config: TermuxSessionConfig = {}): Promise<TermuxSessionInfo> {
+    if (!isNativeModuleAvailable) {
+      throw new Error('TermuxCore native module is not available');
+    }
+
     try {
       const defaultConfig: Required<TermuxSessionConfig> = {
         command: '/data/data/com.termux/files/usr/bin/bash',
@@ -105,6 +118,10 @@ export class TermuxSession {
       throw new Error('Session is not running');
     }
     
+    if (!isNativeModuleAvailable) {
+      throw new Error('TermuxCore native module is not available');
+    }
+    
     try {
       await TermuxCore.writeToSession(this.id, data);
     } catch (error) {
@@ -117,6 +134,10 @@ export class TermuxSession {
       throw new Error('Session is not running');
     }
     
+    if (!isNativeModuleAvailable) {
+      throw new Error('TermuxCore native module is not available');
+    }
+    
     try {
       return await TermuxCore.readFromSession(this.id);
     } catch (error) {
@@ -125,6 +146,10 @@ export class TermuxSession {
   }
 
   public async kill(): Promise<void> {
+    if (!isNativeModuleAvailable) {
+      throw new Error('TermuxCore native module is not available');
+    }
+
     try {
       await TermuxCore.killSession(this.id);
       this.isRunning = false;
@@ -167,6 +192,11 @@ export class TermuxManager {
   }
 
   public async initializeBootstrap(): Promise<void> {
+    if (!isNativeModuleAvailable) {
+      console.warn('TermuxCore native module not available - bootstrap disabled');
+      return;
+    }
+
     try {
       const bootstrapInfo = await TermuxCore.getBootstrapInfo();
       this.isBootstrapInstalled = bootstrapInfo.isInstalled;
