@@ -13,6 +13,19 @@ export default function XTerminal({ onReady, theme = 'dark' }: XTerminalProps) {
   const [, setIsReady] = useState(false);
   const [currentDirectory, setCurrentDirectory] = useState('/home/user');
 
+  // Pre-compute theme values to avoid ternary operators in WebView JavaScript
+  const themeColors = {
+    background: theme === 'dark' ? '#0d1117' : '#ffffff',
+    foreground: theme === 'dark' ? '#f0f6fc' : '#24292f',
+    cursor: theme === 'dark' ? '#f0f6fc' : '#24292f',
+    cursorAccent: theme === 'dark' ? '#0d1117' : '#ffffff',
+    selection: theme === 'dark' ? '#264f78' : '#0969da40',
+    black: theme === 'dark' ? '#484f58' : '#24292f',
+    white: theme === 'dark' ? '#b1bac4' : '#656d76',
+    brightBlack: theme === 'dark' ? '#6e7681' : '#656d76',
+    brightWhite: theme === 'dark' ? '#f0f6fc' : '#24292f'
+  };
+
   const terminalHtml = `
 <!DOCTYPE html>
 <html>
@@ -28,7 +41,7 @@ export default function XTerminal({ onReady, theme = 'dark' }: XTerminalProps) {
         body {
             margin: 0;
             padding: 0;
-            background-color: ${theme === 'dark' ? '#0d1117' : '#ffffff'};
+            background-color: ${themeColors.background};
             font-family: 'SFMono-Regular', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Consolas', monospace;
         }
         #terminal {
@@ -113,27 +126,27 @@ export default function XTerminal({ onReady, theme = 'dark' }: XTerminalProps) {
         // Initialize terminal
         const terminal = new Terminal({
             theme: {
-                background: '${theme === 'dark' ? '#0d1117' : '#ffffff'}',
-                foreground: '${theme === 'dark' ? '#f0f6fc' : '#24292f'}',
-                cursor: '${theme === 'dark' ? '#f0f6fc' : '#24292f'}',
-                cursorAccent: '${theme === 'dark' ? '#0d1117' : '#ffffff'}',
-                selection: '${theme === 'dark' ? '#264f78' : '#0969da40'}',
-                black: '${theme === 'dark' ? '#484f58' : '#24292f'}',
+                background: '${themeColors.background}',
+                foreground: '${themeColors.foreground}',
+                cursor: '${themeColors.cursor}',
+                cursorAccent: '${themeColors.cursorAccent}',
+                selection: '${themeColors.selection}',
+                black: '${themeColors.black}',
                 red: '#ff7b72',
                 green: '#3fb950',
                 yellow: '#d29922',
                 blue: '#58a6ff',
                 magenta: '#bc8cff',
                 cyan: '#39c5cf',
-                white: '${theme === 'dark' ? '#b1bac4' : '#656d76'}',
-                brightBlack: '${theme === 'dark' ? '#6e7681' : '#656d76'}',
+                white: '${themeColors.white}',
+                brightBlack: '${themeColors.brightBlack}',
                 brightRed: '#ffa198',
                 brightGreen: '#56d364',
                 brightYellow: '#e3b341',
                 brightBlue: '#79c0ff',
                 brightMagenta: '#d2a8ff',
                 brightCyan: '#56d4dd',
-                brightWhite: '${theme === 'dark' ? '#f0f6fc' : '#24292f'}'
+                brightWhite: '${themeColors.brightWhite}'
             },
             fontFamily: 'SFMono-Regular, Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace',
             fontSize: 14,
