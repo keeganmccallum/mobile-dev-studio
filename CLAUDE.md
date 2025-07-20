@@ -167,15 +167,33 @@ The app was using **bleeding-edge versions** that have compatibility issues:
 
 **Hypothesis**: This combination is too new and has runtime incompatibilities causing immediate crashes.
 
+### Enhanced Debugging Capabilities
+
+**Enhanced APK Validation Logging (Build 129+)**:
+- ✅ **Comprehensive logcat capture**: ReactNative, Metro, Hermes, Android runtime, native crashes
+- ✅ **Extended monitoring**: 15-second timeout with progress updates  
+- ✅ **System analysis**: Memory info, device properties, package dumps
+- ✅ **Native crash detection**: Tombstones, kernel logs, linker errors
+- ✅ **Complete debug artifacts**: Will capture ALL crash details
+
+**Key Log Files Generated**:
+- `full-launch-log.txt` - Filtered logs during app launch
+- `complete-logcat.txt` - Complete system logs  
+- `system-properties.txt` - Device configuration
+- `package-dump.txt` - App installation details
+- `memory-info.txt` - System memory status
+- `kernel-log.txt` - Kernel messages
+
 ### Iteration Strategy
 
 Since minimal RN apps crash, we must fix the runtime foundation:
 
 1. ✅ Simplified Metro/Babel configs
-2. 🔄 Test JSC engine setup
-3. 🔄 Check React Native version compatibility  
-4. 🔄 Investigate Gradle/Android build configuration
-5. 🔄 Test with different JS engines (if JSC fails)
+2. ✅ Test JSC engine setup
+3. ✅ Check React Native version compatibility  
+4. 🔄 **Enhanced crash logging** - NOW AVAILABLE 
+5. 🔄 Test disabling native CMake build (Termux module)
+6. 🔄 Investigate Gradle/Android build configuration
 
 ### Testing Loop Commands (Safe - No rm required)
 
