@@ -29,7 +29,7 @@
         "WRITE_EXTERNAL_STORAGE",
         "READ_EXTERNAL_STORAGE"
       ],
-      "jsEngine": "jsc"
+      "jsEngine": "hermes"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
