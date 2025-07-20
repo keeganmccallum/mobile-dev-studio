@@ -149,6 +149,24 @@ When app crashes on launch, common causes:
 - Result: ❌ Still crashing immediately
 - Conclusion: NOT an engine-specific issue
 
+**Build 128 (Stable Version Stack)**:
+- React: 19.0.0 → 18.2.0
+- React Native: 0.79.5 → 0.75.4  
+- Expo: 53.0.20 → 52.0.0
+- JSC engine (back from Hermes)
+- Screenshots: `00-clean-state.png` only
+- Result: ❌ **STILL CRASHING IMMEDIATELY**
+- Conclusion: Version compatibility not the root cause
+
+### Version Compatibility Issue Discovered
+
+The app was using **bleeding-edge versions** that have compatibility issues:
+- React 19.0.0 (very new, December 2024)
+- React Native 0.79.5 (latest, potential compatibility issues)
+- Expo 53 (newest SDK)
+
+**Hypothesis**: This combination is too new and has runtime incompatibilities causing immediate crashes.
+
 ### Iteration Strategy
 
 Since minimal RN apps crash, we must fix the runtime foundation:

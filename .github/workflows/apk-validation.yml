@@ -149,25 +149,100 @@ jobs:
           # Take screenshot after installation
           adb exec-out screencap -p > screenshots/$BUILD_TYPE/01-post-install.png
           
+          # Start extensive logging BEFORE launching the app
+          echo "🔍 Starting comprehensive logging..."
+          
+          # Clear logcat buffer
+          adb logcat -c
+          
+          # Start comprehensive logcat capture in background
+          adb logcat -s \
+            AndroidRuntime:V \
+            System.err:V \
+            ReactNativeJS:V \
+            ReactNative:V \
+            ExpoModulesCore:V \
+            TermuxCore:V \
+            Metro:V \
+            Hermes:V \
+            JSCruntime:V \
+            chromium:V \
+            CrashAnrDetector:V \
+            ActivityManager:V \
+            PackageManager:V \
+            art:V \
+            dalvikvm:V \
+            libc:V \
+            linker:V \
+            DEBUG:V \
+            *:F \
+            > screenshots/$BUILD_TYPE/full-launch-log.txt 2>&1 &
+          
+          LOGCAT_PID=$!
+          echo "Started logcat capture (PID: $LOGCAT_PID)"
+          
           # Launch the app and monitor for crashes
           echo "🚀 Launching app..."
           adb shell am start -n com.keeganmccallum.mobile_dev_studio/.MainActivity
           
-          # Wait and check if app starts without crashing
-          sleep 5
+          # Wait longer and check multiple times
+          echo "⏳ Monitoring app launch (15 second timeout)..."
           
-          # Check if app is running
+          for i in {1..15}; do
+            sleep 1
+            
+            # Check if app is running
+            APP_PID=$(adb shell ps | grep com.keeganmccallum.mobile_dev_studio | awk '{print $2}' || echo "")
+            
+            if [ -n "$APP_PID" ]; then
+              echo "✅ App is running (PID: $APP_PID, after ${i}s)"
+              break
+            fi
+            
+            echo "  Attempt $i/15: App not yet running..."
+          done
+          
+          # Stop logcat capture
+          kill $LOGCAT_PID 2>/dev/null || true
+          sleep 1
+          
+          # Final check
           APP_PID=$(adb shell ps | grep com.keeganmccallum.mobile_dev_studio | awk '{print $2}' || echo "")
           if [ -z "$APP_PID" ]; then
             echo "❌ App failed to start or crashed immediately"
             
-            # Capture logcat for debugging
-            adb logcat -d -s AndroidRuntime:E,System.err:E > screenshots/$BUILD_TYPE/crash-log.txt
+            # Capture additional crash analysis
+            echo "📋 Capturing comprehensive crash analysis..."
+            
+            # Get system info
+            adb shell getprop > screenshots/$BUILD_TYPE/system-properties.txt
+            
+            # Get memory info
+            adb shell cat /proc/meminfo > screenshots/$BUILD_TYPE/memory-info.txt
+            
+            # Get detailed logcat with all filters
+            adb logcat -d > screenshots/$BUILD_TYPE/complete-logcat.txt
+            
+            # Get native crash dumps if any
+            adb shell ls -la /data/tombstones/ > screenshots/$BUILD_TYPE/tombstones-list.txt 2>/dev/null || echo "No tombstones access" > screenshots/$BUILD_TYPE/tombstones-list.txt
+            
+            # Check dmesg for kernel messages
+            adb shell dmesg | tail -100 > screenshots/$BUILD_TYPE/kernel-log.txt 2>/dev/null || echo "No dmesg access" > screenshots/$BUILD_TYPE/kernel-log.txt
+            
+            # Get package manager info
+            adb shell pm list packages | grep mobile_dev_studio > screenshots/$BUILD_TYPE/package-info.txt
+            adb shell pm dump com.keeganmccallum.mobile_dev_studio > screenshots/$BUILD_TYPE/package-dump.txt 2>/dev/null || echo "Package dump failed" > screenshots/$BUILD_TYPE/package-dump.txt
             
             # Take screenshot of current state
             adb exec-out screencap -p > screenshots/$BUILD_TYPE/02-launch-failed.png
             
-            echo "📋 Crash logs captured"
+            echo "📋 Comprehensive crash logs captured"
+            echo "📁 Key files:"
+            echo "  - full-launch-log.txt (filtered logs during launch)"
+            echo "  - complete-logcat.txt (all system logs)"
+            echo "  - system-properties.txt (device configuration)"
+            echo "  - package-dump.txt (app installation details)"
+            
             exit 1
           fi
           

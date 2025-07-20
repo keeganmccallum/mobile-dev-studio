@@ -1,0 +1,11 @@
+{
+  "build_type": "debug",
+  "release_type": "beta",
+  "build_time": "2025-07-20 21:00:34 UTC",
+  "commit_sha": "99123988",
+  "build_number": "124",
+  "apk_name": "mobile-dev-studio-beta-debug-124-99123988.apk",
+  "branch": "main",
+  "workflow_run_id": "16404081862",
+  "actor": "keeganmccallum"
+}
