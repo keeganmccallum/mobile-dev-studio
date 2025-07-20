@@ -35,7 +35,6 @@
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.11.1",
     "react-native-webview": "^13.15.0",
-    "termux-core": "file:./modules/termux-core"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
