@@ -2,20 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-// Temporarily disabled for testing: import { TermuxTerminal, termuxManager, TermuxTerminalRef } from '../lib/termux';
+import { TermuxTerminal, termuxManager, TermuxTerminalRef } from '../lib/termux';
 
 export default function TerminalScreen() {
   const [isTerminalReady, setIsTerminalReady] = useState(false);
   const [showStatus, setShowStatus] = useState(true);
   const [isBootstrapInitialized, setIsBootstrapInitialized] = useState(false);
   const [sessionCount, setSessionCount] = useState(0);
-  // const terminalRef = useRef<TermuxTerminalRef>(null);
+  const terminalRef = useRef<TermuxTerminalRef>(null);
 
   useEffect(() => {
     // Initialize Termux bootstrap
     const initializeBootstrap = async () => {
       try {
-        // await termuxManager.initializeBootstrap();
+        await termuxManager.initializeBootstrap();
         setIsBootstrapInitialized(true);
       } catch (error) {
         console.error('Failed to initialize Termux bootstrap:', error);
@@ -26,8 +26,7 @@ export default function TerminalScreen() {
     
     // Update session count periodically
     const interval = setInterval(() => {
-      // setSessionCount(termuxManager.getActiveSessions().length);
-      setSessionCount(0);
+      setSessionCount(termuxManager.getActiveSessions().length);
     }, 2000);
     
     return () => clearInterval(interval);
@@ -64,7 +63,7 @@ export default function TerminalScreen() {
           text: 'Clear', 
           style: 'destructive',
           onPress: () => {
-            // terminalRef.current?.clearTerminal();
+            terminalRef.current?.clearTerminal();
           }
         }
       ]
@@ -81,7 +80,7 @@ export default function TerminalScreen() {
           text: 'Restart', 
           style: 'destructive',
           onPress: async () => {
-            // await termuxManager.killAllSessions();
+            await termuxManager.killAllSessions();
             setSessionCount(0);
             setIsTerminalReady(false);
           }
@@ -176,10 +175,7 @@ export default function TerminalScreen() {
       )}
 
       <View style={styles.terminalContainer} testID="terminal-termux">
-        <View style={styles.placeholderTerminal}>
-          <Text style={styles.placeholderText}>Terminal temporarily disabled for testing</Text>
-        </View>
-        {/* <TermuxTerminal
+        <TermuxTerminal
           ref={terminalRef}
           sessionId="main"
           onReady={handleTerminalReady}
@@ -188,7 +184,7 @@ export default function TerminalScreen() {
           onError={handleTerminalError}
           style={styles.terminal}
           theme="dark"
-        /> */}
+        />
       </View>
 
       {!isTerminalReady && (
@@ -324,17 +320,5 @@ const styles = StyleSheet.create({
     color: '#7d8590',
     marginBottom: 8,
     fontFamily: 'monospace',
-  },
-  placeholderTerminal: {
-    flex: 1,
-    backgroundColor: '#161b22',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 8,
-    margin: 8,
-  },
-  placeholderText: {
-    color: '#7d8590',
-    fontSize: 16,
   },
 });
