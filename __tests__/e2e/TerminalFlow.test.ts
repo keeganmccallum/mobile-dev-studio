@@ -81,7 +81,7 @@ describe('Terminal E2E Flow', () => {
       await element(by.id('status-toggle-button')).tap();
       
       // Status bar should be visible again
-      await detoxExpected(element(by.text('Bootstrap: Ready'))).toBeVisible();
+      await detoxExpect(element(by.text('Bootstrap: Ready'))).toBeVisible();
     });
 
     it('should show clear terminal confirmation dialog', async () => {
