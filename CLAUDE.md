@@ -209,6 +209,32 @@ All fundamental React Native runtime issues have been resolved:
 
 Now that basic React Native functionality works, re-enable Termux modules incrementally.
 
+### Termux Module Integration Fixes
+
+**Critical Gradle API Issues Fixed:**
+
+1. **Deprecated `classifier` API** - Fixed in 2 files:
+   - `modules/termux-core/terminal-emulator/build.gradle:59`
+   - `modules/termux-core/terminal-view/build.gradle:37`
+   - **Fix**: Changed `classifier "sources"` → `archiveClassifier = "sources"`
+   - **Root Cause**: Modern Gradle versions deprecated the `classifier` method
+
+2. **Kotlin Version Resolution** - Added force resolution in `android/build.gradle`:
+   ```gradle
+   configurations.all {
+     resolutionStrategy {
+       force "org.jetbrains.kotlin:kotlin-stdlib:1.9.25"
+       force "org.jetbrains.kotlin:kotlin-stdlib-common:1.9.25" 
+       force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.25"
+       force "org.jetbrains.kotlin:kotlin-reflect:1.9.25"
+     }
+   }
+   ```
+
+**Testing Progress:**
+- ✅ Basic React Native app launches successfully (without Termux)
+- 🔄 **IN PROGRESS**: Termux modules re-enabled with Gradle fixes
+
 ### Testing Loop Commands (Safe - No rm required)
 
 ```bash
