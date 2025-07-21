@@ -42,6 +42,15 @@ allprojects {
       force "org.jetbrains.kotlin:kotlin-reflect:1.9.25"
     }
   }
+  
+  // Fix Expo SoftwareComponent 'release' issue by disabling problematic publishing
+  afterEvaluate { project ->
+    if (project.hasProperty('publishing')) {
+      project.publishing {
+        publications.removeAll { it.name == 'release' }
+      }
+    }
+  }
 }
 
 apply plugin: "expo-root-project"

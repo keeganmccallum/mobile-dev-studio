@@ -121,6 +121,12 @@ When app crashes on launch, common causes:
 4. **Focus on runtime errors, not just build errors**
 5. **Iterate quickly through the test-fix-test cycle**
 6. **UPDATE THIS CLAUDE.MD WITH ALL NEW DISCOVERIES IMMEDIATELY**
+7. **CRITICAL: ALWAYS READ BUILD LOGS CAREFULLY FOR EXACT ERROR MESSAGES**
+   - Look for specific method names, line numbers, and file paths
+   - Don't assume the problem based on general error types
+   - Search for exact error text: "Could not find method X()"
+   - **READ FULL LOGS, NOT JUST GREP** - Multiple different errors can occur simultaneously
+   - **Example**: Debug build had `classifier()` method error, Release build had `SoftwareComponent 'release'` property error
 
 ## Systematic Testing Progress
 
