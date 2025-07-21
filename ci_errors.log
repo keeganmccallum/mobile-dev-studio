@@ -1,0 +1,662 @@
+=== NPM INSTALL ===
+npm warn deprecated sudo-prompt@9.2.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+npm warn deprecated @xmldom/xmldom@0.7.13: this version is no longer supported, please update to at least 0.8.*
+npm warn deprecated @babel/plugin-proposal-optional-catch-binding@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
+npm warn deprecated @babel/plugin-proposal-optional-chaining@7.21.0: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
+npm warn deprecated @babel/plugin-proposal-nullish-coalescing-operator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
+npm warn deprecated @babel/plugin-proposal-export-namespace-from@7.18.9: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-export-namespace-from instead.
+npm warn deprecated @babel/plugin-proposal-numeric-separator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
+npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+npm warn deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+npm warn deprecated @babel/plugin-proposal-async-generator-functions@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
+npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+
+added 1364 packages, and audited 1366 packages in 22s
+
+197 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+=== LINT CHECK ===
+
+> mobile-dev-studio@1.0.0 lint
+> eslint src/ --ext .ts,.tsx
+
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/components/ErrorBoundary.tsx
+  25:5  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/components/RealTermuxTerminal.tsx
+  40:30  warning  '_exitCode' is defined but never used  no-unused-vars
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/lib/termux/TermuxManager.ts
+   36:31  warning  'data' is defined but never used   no-unused-vars
+   37:31  warning  'code' is defined but never used   no-unused-vars
+   47:7   warning  Unexpected console statement       no-console
+  161:28  warning  'data' is defined but never used   no-unused-vars
+  166:28  warning  '_code' is defined but never used  no-unused-vars
+  196:7   warning  Unexpected console statement       no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/lib/termux/TermuxTerminal.tsx
+   13:13  warning  'data' is defined but never used              no-unused-vars
+   14:13  warning  'code' is defined but never used              no-unused-vars
+   15:14  warning  'error' is defined but never used             no-unused-vars
+   20:21  warning  'data' is defined but never used              no-unused-vars
+   23:20  warning  'cols' is defined but never used              no-unused-vars
+   23:34  warning  'rows' is defined but never used              no-unused-vars
+   42:10  warning  'isReady' is assigned a value but never used  no-unused-vars
+  110:9   warning  Unexpected console statement                  no-console
+  149:11  warning  Unexpected console statement                  no-console
+  153:11  warning  Unexpected console statement                  no-console
+  156:7   warning  Unexpected console statement                  no-console
+  320:11  warning  Unexpected console statement                  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/screens/EditorScreen.tsx
+  114:7   warning  Unexpected console statement  no-console
+  127:11  warning  Unexpected console statement  no-console
+  130:7   warning  Unexpected console statement  no-console
+  276:13  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/screens/PreviewScreen.tsx
+   17:7   warning  Unexpected console statement  no-console
+   28:11  warning  Unexpected console statement  no-console
+   31:7   warning  Unexpected console statement  no-console
+  225:13  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/screens/TerminalScreen.tsx
+  21:9  warning  Unexpected console statement  no-console
+  40:5  warning  Unexpected console statement  no-console
+  44:5  warning  Unexpected console statement  no-console
+  49:5  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/src/services/TerminalService.ts
+   26:24  warning  'event' is defined but never used               no-unused-vars
+   34:7   warning  Unexpected console statement                    no-console
+   39:9   warning  Unexpected console statement                    no-console
+   56:7   warning  Unexpected console statement                    no-console
+   59:7   warning  Unexpected console statement                    no-console
+   65:5   warning  Unexpected console statement                    no-console
+   82:5   warning  Unexpected console statement                    no-console
+  184:7   warning  Unexpected console statement                    no-console
+  422:9   warning  Unexpected console statement                    no-console
+  440:9   warning  Unexpected console statement                    no-console
+  450:17  warning  'processId' is assigned a value but never used  no-unused-vars
+  454:9   warning  Unexpected console statement                    no-console
+  472:7   warning  Unexpected console statement                    no-console
+  488:7   warning  Unexpected console statement                    no-console
+  499:7   warning  Unexpected console statement                    no-console
+  514:31  warning  'event' is defined but never used               no-unused-vars
+  518:34  warning  'event' is defined but never used               no-unused-vars
+
+✖ 49 problems (0 errors, 49 warnings)
+
+
+=== TYPECHECK ===
+
+> mobile-dev-studio@1.0.0 typecheck
+> tsc --noEmit
+
+__tests__/e2e/TerminalFlow.test.ts(5,60): error TS2307: Cannot find module 'detox' or its corresponding type declarations.
+__tests__/e2e/TerminalFlow.test.ts(84,13): error TS2552: Cannot find name 'detoxExpected'. Did you mean 'detoxExpect'?
+__tests__/integration/TerminalIntegration.test.ts(2,28): error TS2307: Cannot find module 'termux-core' or its corresponding type declarations.
+__tests__/unit/TerminalService.test.ts(2,29): error TS2307: Cannot find module 'expo-file-system' or its corresponding type declarations.
+__tests__/unit/TerminalService.test.ts(3,28): error TS2307: Cannot find module 'termux-core' or its corresponding type declarations.
+__tests__/unit/TermuxCore.test.ts(1,28): error TS2307: Cannot find module 'termux-core' or its corresponding type declarations.
+__tests__/unit/TermuxIntegration.test.ts(1,31): error TS2307: Cannot find module '../../modules/termux-core/src/TermuxManager' or its corresponding type declarations.
+__tests__/unit/TermuxIntegration.test.ts(2,28): error TS2307: Cannot find module '../../modules/termux-core/src/index' or its corresponding type declarations.
+src/components/RealTermuxTerminal.tsx(3,36): error TS2307: Cannot find module 'termux-core' or its corresponding type declarations.
+src/screens/TermuxTestScreen.tsx(16,50): error TS1323: Dynamic imports are only supported when the '--module' flag is set to 'es2020', 'es2022', 'esnext', 'commonjs', 'amd', 'system', 'umd', 'node16', 'node18', or 'nodenext'.
+src/services/TerminalService.ts(1,29): error TS2307: Cannot find module 'expo-file-system' or its corresponding type declarations.
+src/services/TerminalService.ts(2,28): error TS2307: Cannot find module 'termux-core' or its corresponding type declarations.
+typecheck failed
+
+=== TESTS ===
+
+> mobile-dev-studio@1.0.0 test
+> jest
+
+ts-jest[ts-jest-transformer] (WARN) Define `ts-jest` config under `globals` is deprecated. Please do
+transform: {
+    <transform_regex>: ['ts-jest', { /* ts-jest config goes here in Jest */ }],
+},
+See more at https://kulshekhar.github.io/ts-jest/docs/getting-started/presets#advanced
+FAIL __tests__/integration/TermuxNativeModule.test.ts
+  TermuxCore Native Module Integration
+    Module Availability
+      ✓ should have TermuxCore module available (2 ms)
+      ✓ should have required native methods
+      ✓ should support event emission (1 ms)
+    Bootstrap Operations
+      ✕ should check bootstrap installation status (1 ms)
+      ✕ should install bootstrap when not present (1 ms)
+      ✕ should handle bootstrap installation failures (3 ms)
+    Session Management
+      ✕ should create session with correct parameters
+      ✕ should handle session creation failures (1 ms)
+      ✕ should kill session by ID
+      ✕ should handle session kill failures
+    Session I/O Operations
+      ✕ should write data to session (1 ms)
+      ✕ should read data from session
+      ✕ should handle write failures (1 ms)
+      ✕ should handle read failures
+    Event System
+      ✕ should emit session output events
+      ✕ should emit session exit events
+      ✕ should support multiple event listeners
+      ✕ should handle listener removal
+    Error Handling
+      ✓ should handle native module unavailability
+      ✕ should handle invalid session IDs
+      ✕ should handle concurrent session operations
+    Performance
+      ✕ should handle rapid I/O operations (1 ms)
+      ✕ should handle large data chunks
+
+  ● TermuxCore Native Module Integration › Bootstrap Operations › should check bootstrap installation status
+
+    TypeError: Cannot set properties of undefined (setting 'getBootstrapInfo')
+
+    [0m [90m 68 |[39m     it([32m'should check bootstrap installation status'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 69 |[39m       [90m// Mock implementation[39m
+    [31m[1m>[22m[39m[90m 70 |[39m       [33mTermuxCore[39m[33m.[39mgetBootstrapInfo [33m=[39m jest[33m.[39mfn()[33m.[39mmockResolvedValue({
+     [90m    |[39m                                  [31m[1m^[22m[39m
+     [90m 71 |[39m         isInstalled[33m:[39m [36mtrue[39m[33m,[39m
+     [90m 72 |[39m         version[33m:[39m [32m'1.0.0'[39m[33m,[39m
+     [90m 73 |[39m         installPath[33m:[39m [32m'/data/data/com.termux/files/usr'[39m[33m,[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:70:34)
+
+  ● TermuxCore Native Module Integration › Bootstrap Operations › should install bootstrap when not present
+
+    TypeError: Cannot set properties of undefined (setting 'installBootstrap')
+
+    [0m [90m 85 |[39m     it([32m'should install bootstrap when not present'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 86 |[39m       [90m// Mock implementation[39m
+    [31m[1m>[22m[39m[90m 87 |[39m       [33mTermuxCore[39m[33m.[39minstallBootstrap [33m=[39m jest[33m.[39mfn()[33m.[39mmockResolvedValue([36mtrue[39m)[33m;[39m
+     [90m    |[39m                                  [31m[1m^[22m[39m
+     [90m 88 |[39m
+     [90m 89 |[39m       [36mconst[39m result [33m=[39m [36mawait[39m [33mTermuxCore[39m[33m.[39minstallBootstrap()[33m;[39m
+     [90m 90 |[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:87:34)
+
+  ● TermuxCore Native Module Integration › Bootstrap Operations › should handle bootstrap installation failures
+
+    TypeError: Cannot set properties of undefined (setting 'installBootstrap')
+
+    [0m [90m 94 |[39m
+     [90m 95 |[39m     it([32m'should handle bootstrap installation failures'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 96 |[39m       [33mTermuxCore[39m[33m.[39minstallBootstrap [33m=[39m jest[33m.[39mfn()[33m.[39mmockRejectedValue(
+     [90m    |[39m                                  [31m[1m^[22m[39m
+     [90m 97 |[39m         [36mnew[39m [33mError[39m([32m'Bootstrap installation failed'[39m)
+     [90m 98 |[39m       )[33m;[39m
+     [90m 99 |[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:96:34)
+
+  ● TermuxCore Native Module Integration › Session Management › should create session with correct parameters
+
+    TypeError: Cannot set properties of undefined (setting 'createSession')
+
+    [0m [90m 107 |[39m     it([32m'should create session with correct parameters'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 108 |[39m       [90m// Mock implementation[39m
+    [31m[1m>[22m[39m[90m 109 |[39m       [33mTermuxCore[39m[33m.[39mcreateSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockResolvedValue({
+     [90m     |[39m                               [31m[1m^[22m[39m
+     [90m 110 |[39m         pid[33m:[39m [35m1234[39m[33m,[39m
+     [90m 111 |[39m         fileDescriptor[33m:[39m [35m5[39m[33m,[39m
+     [90m 112 |[39m         isRunning[33m:[39m [36mtrue[39m[33m,[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:109:31)
+
+  ● TermuxCore Native Module Integration › Session Management › should handle session creation failures
+
+    TypeError: Cannot set properties of undefined (setting 'createSession')
+
+    [0m [90m 147 |[39m
+     [90m 148 |[39m     it([32m'should handle session creation failures'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 149 |[39m       [33mTermuxCore[39m[33m.[39mcreateSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockRejectedValue(
+     [90m     |[39m                               [31m[1m^[22m[39m
+     [90m 150 |[39m         [36mnew[39m [33mError[39m([32m'Failed to create native session'[39m)
+     [90m 151 |[39m       )[33m;[39m
+     [90m 152 |[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:149:31)
+
+  ● TermuxCore Native Module Integration › Session Management › should kill session by ID
+
+    TypeError: Cannot set properties of undefined (setting 'killSession')
+
+    [0m [90m 157 |[39m
+     [90m 158 |[39m     it([32m'should kill session by ID'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 159 |[39m       [33mTermuxCore[39m[33m.[39mkillSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockResolvedValue([36mtrue[39m)[33m;[39m
+     [90m     |[39m                             [31m[1m^[22m[39m
+     [90m 160 |[39m
+     [90m 161 |[39m       [36mconst[39m result [33m=[39m [36mawait[39m [33mTermuxCore[39m[33m.[39mkillSession([32m'test-session'[39m)[33m;[39m
+     [90m 162 |[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:159:29)
+
+  ● TermuxCore Native Module Integration › Session Management › should handle session kill failures
+
+    TypeError: Cannot set properties of undefined (setting 'killSession')
+
+    [0m [90m 166 |[39m
+     [90m 167 |[39m     it([32m'should handle session kill failures'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 168 |[39m       [33mTermuxCore[39m[33m.[39mkillSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockRejectedValue(
+     [90m     |[39m                             [31m[1m^[22m[39m
+     [90m 169 |[39m         [36mnew[39m [33mError[39m([32m'Failed to kill session'[39m)
+     [90m 170 |[39m       )[33m;[39m
+     [90m 171 |[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:168:29)
+
+  ● TermuxCore Native Module Integration › Session I/O Operations › should write data to session
+
+    TypeError: Cannot set properties of undefined (setting 'writeToSession')
+
+    [0m [90m 178 |[39m   describe([32m'Session I/O Operations'[39m[33m,[39m () [33m=>[39m {
+     [90m 179 |[39m     it([32m'should write data to session'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 180 |[39m       [33mTermuxCore[39m[33m.[39mwriteToSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockResolvedValue([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                [31m[1m^[22m[39m
+     [90m 181 |[39m
+     [90m 182 |[39m       [36mconst[39m result [33m=[39m [36mawait[39m [33mTermuxCore[39m[33m.[39mwriteToSession([32m'test-session'[39m[33m,[39m [32m'echo "hello"\\n'[39m)[33m;[39m
+     [90m 183 |[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:180:32)
+
+  ● TermuxCore Native Module Integration › Session I/O Operations › should read data from session
+
+    TypeError: Cannot set properties of undefined (setting 'readFromSession')
+
+    [0m [90m 190 |[39m
+     [90m 191 |[39m     it([32m'should read data from session'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 192 |[39m       [33mTermuxCore[39m[33m.[39mreadFromSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockResolvedValue([32m'hello\\n'[39m)[33m;[39m
+     [90m     |[39m                                 [31m[1m^[22m[39m
+     [90m 193 |[39m
+     [90m 194 |[39m       [36mconst[39m result [33m=[39m [36mawait[39m [33mTermuxCore[39m[33m.[39mreadFromSession([32m'test-session'[39m)[33m;[39m
+     [90m 195 |[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:192:33)
+
+  ● TermuxCore Native Module Integration › Session I/O Operations › should handle write failures
+
+    TypeError: Cannot set properties of undefined (setting 'writeToSession')
+
+    [0m [90m 199 |[39m
+     [90m 200 |[39m     it([32m'should handle write failures'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 201 |[39m       [33mTermuxCore[39m[33m.[39mwriteToSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockRejectedValue(
+     [90m     |[39m                                [31m[1m^[22m[39m
+     [90m 202 |[39m         [36mnew[39m [33mError[39m([32m'Write operation failed'[39m)
+     [90m 203 |[39m       )[33m;[39m
+     [90m 204 |[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:201:32)
+
+  ● TermuxCore Native Module Integration › Session I/O Operations › should handle read failures
+
+    TypeError: Cannot set properties of undefined (setting 'readFromSession')
+
+    [0m [90m 209 |[39m
+     [90m 210 |[39m     it([32m'should handle read failures'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 211 |[39m       [33mTermuxCore[39m[33m.[39mreadFromSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockRejectedValue(
+     [90m     |[39m                                 [31m[1m^[22m[39m
+     [90m 212 |[39m         [36mnew[39m [33mError[39m([32m'Read operation failed'[39m)
+     [90m 213 |[39m       )[33m;[39m
+     [90m 214 |[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:211:33)
+
+  ● TermuxCore Native Module Integration › Event System › should emit session output events
+
+    TypeError: Cannot read properties of undefined (reading 'addListener')
+
+    [0m [90m 224 |[39m       [36mconst[39m testSessionId [33m=[39m [32m'test-session'[39m[33m;[39m
+     [90m 225 |[39m
+    [31m[1m>[22m[39m[90m 226 |[39m       [36mconst[39m subscription [33m=[39m termuxEmitter[33m.[39maddListener([32m'onSessionOutput'[39m[33m,[39m (event) [33m=>[39m {
+     [90m     |[39m                                          [31m[1m^[22m[39m
+     [90m 227 |[39m         expect(event)[33m.[39mtoEqual({
+     [90m 228 |[39m           sessionId[33m:[39m testSessionId[33m,[39m
+     [90m 229 |[39m           data[33m:[39m testData[33m,[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:226:42)
+
+  ● TermuxCore Native Module Integration › Event System › should emit session exit events
+
+    TypeError: Cannot read properties of undefined (reading 'addListener')
+
+    [0m [90m 244 |[39m       [36mconst[39m testExitCode [33m=[39m [35m0[39m[33m;[39m
+     [90m 245 |[39m
+    [31m[1m>[22m[39m[90m 246 |[39m       [36mconst[39m subscription [33m=[39m termuxEmitter[33m.[39maddListener([32m'onSessionExit'[39m[33m,[39m (event) [33m=>[39m {
+     [90m     |[39m                                          [31m[1m^[22m[39m
+     [90m 247 |[39m         expect(event)[33m.[39mtoEqual({
+     [90m 248 |[39m           sessionId[33m:[39m testSessionId[33m,[39m
+     [90m 249 |[39m           exitCode[33m:[39m testExitCode[33m,[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:246:42)
+
+  ● TermuxCore Native Module Integration › Event System › should support multiple event listeners
+
+    TypeError: Cannot read properties of undefined (reading 'addListener')
+
+    [0m [90m 272 |[39m       }[33m;[39m
+     [90m 273 |[39m
+    [31m[1m>[22m[39m[90m 274 |[39m       [36mconst[39m subscription1 [33m=[39m termuxEmitter[33m.[39maddListener([32m'onSessionOutput'[39m[33m,[39m (event) [33m=>[39m {
+     [90m     |[39m                                           [31m[1m^[22m[39m
+     [90m 275 |[39m         expect(event[33m.[39mdata)[33m.[39mtoBe(testData)[33m;[39m
+     [90m 276 |[39m         subscription1[33m.[39mremove()[33m;[39m
+     [90m 277 |[39m         checkComplete()[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:274:43)
+
+  ● TermuxCore Native Module Integration › Event System › should handle listener removal
+
+    TypeError: Cannot read properties of undefined (reading 'addListener')
+
+    [0m [90m 293 |[39m     it([32m'should handle listener removal'[39m[33m,[39m () [33m=>[39m {
+     [90m 294 |[39m       [36mconst[39m listener [33m=[39m jest[33m.[39mfn()[33m;[39m
+    [31m[1m>[22m[39m[90m 295 |[39m       [36mconst[39m subscription [33m=[39m termuxEmitter[33m.[39maddListener([32m'onSessionOutput'[39m[33m,[39m listener)[33m;[39m
+     [90m     |[39m                                          [31m[1m^[22m[39m
+     [90m 296 |[39m
+     [90m 297 |[39m       [90m// Emit event - should be received[39m
+     [90m 298 |[39m       termuxEmitter[33m.[39memit([32m'onSessionOutput'[39m[33m,[39m {[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:295:42)
+
+  ● TermuxCore Native Module Integration › Error Handling › should handle invalid session IDs
+
+    TypeError: Cannot set properties of undefined (setting 'writeToSession')
+
+    [0m [90m 333 |[39m
+     [90m 334 |[39m     it([32m'should handle invalid session IDs'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 335 |[39m       [33mTermuxCore[39m[33m.[39mwriteToSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockRejectedValue(
+     [90m     |[39m                                [31m[1m^[22m[39m
+     [90m 336 |[39m         [36mnew[39m [33mError[39m([32m'Invalid session ID'[39m)
+     [90m 337 |[39m       )[33m;[39m
+     [90m 338 |[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:335:32)
+
+  ● TermuxCore Native Module Integration › Error Handling › should handle concurrent session operations
+
+    TypeError: Cannot set properties of undefined (setting 'createSession')
+
+    [0m [90m 343 |[39m
+     [90m 344 |[39m     it([32m'should handle concurrent session operations'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 345 |[39m       [33mTermuxCore[39m[33m.[39mcreateSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockImplementation(
+     [90m     |[39m                               [31m[1m^[22m[39m
+     [90m 346 |[39m         (sessionId) [33m=>[39m [33mPromise[39m[33m.[39mresolve({
+     [90m 347 |[39m           pid[33m:[39m [33mMath[39m[33m.[39mfloor([33mMath[39m[33m.[39mrandom() [33m*[39m [35m10000[39m)[33m,[39m
+     [90m 348 |[39m           fileDescriptor[33m:[39m [33mMath[39m[33m.[39mfloor([33mMath[39m[33m.[39mrandom() [33m*[39m [35m100[39m)[33m,[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:345:31)
+
+  ● TermuxCore Native Module Integration › Performance › should handle rapid I/O operations
+
+    TypeError: Cannot set properties of undefined (setting 'writeToSession')
+
+    [0m [90m 370 |[39m   describe([32m'Performance'[39m[33m,[39m () [33m=>[39m {
+     [90m 371 |[39m     it([32m'should handle rapid I/O operations'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+    [31m[1m>[22m[39m[90m 372 |[39m       [33mTermuxCore[39m[33m.[39mwriteToSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockResolvedValue([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                [31m[1m^[22m[39m
+     [90m 373 |[39m       [33mTermuxCore[39m[33m.[39mreadFromSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockResolvedValue([32m'output'[39m)[33m;[39m
+     [90m 374 |[39m
+     [90m 375 |[39m       [36mconst[39m sessionId [33m=[39m [32m'perf-test-session'[39m[33m;[39m[0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:372:32)
+
+  ● TermuxCore Native Module Integration › Performance › should handle large data chunks
+
+    TypeError: Cannot set properties of undefined (setting 'writeToSession')
+
+    [0m [90m 392 |[39m     it([32m'should handle large data chunks'[39m[33m,[39m [36masync[39m () [33m=>[39m {
+     [90m 393 |[39m       [36mconst[39m largeData [33m=[39m [32m'x'[39m[33m.[39mrepeat([35m10000[39m)[33m;[39m [90m// 10KB of data[39m
+    [31m[1m>[22m[39m[90m 394 |[39m       [33mTermuxCore[39m[33m.[39mwriteToSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockResolvedValue([36mtrue[39m)[33m;[39m
+     [90m     |[39m                                [31m[1m^[22m[39m
+     [90m 395 |[39m       [33mTermuxCore[39m[33m.[39mreadFromSession [33m=[39m jest[33m.[39mfn()[33m.[39mmockResolvedValue(largeData)[33m;[39m
+     [90m 396 |[39m
+     [90m 397 |[39m       [36mawait[39m expect([0m
+
+      at Object.<anonymous> (__tests__/integration/TermuxNativeModule.test.ts:394:32)
+
+FAIL __tests__/unit/TermuxTerminal.test.tsx
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    /home/runner/work/mobile-dev-studio/mobile-dev-studio/__tests__/unit/TermuxTerminal.test.tsx:48
+                const { getByTestId } = (0, react_native_1.render)(<TermuxTerminal_1.default testID="terminal-component"/>);
+                                                                   ^
+
+    SyntaxError: Unexpected token '<'
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+
+FAIL __tests__/unit/TermuxSession.test.ts
+  ● Test suite failed to run
+
+    ReferenceError: Cannot access 'mockTermuxCore' before initialization
+
+    [0m [90m 22 |[39m jest[33m.[39mmock([32m'react-native'[39m[33m,[39m () [33m=>[39m ({
+     [90m 23 |[39m   [33mNativeModules[39m[33m:[39m {
+    [31m[1m>[22m[39m[90m 24 |[39m     [33mTermuxCore[39m[33m:[39m mockTermuxCore[33m,[39m
+     [90m    |[39m                 [31m[1m^[22m[39m
+     [90m 25 |[39m   }[33m,[39m
+     [90m 26 |[39m   [33mNativeEventEmitter[39m[33m:[39m jest[33m.[39mfn(() [33m=>[39m mockNativeEventEmitter)[33m,[39m
+     [90m 27 |[39m }))[33m;[39m[0m
+
+      at __tests__/unit/TermuxSession.test.ts:24:17
+      at Object.<anonymous> (src/lib/termux/TermuxManager.ts:6:1)
+      at Object.<anonymous> (__tests__/unit/TermuxSession.test.ts:5:1)
+
+FAIL __tests__/unit/TermuxManager.test.ts
+  ● Test suite failed to run
+
+    ReferenceError: Cannot access 'mockTermuxCore' before initialization
+
+    [0m [90m 24 |[39m jest[33m.[39mmock([32m'react-native'[39m[33m,[39m () [33m=>[39m ({
+     [90m 25 |[39m   [33mNativeModules[39m[33m:[39m {
+    [31m[1m>[22m[39m[90m 26 |[39m     [33mTermuxCore[39m[33m:[39m mockTermuxCore[33m,[39m
+     [90m    |[39m                 [31m[1m^[22m[39m
+     [90m 27 |[39m   }[33m,[39m
+     [90m 28 |[39m   [33mNativeEventEmitter[39m[33m:[39m jest[33m.[39mfn(() [33m=>[39m mockNativeEventEmitter)[33m,[39m
+     [90m 29 |[39m }))[33m;[39m[0m
+
+      at __tests__/unit/TermuxManager.test.ts:26:17
+      at Object.<anonymous> (src/lib/termux/TermuxManager.ts:6:1)
+      at Object.<anonymous> (__tests__/unit/TermuxManager.test.ts:5:1)
+
+FAIL __tests__/integration/TerminalIntegration.test.ts
+  ● Test suite failed to run
+
+    [96m__tests__/integration/TerminalIntegration.test.ts[0m:[93m2[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module 'termux-core' or its corresponding type declarations.
+
+    [7m2[0m import { TermuxCore } from 'termux-core';
+    [7m [0m [91m                           ~~~~~~~~~~~~~[0m
+
+FAIL __tests__/mocks/TermuxCoreMock.ts
+  ● Test suite failed to run
+
+    Your test suite must contain at least one test.
+
+      at onResult (node_modules/@jest/core/build/TestScheduler.js:133:18)
+      at node_modules/@jest/core/build/TestScheduler.js:254:19
+      at node_modules/emittery/index.js:363:13
+          at Array.map (<anonymous>)
+      at Emittery.emit (node_modules/emittery/index.js:361:23)
+
+FAIL __tests__/unit/TerminalService.test.ts
+  ● Test suite failed to run
+
+    [96m__tests__/unit/TerminalService.test.ts[0m:[93m2[0m:[93m29[0m - [91merror[0m[90m TS2307: [0mCannot find module 'expo-file-system' or its corresponding type declarations.
+
+    [7m2[0m import * as FileSystem from 'expo-file-system';
+    [7m [0m [91m                            ~~~~~~~~~~~~~~~~~~[0m
+    [96m__tests__/unit/TerminalService.test.ts[0m:[93m3[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module 'termux-core' or its corresponding type declarations.
+
+    [7m3[0m import { TermuxCore } from 'termux-core';
+    [7m [0m [91m                           ~~~~~~~~~~~~~[0m
+
+FAIL __tests__/unit/TermuxIntegration.test.ts
+  ● Test suite failed to run
+
+    [96m__tests__/unit/TermuxIntegration.test.ts[0m:[93m1[0m:[93m31[0m - [91merror[0m[90m TS2307: [0mCannot find module '../../modules/termux-core/src/TermuxManager' or its corresponding type declarations.
+
+    [7m1[0m import { TermuxManager } from '../../modules/termux-core/src/TermuxManager';
+    [7m [0m [91m                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    [96m__tests__/unit/TermuxIntegration.test.ts[0m:[93m2[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module '../../modules/termux-core/src/index' or its corresponding type declarations.
+
+    [7m2[0m import { TermuxCore } from '../../modules/termux-core/src/index';
+    [7m [0m [91m                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+FAIL __tests__/unit/TermuxCore.test.ts
+  ● Test suite failed to run
+
+    [96m__tests__/unit/TermuxCore.test.ts[0m:[93m1[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module 'termux-core' or its corresponding type declarations.
+
+    [7m1[0m import { TermuxCore } from 'termux-core';
+    [7m [0m [91m                           ~~~~~~~~~~~~~[0m
+
+FAIL __tests__/unit/TerminalService.simple.test.ts
+  ● Test suite failed to run
+
+    Cannot find module 'expo-file-system' from '__tests__/unit/TerminalService.simple.test.ts'
+
+    [0m [90m 4 |[39m
+     [90m 5 |[39m [90m// Mock dependencies[39m
+    [31m[1m>[22m[39m[90m 6 |[39m jest[33m.[39mmock([32m'expo-file-system'[39m[33m,[39m () [33m=>[39m ({
+     [90m   |[39m      [31m[1m^[22m[39m
+     [90m 7 |[39m   documentDirectory[33m:[39m [32m'/mock/documents/'[39m[33m,[39m
+     [90m 8 |[39m   getInfoAsync[33m:[39m jest[33m.[39mfn()[33m.[39mmockResolvedValue({ exists[33m:[39m [36mtrue[39m })[33m,[39m
+     [90m 9 |[39m   makeDirectoryAsync[33m:[39m jest[33m.[39mfn()[33m.[39mmockResolvedValue(undefined)[33m,[39m[0m
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+      at Object.<anonymous> (__tests__/unit/TerminalService.simple.test.ts:6:6)
+
+PASS __tests__/unit/TermuxCore.simple.test.ts
+  TermuxCore Module (CI Safe)
+    Bootstrap Management
+      ✓ should have getBootstrapInfo method (1 ms)
+      ✓ should handle bootstrap installation (1 ms)
+      ✓ should handle bootstrap info retrieval
+    Session Management
+      ✓ should create terminal sessions (1 ms)
+      ✓ should write to sessions
+      ✓ should kill sessions (1 ms)
+    Event Handling
+      ✓ should register output listeners
+      ✓ should register exit listeners (1 ms)
+    Error Handling
+      ✓ should handle bootstrap installation failures
+      ✓ should handle session creation failures (4 ms)
+
+FAIL src/__tests__/setup.ts
+  ● Test suite failed to run
+
+    Cannot find module 'expo-file-system' from 'src/__tests__/setup.ts'
+
+    [0m [90m 20 |[39m
+     [90m 21 |[39m [90m// Mock expo-file-system[39m
+    [31m[1m>[22m[39m[90m 22 |[39m jest[33m.[39mmock([32m'expo-file-system'[39m[33m,[39m () [33m=>[39m ({
+     [90m    |[39m      [31m[1m^[22m[39m
+     [90m 23 |[39m   documentDirectory[33m:[39m [32m'/mock/documents/'[39m[33m,[39m
+     [90m 24 |[39m   getInfoAsync[33m:[39m jest[33m.[39mfn()[33m,[39m
+     [90m 25 |[39m   makeDirectoryAsync[33m:[39m jest[33m.[39mfn()[33m,[39m[0m
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+      at Object.<anonymous> (src/__tests__/setup.ts:22:6)
+
+PASS __tests__/unit/simple.simple.test.ts
+  Simple Test
+    ✓ should pass basic math test (1 ms)
+    ✓ should handle string operations
+    ✓ should work with arrays (1 ms)
+
+Test Suites: 11 failed, 2 skipped, 2 passed, 13 of 15 total
+Tests:       19 failed, 39 skipped, 17 passed, 75 total
+Snapshots:   0 total
+Time:        6.147 s
+Ran all test suites.
+tests failed
+
+=== PREBUILD ===
+- Creating native directory (./android)
+✔ Created native directory | reusing /android
+- Updating package.json
+› Using current versions instead of recommended react-native@0.76.9.
+- Updating package.json
+✔ Updated package.json | no changes
+- Running prebuild
+» android: userInterfaceStyle: Install expo-system-ui in your project to enable this feature.
+- Running prebuild
+✖ Prebuild failed
+Error: [android.gradleProperties]: withAndroidGradlePropertiesBaseMod: ENOENT: no such file or directory, open '/home/runner/work/mobile-dev-studio/mobile-dev-studio/android/gradle.properties'
+Error: [android.gradleProperties]: withAndroidGradlePropertiesBaseMod: ENOENT: no such file or directory, open '/home/runner/work/mobile-dev-studio/mobile-dev-studio/android/gradle.properties'
+    at async open (node:internal/fs/promises:639:25)
+    at async readFile (node:internal/fs/promises:1246:14)
+    at async read (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/withAndroidBaseMods.js:188:64)
+    at async action (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/createBaseMod.js:59:30)
+    at async interceptingMod (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/withMod.js:104:21)
+    at async evalModsAsync (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/mod-compiler.js:206:25)
+    at async compileModsAsync (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/config-plugins/build/plugins/mod-compiler.js:123:10)
+    at async configureProjectAsync (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/cli/build/src/prebuild/configureProjectAsync.js:88:14)
+    at async prebuildAsync (/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@expo/cli/build/src/prebuild/prebuildAsync.js:142:9)
+prebuild failed
+
+=== BUILD ATTEMPT ===
+Downloading https://services.gradle.org/distributions/gradle-8.13-bin.zip
+.............10%.............20%.............30%.............40%.............50%.............60%.............70%.............80%.............90%.............100%
+
+Welcome to Gradle 8.13!
+
+Here are the highlights of this release:
+ - Daemon JVM auto-provisioning
+ - Enhancements for Scala plugin and JUnit testing
+ - Improvements for build authors and plugin developers
+
+For more details see https://docs.gradle.org/8.13/release-notes.html
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.13/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Settings file '/home/runner/work/mobile-dev-studio/mobile-dev-studio/android/settings.gradle' line: 21
+
+* What went wrong:
+Error resolving plugin [id: 'com.facebook.react.settings']
+> Included build '/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/expo-modules-autolinking/android/expo-gradle-plugin' does not exist.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 27s
+build failed
