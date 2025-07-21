@@ -32,6 +32,16 @@ allprojects {
     mavenCentral()
     maven { url 'https://www.jitpack.io' }
   }
+  
+  // Force Kotlin version for all modules to fix Compose Compiler compatibility
+  configurations.all {
+    resolutionStrategy {
+      force "org.jetbrains.kotlin:kotlin-stdlib:1.9.25"
+      force "org.jetbrains.kotlin:kotlin-stdlib-common:1.9.25"
+      force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.25"
+      force "org.jetbrains.kotlin:kotlin-reflect:1.9.25"
+    }
+  }
 }
 
 apply plugin: "expo-root-project"
