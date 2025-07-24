@@ -76,11 +76,12 @@ android {
     abortOnError false
   }
 
-  publishing {
-    singleVariant("release") {
-      withSourcesJar()
-    }
-  }
+  // Publishing configuration disabled to avoid Expo SoftwareComponent issues
+  // publishing {
+  //   singleVariant("release") {
+  //     withSourcesJar()
+  //   }
+  // }
 }
 
 // Configure Kotlin JVM toolchain after Android configuration
@@ -109,17 +110,18 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
   }
 }
 
-afterEvaluate {
-  publishing {
-    publications {
-      release(MavenPublication) {
-        from components.release
-      }
-    }
-    repositories {
-      maven {
-        url = mavenLocal().url
-      }
-    }
-  }
-}
+// Publishing configuration disabled to avoid Expo SoftwareComponent issues
+// afterEvaluate {
+//   publishing {
+//     publications {
+//       release(MavenPublication) {
+//         from components.release
+//       }
+//     }
+//     repositories {
+//       maven {
+//         url = mavenLocal().url
+//       }
+//     }
+//   }
+// }
