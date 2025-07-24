@@ -138,6 +138,52 @@ When app crashes on launch, common causes:
 - **Native Module**: `modules/termux-core/`
 - **APK Validation**: `.github/workflows/apk-validation.yml`
 
+## Expo Compatibility Priority
+
+**CRITICAL: Full Expo compatibility is essential for this Termux integration**
+
+- ✅ **Drop-in compatibility**: Should work in any fresh Expo project without major configuration changes
+- ✅ **Minimal setup required**: Users should be able to add the Termux module with minimal friction
+- ✅ **Standard Expo workflows**: Must work with standard `expo build`, `eas build`, etc.
+- ✅ **No breaking changes**: Should not interfere with existing Expo modules or configurations
+
+### Current Priority Order:
+1. **Get working build validated** (immediate priority)
+2. **Verify Termux functionality works end-to-end** 
+3. **Refactor for drop-in Expo compatibility** (post-validation)
+4. **Create installation guide for fresh Expo projects**
+
+### Drop-in Expo Compatibility Analysis
+
+**Current Required Configuration Changes:**
+
+1. **android/build.gradle** (MUST MINIMIZE):
+   - ✅ **Critical**: Kotlin version enforcement (expo-modules-core compatibility)
+   - ❌ **Drop-in barrier**: Force resolution strategies (could be module-specific)
+   - ❌ **Drop-in barrier**: SoftwareComponent publishing fixes (could be automated)
+   - ✅ **Acceptable**: Java 17 compatibility (standard for modern projects)
+
+2. **gradle.properties** (MOSTLY ACCEPTABLE):
+   - ✅ **Standard**: Most properties are Expo/React Native best practices
+   - ❌ **Could minimize**: Kotlin version overrides (if we fix expo-modules-core detection)
+
+3. **android/settings.gradle** (CURRENTLY CLEAN):
+   - ✅ **Good**: No Termux-specific changes (Termux modules disabled)
+   - ✅ **Standard**: Uses expo-autolinking (standard Expo setup)
+
+**Optimization Strategy for Drop-in Compatibility:**
+- **Package as expo-termux**: Create standalone npm package with auto-configuration
+- **Gradle plugin approach**: Termux plugin automatically applies needed fixes
+- **Conditional configuration**: Detect fresh Expo projects and apply minimal changes
+- **Version detection**: Auto-detect Kotlin version conflicts and resolve programmatically
+
+### Post-Validation Compatibility Tasks:
+- Extract Termux integration into `expo-termux` npm package
+- Create gradle plugin that auto-applies Kotlin version fixes
+- Minimize required user configuration to near-zero
+- Test integration with various Expo SDK versions (50, 51, 52, 53)
+- Document 3-step installation process for fresh projects
+
 ## Development Rules
 
 1. **Always use emulator testing to verify fixes**
@@ -268,6 +314,10 @@ Now that basic React Native functionality works, re-enable Termux modules increm
 - ✅ TypeScript compilation errors fixed with custom type declarations
 - 🔄 **IN PROGRESS**: Fixing SoftwareComponent 'release' errors in Termux module build.gradle files
 - **Current Issues**: Expo SoftwareComponent errors still occurring in terminal-emulator and terminal-view modules
+
+### Development Workflow Notes
+
+**Task Tool Limitation**: The Task tool for spawning sub-agents doesn't work reliably in this environment. All work must be done at the top level with manual build monitoring.
 
 ### Testing Loop Commands (Safe - No rm required)
 

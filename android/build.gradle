@@ -1,10 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-//  Force Kotlin 1.9.25 for Compose Compiler 1.5.15 compatibility at project level
-ext.kotlin_version = '1.9.25'
-ext.kotlinVersion = '1.9.25'
-
 buildscript {
+  // Force Kotlin 1.9.25 for Compose Compiler 1.5.15 compatibility
+  ext.kotlin_version = '1.9.25'
+  ext.kotlinVersion = '1.9.25'
   repositories {
     google()
     mavenCentral()
@@ -15,6 +14,12 @@ buildscript {
     classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}")
   }
 }
+
+// Force Kotlin version at root project level for expo-modules-core
+ext.kotlin_version = '1.9.25'
+ext.kotlinVersion = '1.9.25'
+rootProject.ext.kotlin_version = '1.9.25'
+rootProject.ext.kotlinVersion = '1.9.25'
 
 def reactNativeAndroidDir = new File(
   providers.exec {
