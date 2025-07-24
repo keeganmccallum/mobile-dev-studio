@@ -1,10 +1,20 @@
 # Claude Code Development Guide
 
+## Development Environment Context
+
+**CRITICAL: Claude Code is running on Android phone in Termux environment**
+
+- ❌ **No local emulator access** - Cannot run Android emulators locally
+- ❌ **No local build capability** - Must use GitHub Actions for all builds
+- ❌ **No direct APK testing** - Cannot install/test APKs locally
+- ✅ **GitHub Actions only** - All testing must be done via GitHub Actions workflows
+- ✅ **Remote emulator testing** - APK Validation Testing workflow is the only way to test
+
 ## Critical Testing Workflow
 
 ### NEVER CLAIM SUCCESS WITHOUT ACTUAL TESTING
 
-**The only way to verify fixes work is through the emulator testing pipeline:**
+**The only way to verify fixes work is through the GitHub Actions emulator testing pipeline:**
 
 1. **Build APK**: `gh run list --workflow="Build and Release APKs"`
 2. **Test APK**: `gh workflow run "APK Validation Testing"`
@@ -59,12 +69,27 @@ ls -la *.png
 find . -name "*crash*" -o -name "*log*"
 ```
 
-### Current App Issues
+### Current App Issues (Updated July 24, 2025)
 
 - **JavaScript Bundle**: ✅ Builds successfully (no syntax errors)  
-- **APK Build**: ✅ Compiles successfully
-- **App Launch**: ✅ **LAUNCHES SUCCESSFULLY** (Fixed as of build 130+)
-- **Root Cause**: **RESOLVED** - Kotlin version compatibility + Babel configuration
+- **APK Build**: ❌ **KOTLIN COMPILATION FAILURES** in expo-modules-core
+- **App Launch**: 🔄 Cannot test - builds failing
+- **Root Cause**: **ACTIVE ISSUE** - Kotlin version conflicts with Expo SDK 52.0.0
+
+### Current Build Status
+
+**All recent builds failing with same error:**
+```
+Execution failed for task ':expo-modules-core:compileDebugKotlin'
+> Compilation error. See log for more details
+```
+
+**Last successful builds:** July 20, 2025 (Build 125) - contains working Termux integration
+
+**Troubleshooting approach:**
+1. ✅ Removed custom Kotlin version overrides
+2. ✅ Let Expo manage Kotlin versions
+3. ❌ Still failing - deeper Expo/Kotlin compatibility issue
 
 ### Critical Discovery
 
