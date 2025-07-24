@@ -1,8 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-  ext.kotlin_version = '1.9.25'
-  ext.kotlinVersion = '1.9.25'
+  // Let Expo manage Kotlin version
+  // ext.kotlin_version = '1.9.25'
+  // ext.kotlinVersion = '1.9.25'
   repositories {
     google()
     mavenCentral()
@@ -10,7 +11,8 @@ buildscript {
   dependencies {
     classpath('com.android.tools.build:gradle')
     classpath('com.facebook.react:react-native-gradle-plugin')
-    classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+    // Let Expo manage Kotlin version
+    // classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
   }
 }
 
@@ -34,15 +36,15 @@ allprojects {
     maven { url 'https://www.jitpack.io' }
   }
   
-  // Force Kotlin version for all modules to fix Compose Compiler compatibility
-  configurations.all {
-    resolutionStrategy {
-      force "org.jetbrains.kotlin:kotlin-stdlib:1.9.25"
-      force "org.jetbrains.kotlin:kotlin-stdlib-common:1.9.25"
-      force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.25"
-      force "org.jetbrains.kotlin:kotlin-reflect:1.9.25"
-    }
-  }
+  // Force Kotlin version resolution removed - let Expo manage versions
+  // configurations.all {
+  //   resolutionStrategy {
+  //     force "org.jetbrains.kotlin:kotlin-stdlib:1.9.25"
+  //     force "org.jetbrains.kotlin:kotlin-stdlib-common:1.9.25"
+  //     force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.25"
+  //     force "org.jetbrains.kotlin:kotlin-reflect:1.9.25"
+  //   }
+  // }
   
   // Fix Expo SoftwareComponent 'release' issue by disabling problematic publishing
   afterEvaluate { project ->
@@ -53,7 +55,7 @@ allprojects {
     }
   }
   
-  // Suppress Kotlin version compatibility check for all projects
+  // Minimal Java 17 configuration only
   subprojects {
     afterEvaluate {
       if (project.hasProperty('android')) {
@@ -62,14 +64,6 @@ allprojects {
             sourceCompatibility JavaVersion.VERSION_17
             targetCompatibility JavaVersion.VERSION_17
           }
-        }
-      }
-      
-      // Apply to all Kotlin compilation tasks
-      tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-        kotlinOptions {
-          jvmTarget = "17"
-          freeCompilerArgs += ["-Xsuppress-kotlin-version-compatibility-check"]
         }
       }
     }
