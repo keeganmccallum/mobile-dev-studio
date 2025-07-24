@@ -97,10 +97,10 @@ dependencies {
   implementation project(':expo-modules-core')
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${getKotlinVersion()}"
   
-  // Termux terminal dependencies - re-enabling incrementally
-  api project(':terminal-view')
-  api project(':terminal-emulator')  
-  api project(':termux-shared')
+  // Termux terminal dependencies - temporarily disabled until project structure is fixed
+  // api project(':terminal-view')
+  // api project(':terminal-emulator')  
+  // api project(':termux-shared')
 }
 
 // Configure all Kotlin compilation tasks to use JVM 17
