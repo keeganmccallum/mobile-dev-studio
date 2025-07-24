@@ -37,8 +37,8 @@ expoAutolinking.useExpoVersionCatalog()
 
 include ':app'
 
-// Include Termux core module (subprojects temporarily disabled)
-project(':termux-core').projectDir = new File('../modules/termux-core/android')
-include ':termux-core'
+// Termux core module temporarily fully disabled for build compatibility
+// project(':termux-core').projectDir = new File('../modules/termux-core/android')
+// include ':termux-core'
 
 includeBuild(expoAutolinking.reactNativeGradlePlugin)
