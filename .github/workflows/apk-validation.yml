@@ -79,7 +79,11 @@ jobs:
           exit 1
         fi
         
-        echo "apk_path=$APK_FILE" >> $GITHUB_OUTPUT
+        # Convert to absolute path to avoid issues
+        APK_ABSOLUTE=$(realpath "$APK_FILE")
+        echo "Absolute APK path: $APK_ABSOLUTE"
+        
+        echo "apk_path=$APK_ABSOLUTE" >> $GITHUB_OUTPUT
         echo "apk_name=$(basename $APK_FILE)" >> $GITHUB_OUTPUT
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -130,6 +134,15 @@ jobs:
           BUILD_TYPE="${{ matrix.build_type }}"
           
           echo "🔍 Testing $BUILD_TYPE APK: $APK_PATH"
+          echo "🔍 APK_PATH variable: [$APK_PATH]"
+          echo "🔍 File exists check: $([ -f "$APK_PATH" ] && echo "YES" || echo "NO")"
+          
+          if [ -z "$APK_PATH" ]; then
+            echo "❌ APK_PATH is empty!"
+            echo "Available files in current directory:"
+            find . -name "*.apk" -type f
+            exit 1
+          fi
           
           # Wait for emulator to be ready
           echo "⏳ Waiting for emulator..."
