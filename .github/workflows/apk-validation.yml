@@ -137,12 +137,9 @@ jobs:
           echo "🔍 APK_PATH variable: [$APK_PATH]"
           echo "🔍 File exists check: $([ -f "$APK_PATH" ] && echo "YES" || echo "NO")"
           
-          if [ -z "$APK_PATH" ]; then
-            echo "❌ APK_PATH is empty!"
-            echo "Available files in current directory:"
-            find . -name "*.apk" -type f
-            exit 1
-          fi
+          # Validate APK path exists
+          [ -z "$APK_PATH" ] && { echo "❌ APK_PATH is empty!"; find . -name "*.apk" -type f; exit 1; }
+          [ ! -f "$APK_PATH" ] && { echo "❌ APK file not found: $APK_PATH"; exit 1; }
           
           # Wait for emulator to be ready
           echo "⏳ Waiting for emulator..."
