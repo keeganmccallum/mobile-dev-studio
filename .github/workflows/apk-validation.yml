@@ -119,6 +119,9 @@ jobs:
     - name: Run APK Validation Tests
       id: test-apk
       uses: reactivecircus/android-emulator-runner@v2
+      env:
+        APK_PATH: ${{ steps.download-apk.outputs.apk_path }}
+        BUILD_TYPE: ${{ matrix.build_type }}
       with:
         api-level: 30
         target: google_apis
@@ -129,9 +132,6 @@ jobs:
         disable-animations: true
         script: |
           set -e
-          
-          APK_PATH="${{ steps.download-apk.outputs.apk_path }}"
-          BUILD_TYPE="${{ matrix.build_type }}"
           
           echo "🔍 Testing $BUILD_TYPE APK: $APK_PATH"
           echo "🔍 APK_PATH variable: [$APK_PATH]"
