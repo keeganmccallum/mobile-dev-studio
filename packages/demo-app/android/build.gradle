@@ -6,6 +6,10 @@ ext.kotlinVersion = '1.9.25'
 rootProject.ext.kotlin_version = '1.9.25'
 rootProject.ext.kotlinVersion = '1.9.25'
 
+// Suppress Kotlin version compatibility check as a system property
+System.setProperty("suppressKotlinVersionCompatibilityCheck", "true")
+System.setProperty("kotlin.suppressKotlinVersionCompatibilityCheck", "true")
+
 buildscript {
     ext {
         buildToolsVersion = findProperty('android.buildToolsVersion') ?: '35.0.0'
