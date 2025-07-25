@@ -1,0 +1,76 @@
+=== NPM INSTALL ===
+npm error code ETARGET
+npm error notarget No matching version found for @types/react-native@0.75.4.
+npm error notarget In most cases you or one of your dependencies are requesting
+npm error notarget a package version that doesn't exist.
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-07-25T01_09_08_883Z-debug-0.log
+npm install failed
+
+=== LINT CHECK ===
+
+> mobile-dev-studio-monorepo@1.0.0 lint
+> pnpm run --recursive lint
+
+sh: 1: pnpm: not found
+lint failed
+
+=== TYPECHECK ===
+
+> mobile-dev-studio-monorepo@1.0.0 typecheck
+> pnpm run --recursive typecheck
+
+sh: 1: pnpm: not found
+typecheck failed
+
+=== TESTS ===
+
+> mobile-dev-studio-monorepo@1.0.0 test
+> pnpm run --recursive test
+
+sh: 1: pnpm: not found
+tests failed
+
+=== PREBUILD ===
+npm warn exec The following package was not found and will be installed: expo@53.0.20
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+ConfigError: Cannot determine the project's Expo SDK version because the module `expo` is not installed. Install it with `npm install expo` and try again.
+prebuild failed
+
+=== BUILD ATTEMPT ===
+Downloading https://services.gradle.org/distributions/gradle-8.13-bin.zip
+.............10%.............20%.............30%.............40%.............50%.............60%.............70%.............80%.............90%.............100%
+
+Welcome to Gradle 8.13!
+
+Here are the highlights of this release:
+ - Daemon JVM auto-provisioning
+ - Enhancements for Scala plugin and JUnit testing
+ - Improvements for build authors and plugin developers
+
+For more details see https://docs.gradle.org/8.13/release-notes.html
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.13/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Settings file '/home/runner/work/mobile-dev-studio/mobile-dev-studio/android/settings.gradle' line: 3
+
+* What went wrong:
+A problem occurred evaluating settings 'android'.
+> Process 'command 'node'' finished with non-zero exit value 1
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 7s
+build failed
