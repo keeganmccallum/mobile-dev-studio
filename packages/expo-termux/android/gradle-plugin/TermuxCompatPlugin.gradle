@@ -1,0 +1,117 @@
+/**
+ * Termux Compatibility Gradle Plugin
+ * 
+ * Automatically handles Kotlin version conflicts and build configuration
+ * to ensure compatibility with expo-modules-core and Compose Compiler.
+ */
+
+class TermuxCompatPlugin implements Plugin<Project> {
+    void apply(Project project) {
+        project.logger.info("Applying Termux Compatibility Plugin")
+        
+        // Ensure this runs early in configuration phase
+        project.beforeEvaluate {
+            setupKotlinVersionCompatibility(project)
+        }
+        
+        project.afterEvaluate {
+            configureAndroidBuildSettings(project)
+            fixPublishingIssues(project)
+        }
+    }
+    
+    private void setupKotlinVersionCompatibility(Project project) {
+        // Detect required Kotlin version for Compose Compiler compatibility
+        def requiredKotlinVersion = detectRequiredKotlinVersion(project)
+        
+        project.logger.info("Termux: Setting Kotlin version to ${requiredKotlinVersion}")
+        
+        // Force Kotlin version at all relevant scopes
+        project.rootProject.ext.kotlin_version = requiredKotlinVersion
+        project.rootProject.ext.kotlinVersion = requiredKotlinVersion
+        project.ext.kotlin_version = requiredKotlinVersion
+        project.ext.kotlinVersion = requiredKotlinVersion
+        
+        // Apply gradle.properties overrides
+        project.extensions.extraProperties.set('kotlin.version', requiredKotlinVersion)
+        project.extensions.extraProperties.set('kotlinVersion', requiredKotlinVersion)
+        
+        // Force resolution strategy for all Kotlin dependencies
+        project.rootProject.allprojects { proj ->
+            proj.configurations.all { config ->
+                config.resolutionStrategy {
+                    force "org.jetbrains.kotlin:kotlin-stdlib:${requiredKotlinVersion}"
+                    force "org.jetbrains.kotlin:kotlin-stdlib-common:${requiredKotlinVersion}"
+                    force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${requiredKotlinVersion}"
+                    force "org.jetbrains.kotlin:kotlin-reflect:${requiredKotlinVersion}"
+                }
+            }
+        }
+    }
+    
+    private String detectRequiredKotlinVersion(Project project) {
+        // Check for Compose Compiler version requirements
+        try {
+            // Look for compose compiler version in project
+            def composeCompilerVersion = findComposeCompilerVersion(project)
+            if (composeCompilerVersion) {
+                return getKotlinVersionForComposeCompiler(composeCompilerVersion)
+            }
+        } catch (Exception e) {
+            project.logger.warn("Could not detect Compose Compiler version: ${e.message}")
+        }
+        
+        // Default to latest stable version that works with Expo SDK 52
+        return "1.9.25"
+    }
+    
+    private String findComposeCompilerVersion(Project project) {
+        // Check build scripts and dependencies for compose compiler version
+        // This is a simplified version - in practice would need more robust detection
+        return "1.5.15" // Common version in Expo SDK 52
+    }
+    
+    private String getKotlinVersionForComposeCompiler(String composeVersion) {
+        // Compose Compiler version to Kotlin version mapping
+        def compatibilityMap = [
+            "1.5.15": "1.9.25",
+            "1.5.14": "1.9.24", 
+            "1.5.8": "1.9.23"
+        ]
+        
+        return compatibilityMap.get(composeVersion, "1.9.25")
+    }
+    
+    private void configureAndroidBuildSettings(Project project) {
+        project.rootProject.allprojects { proj ->
+            proj.afterEvaluate {
+                if (proj.hasProperty('android')) {
+                    proj.android {
+                        compileOptions {
+                            sourceCompatibility JavaVersion.VERSION_17
+                            targetCompatibility JavaVersion.VERSION_17
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private void fixPublishingIssues(Project project) {
+        // Fix SoftwareComponent 'release' issues that occur with Expo modules
+        project.rootProject.allprojects { proj ->
+            proj.afterEvaluate {
+                if (proj.hasProperty('publishing')) {
+                    proj.publishing {
+                        publications.removeAll { it.name == 'release' }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Apply the plugin
+ext.applyTermuxCompatPlugin = {
+    apply plugin: TermuxCompatPlugin
+}

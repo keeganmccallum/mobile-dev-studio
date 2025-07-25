@@ -1,0 +1,29 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "outDir": "./build",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "noEmit": false,
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"]
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "android"
+  ]
+}

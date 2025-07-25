@@ -1,0 +1,132 @@
+// Apply Termux compatibility plugin first for Kotlin version fixes
+def termuxCompatPlugin = new File(project.projectDir.absolutePath, "gradle-plugin/TermuxCompatPlugin.gradle")  
+apply from: termuxCompatPlugin
+applyTermuxCompatPlugin()
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'maven-publish'
+
+group = '@keeganmccallum/expo-termux'
+version = '0.1.0'
+
+buildscript {
+  def expoModulesCorePlugin = new File(project(":expo-modules-core").projectDir.absolutePath, "ExpoModulesCorePlugin.gradle")
+  if (expoModulesCorePlugin.exists()) {
+    apply from: expoModulesCorePlugin
+    applyKotlinExpoModulesCorePlugin()
+  }
+
+  // Simple helper that allows the root project to override versions declared by this library.
+  ext.safeExtGet = { prop, fallback ->
+    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+  }
+
+  // Ensures backward compatibility
+  ext.getKotlinVersion = {
+    if (ext.has("kotlinVersion")) {
+      ext.kotlinVersion()
+    } else {
+      ext.safeExtGet("kotlinVersion", "1.8.10")
+    }
+  }
+}
+
+// Publishing configuration moved to android block
+
+android {
+  compileSdkVersion safeExtGet("compileSdkVersion", 34)
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
+
+  kotlinOptions {
+    jvmTarget = "17"
+  }
+
+  // JVM toolchain configuration
+  java {
+    toolchain {
+      languageVersion = JavaLanguageVersion.of(17)
+    }
+  }
+
+  namespace "expo.modules.termuxcore"
+  defaultConfig {
+    minSdkVersion safeExtGet("minSdkVersion", 21)
+    targetSdkVersion safeExtGet("targetSdkVersion", 34)
+    versionCode 1
+    versionName "1.0.0"
+
+    // Native build temporarily disabled - causing crashes
+    // externalNativeBuild {
+    //   cmake {
+    //     cppFlags "-O2 -frtti -fexceptions"
+    //     abiFilters 'x86', 'x86_64', 'arm64-v8a', 'armeabi-v7a'
+    //     arguments "-DANDROID_STL=c++_shared"
+    //   }
+    // }
+  }
+
+  // Native build temporarily disabled - causing crashes
+  // externalNativeBuild {
+  //   cmake {
+  //     path "CMakeLists.txt"
+  //   }
+  // }
+
+  lintOptions {
+    abortOnError false
+  }
+
+  // Publishing configuration disabled to avoid Expo SoftwareComponent issues
+  // publishing {
+  //   singleVariant("release") {
+  //     withSourcesJar()
+  //   }
+  // }
+}
+
+// Configure Kotlin JVM toolchain after Android configuration
+kotlin {
+  jvmToolchain(17)
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation project(':expo-modules-core')
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${getKotlinVersion()}"
+  
+  // Termux terminal dependencies - temporarily disabled until project structure is fixed
+  // api project(':terminal-view')
+  // api project(':terminal-emulator')  
+  // api project(':termux-shared')
+}
+
+// Configure all Kotlin compilation tasks to use JVM 17
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+  kotlinOptions {
+    jvmTarget = "17"
+  }
+}
+
+// Publishing configuration disabled to avoid Expo SoftwareComponent issues
+// afterEvaluate {
+//   publishing {
+//     publications {
+//       release(MavenPublication) {
+//         from components.release
+//       }
+//     }
+//     repositories {
+//       maven {
+//         url = mavenLocal().url
+//       }
+//     }
+//   }
+// }

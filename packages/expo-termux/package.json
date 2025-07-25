@@ -1,0 +1,49 @@
+{
+  "name": "@keeganmccallum/expo-termux",
+  "version": "0.1.0",
+  "description": "Termux integration for Expo applications with automatic configuration",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "clean": "rm -rf build",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "expo",
+    "react-native",
+    "termux",
+    "terminal",
+    "android"
+  ],
+  "author": "Keegan McCallum",
+  "license": "MIT",
+  "peerDependencies": {
+    "expo": "~52.0.0",
+    "react": "18.2.0",
+    "react-native": "0.75.4"
+  },
+  "dependencies": {
+    "@xterm/addon-attach": "^0.11.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-web-links": "^0.11.0",
+    "@xterm/xterm": "^5.5.0",
+    "react-native-webview": "^13.15.0"
+  },
+  "devDependencies": {
+    "@types/react": "~18.2.6",
+    "@types/react-native": "0.75.4",
+    "typescript": "~5.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keeganmccallum/expo-termux.git",
+    "directory": "packages/expo-termux"
+  },
+  "expo": {
+    "android": {
+      "package": "@keeganmccallum/expo-termux"
+    }
+  }
+}

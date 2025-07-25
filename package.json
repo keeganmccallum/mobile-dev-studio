@@ -1,24 +1,21 @@
 {
-  "name": "mobile-dev-studio",
+  "name": "mobile-dev-studio-monorepo",
   "version": "1.0.0",
-  "main": "index.ts",
+  "private": true,
+  "description": "Monorepo containing expo-termux package and demo application",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "start": "expo start",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
-    "web": "expo start --web",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:unit": "jest __tests__/unit/TermuxManager.test.ts __tests__/unit/TermuxSession.test.ts",
-    "test:integration": "jest __tests__/integration/TermuxRealModule.test.ts",
-    "test:e2e": "echo 'E2E tests disabled for now'",
-    "test:e2e:android": "echo 'E2E tests disabled for now'",
-    "test:e2e:ios": "echo 'E2E tests disabled for now'",
-    "build:e2e:android": "echo 'E2E builds disabled for now'",
-    "build:e2e:ios": "echo 'E2E builds disabled for now'",
-    "lint": "eslint src/ --ext .ts,.tsx",
-    "typecheck": "tsc --noEmit"
+    "build": "pnpm run --recursive build",
+    "dev:demo": "cd packages/demo-app && pnpm start",
+    "dev:package": "cd packages/expo-termux && pnpm watch",
+    "android:demo": "cd packages/demo-app && pnpm android",
+    "build:package": "cd packages/expo-termux && pnpm build",
+    "test": "pnpm run --recursive test",
+    "lint": "pnpm run --recursive lint",
+    "typecheck": "pnpm run --recursive typecheck",
+    "clean": "pnpm run --recursive clean && rm -rf node_modules packages/*/node_modules"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",

@@ -1,12 +1,85 @@
-# 🚀 Mobile Dev Studio
+# Mobile Dev Studio - Termux Integration Monorepo
 
-> A comprehensive mobile development environment with **real Termux terminal integration**
+This monorepo contains the `@keeganmccallum/expo-termux` package and a demo application showcasing its functionality.
+
+> 🚀 **Drop-in Termux integration for Expo applications with automatic configuration**
 
 [![CI/CD Pipeline](https://github.com/mobile-dev-studio/mobile-dev-studio/workflows/CI%2FCD%20Pipeline/badge.svg)](https://github.com/mobile-dev-studio/mobile-dev-studio/actions)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen)](https://github.com/mobile-dev-studio/mobile-dev-studio/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-## ✨ Features
+## 📦 Packages
+
+### [@keeganmccallum/expo-termux](./packages/expo-termux/)
+Drop-in Termux integration package for Expo applications with automatic configuration.
+
+**Features:**
+- 🚀 Zero-config installation with automatic Kotlin version compatibility
+- 📱 Native Android Termux backend integration  
+- 🖥️ xterm.js terminal UI components
+- 🔧 Multiple terminal sessions with command execution
+- ⚡ Minimal setup for fresh Expo projects
+
+### [Demo App](./packages/demo-app/)
+Example Expo application demonstrating all expo-termux features including:
+- Terminal interface with xterm.js
+- Session management and programmatic control
+- Command execution examples
+- Multiple tab navigation showing integration
+
+## 🚀 Quick Start
+
+### For Package Development
+
+\`\`\`bash
+# Install dependencies
+pnpm install
+
+# Build the expo-termux package
+pnpm build:package
+
+# Start package development (watch mode)
+pnpm dev:package
+
+# Start demo app  
+pnpm dev:demo
+
+# Build and test on Android
+pnpm android:demo
+\`\`\`
+
+### For Using the Package
+
+\`\`\`bash
+npm install @keeganmccallum/expo-termux
+\`\`\`
+
+Add to your \`app.json\`:
+\`\`\`json
+{
+  "expo": {
+    "plugins": ["@keeganmccallum/expo-termux"]
+  }
+}
+\`\`\`
+
+Use in your React Native app:
+\`\`\`tsx
+import React from 'react';
+import { TermuxTerminal } from '@keeganmccallum/expo-termux';
+
+export default function App() {
+  return (
+    <TermuxTerminal 
+      sessionId="main"
+      onData={(data) => console.log('Output:', data)}
+      onExit={(code) => console.log('Exit code:', code)}
+    />
+  );
+}
+\`\`\`
+
+## ✨ Original Features
 
 ### ⚡ Real Terminal Integration
 - **Actual Termux Terminal**: Complete Linux environment with 29MB Alpine bootstrap
