@@ -52,6 +52,8 @@ allprojects {
             force "org.jetbrains.kotlin:kotlin-stdlib-common:1.9.25"
             force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.25"
             force "org.jetbrains.kotlin:kotlin-reflect:1.9.25"
+            force "org.jetbrains.kotlin:kotlin-compiler-embeddable:1.9.25"
+            force "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.25"
         }
     }
     
