@@ -20,7 +20,7 @@
   "author": "Keegan McCallum",
   "license": "MIT",
   "peerDependencies": {
-    "expo": "~52.0.0",
+    "expo": "~51.0.0",
     "react": "18.2.0",
     "react-native": "0.75.4"
   },
