@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { termuxManager } from '@keeganmccallum/expo-termux';
+// Temporarily use local path until package is built  
+import { termuxManager } from '../../../expo-termux/src/TermuxManager';
 
 export default function TermuxDemoScreen() {
   const [sessions, setSessions] = useState<string[]>([]);
