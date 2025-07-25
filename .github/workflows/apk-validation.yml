@@ -39,12 +39,22 @@ jobs:
         # Download APK from the build workflow
         echo "Downloading APK artifacts..."
         
-        # Get the latest successful build run
-        LATEST_RUN=$(gh run list --workflow="Build and Release APKs" --status=success --limit=1 --json=databaseId --jq='.[0].databaseId')
-        echo "Latest successful run: $LATEST_RUN"
+        # Get the latest build run with APK artifacts (regardless of overall status)
+        # This handles cases where APK build succeeds but release step fails
+        echo "Searching for latest build with APK artifacts..."
+        
+        LATEST_RUN=""
+        for run_id in $(gh run list --workflow="Build and Release APKs" --limit=10 --json=databaseId --jq='.[].databaseId'); do
+          echo "Checking run $run_id for artifacts..."
+          if gh api /repos/${{ github.repository }}/actions/runs/$run_id/artifacts --jq='.artifacts[] | select(.name | startswith("apk-${{ matrix.build_type }}")) | .name' | head -1 | grep -q "apk-"; then
+            LATEST_RUN=$run_id
+            echo "Found APK artifacts in run: $LATEST_RUN"
+            break
+          fi
+        done
         
         if [ -z "$LATEST_RUN" ]; then
-          echo "No successful build found"
+          echo "No build with APK artifacts found"
           exit 1
         fi
         
