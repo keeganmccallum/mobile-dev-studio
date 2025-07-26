@@ -68,6 +68,8 @@ jobs:
       
     - name: Clean and prebuild Expo project
       run: |
+        # Build from demo app directory
+        cd packages/demo-app
         # Clean any existing android directory to ensure fresh prebuild
         rm -rf android
         npx expo prebuild --platform android --clean
@@ -75,6 +77,7 @@ jobs:
     - name: Bundle JavaScript for production
       run: |
         # Create the bundle using expo export
+        cd packages/demo-app
         npx expo export --platform android --output-dir dist
         mkdir -p android/app/src/main/assets
         
@@ -112,32 +115,32 @@ jobs:
           echo "🔑 No production keystore found, creating test keystore for release build..."
           
           # Create test keystore
-          keytool -genkey -v -keystore android/app/release.keystore \
+          keytool -genkey -v -keystore packages/demo-app/android/app/release.keystore \
                   -alias androiddebugkey \
                   -keyalg RSA -keysize 2048 -validity 10000 \
                   -storepass android -keypass android \
                   -dname "CN=Test, OU=Test, O=Test, L=Test, S=Test, C=US"
           
           # Set properties for test keystore
-          echo "KEYSTORE_PATH=release.keystore" >> android/gradle.properties
-          echo "KEYSTORE_PASSWORD=android" >> android/gradle.properties  
-          echo "KEY_ALIAS=androiddebugkey" >> android/gradle.properties
-          echo "KEY_PASSWORD=android" >> android/gradle.properties
+          echo "KEYSTORE_PATH=release.keystore" >> packages/demo-app/android/gradle.properties
+          echo "KEYSTORE_PASSWORD=android" >> packages/demo-app/android/gradle.properties  
+          echo "KEY_ALIAS=androiddebugkey" >> packages/demo-app/android/gradle.properties
+          echo "KEY_PASSWORD=android" >> packages/demo-app/android/gradle.properties
           
           echo "✅ Test keystore created successfully"
         else
           echo "🔑 Using production keystore from secrets..."
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/app/release.keystore
-          echo "KEYSTORE_PATH=release.keystore" >> android/gradle.properties
-          echo "KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> android/gradle.properties
-          echo "KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/gradle.properties
-          echo "KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/gradle.properties
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > packages/demo-app/android/app/release.keystore
+          echo "KEYSTORE_PATH=release.keystore" >> packages/demo-app/android/gradle.properties
+          echo "KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> packages/demo-app/android/gradle.properties
+          echo "KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}" >> packages/demo-app/android/gradle.properties
+          echo "KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}" >> packages/demo-app/android/gradle.properties
         fi
         
     - name: Generate release signing config
       if: matrix.build_type == 'release'
       run: |
-        cat >> android/app/build.gradle << 'EOF'
+        cat >> packages/demo-app/android/app/build.gradle << 'EOF'
         
         android {
             signingConfigs {
@@ -158,7 +161,7 @@ jobs:
         
     - name: Build Android APK
       run: |
-        cd android
+        cd packages/demo-app/android
         if [ "${{ matrix.build_type }}" = "release" ]; then
           ./gradlew assembleRelease --no-daemon
         else
@@ -194,9 +197,9 @@ jobs:
     - name: Rename APK with build info
       run: |
         if [ "${{ matrix.build_type }}" = "release" ]; then
-          APK_PATH="android/app/build/outputs/apk/release/app-release.apk"
+          APK_PATH="packages/demo-app/android/app/build/outputs/apk/release/app-release.apk"
         else
-          APK_PATH="android/app/build/outputs/apk/debug/app-debug.apk"
+          APK_PATH="packages/demo-app/android/app/build/outputs/apk/debug/app-debug.apk"
         fi
         
         if [ -f "$APK_PATH" ]; then
@@ -205,7 +208,7 @@ jobs:
           ls -lh "${{ steps.build_info.outputs.apk_name }}"
         else
           echo "❌ APK not found at: $APK_PATH"
-          find android/app/build/outputs/apk -name "*.apk" -type f
+          find packages/demo-app/android/app/build/outputs/apk -name "*.apk" -type f
           exit 1
         fi
         
