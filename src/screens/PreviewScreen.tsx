@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WebView } from 'react-native-webview';
 import { Ionicons } from '@expo/vector-icons';
-import { terminalService } from '../services/TerminalService';
 
 export default function PreviewScreen() {
   const [isLoading, setIsLoading] = useState(true);
@@ -123,34 +122,7 @@ export default function PreviewScreen() {
     webViewRef.current?.injectJavaScript(script);
   };
 
-  useEffect(() => {
-    // Listen for server status changes from terminal
-    const handleServerStatus = (event: { type: string; data: any }) => {
-      if (event.type === 'SERVER_STATUS_CHANGE') {
-        setServerStatus(event.data.status);
-        if (event.data.status === 'running' && event.data.url) {
-          setUrl(event.data.url);
-          // Auto-refresh the WebView when server starts
-          setTimeout(() => {
-            webViewRef.current?.reload();
-          }, 1000);
-        }
-      }
-    };
-
-    terminalService.addEventListener(handleServerStatus);
-    
-    // Get initial server status
-    const initialStatus = terminalService.getServerStatus();
-    setServerStatus(initialStatus.status);
-    if (initialStatus.url) {
-      setUrl(initialStatus.url);
-    }
-
-    return () => {
-      terminalService.removeEventListener(handleServerStatus);
-    };
-  }, []);
+  // Server status will be managed manually for this preview screen
 
   const refreshPage = () => {
     webViewRef.current?.reload();
