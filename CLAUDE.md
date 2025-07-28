@@ -1,5 +1,22 @@
 # Claude Code Development Guide
 
+## Project Architecture - CRITICAL UNDERSTANDING
+
+**THIS IS A MONOREPO FOR THE `expo-termux` NPM PACKAGE**
+
+- 📦 **Primary Goal**: Create a publishable `expo-termux` npm package that provides Termux integration for any Expo app
+- 🎯 **Demo App**: `packages/demo-app` showcases the expo-termux package functionality
+- 🔧 **Native Modules**: `modules/termux-core` contains the native Android implementation
+- ⚙️ **Build Process**: Root-level builds create APKs of the demo app using the expo-termux package
+
+### Key Components:
+1. **`packages/expo-termux/`** - The main npm package (to be published)
+2. **`packages/demo-app/`** - Demo application showcasing expo-termux features
+3. **`modules/termux-core/`** - Native Android Termux implementation
+4. **Root Level** - Monorepo build configuration and demo app compilation
+
+**TERMUX INTEGRATION IS THE CORE FEATURE - NEVER DISABLE IT**
+
 ## Development Environment Context
 
 **CRITICAL: Claude Code is running on Android phone in Termux environment**
@@ -19,7 +36,7 @@
 1. **Build APK**: `gh run list --workflow="Build and Release APKs"`
 2. **Test APK**: `gh workflow run "APK Validation Testing"`
 3. **Check Results**: `gh run list --workflow="APK Validation Testing" --limit 1`
-4. **Download Logs**: `gh run download [RUN_ID] --name apk-validation-debug-screenshots`
+4. **Download Logs**: `gh run download [RUN_ID] --name apk-validation-debug-artifacts`
 5. **Analyze Failure**: Check what screenshots exist vs missing ones
 
 ### APK Validation Testing Pipeline
@@ -60,7 +77,7 @@ gh workflow run "APK Validation Testing"
 gh run list --workflow="APK Validation Testing" --limit 1
 
 # 3. Download failure artifacts
-gh run download [RUN_ID] --name apk-validation-debug-screenshots
+gh run download [RUN_ID] --name apk-validation-debug-artifacts
 
 # 4. Check what screenshots exist
 ls -la *.png
@@ -69,44 +86,32 @@ ls -la *.png
 find . -name "*crash*" -o -name "*log*"
 ```
 
-### Current App Issues (Updated July 24, 2025)
+### Current App Issues (Updated July 28, 2025)
 
 - **JavaScript Bundle**: ✅ Builds successfully (no syntax errors)  
-- **APK Build**: ❌ **KOTLIN COMPILATION FAILURES** in expo-modules-core
-- **App Launch**: 🔄 Cannot test - builds failing
-- **Root Cause**: **ACTIVE ISSUE** - Kotlin version conflicts with Expo SDK 52.0.0
+- **APK Build**: ✅ **FIXED** - All builds completing successfully
+- **App Launch**: ❌ **IMMEDIATE CRASH ON LAUNCH** - App fails to start, process never appears
+- **Root Cause**: **ACTIVE ISSUE** - Runtime crash preventing app initialization
+- **Webview Dependency**: ✅ **FIXED** - Added react-native-webview to demo app dependencies
+- **Webview Plugin**: ✅ **FIXED** - Added react-native-webview plugin to app.json
 
 ### Current Build Status
 
-**All recent builds failing with same error:**
-```
-Execution failed for task ':expo-modules-core:compileDebugKotlin'
-> Compilation error. See log for more details
-```
+**Recent builds succeeding but runtime crashes:**
+- APK compilation: ✅ Successful
+- Native module compilation: ✅ Successful  
+- App installation: ✅ Successful
+- App launch: ❌ **IMMEDIATE CRASH**
 
-**Last successful builds:** July 20, 2025 (Build 125) - contains working Termux integration
+**Last known working build:** Build 129+ (July 20, 2025) - contained functional Termux integration
 
-**Troubleshooting approach:**
-1. ✅ Removed custom Kotlin version overrides
-2. ✅ Let Expo manage Kotlin versions
-3. ❌ Still failing - deeper Expo/Kotlin compatibility issue
+### Potential Root Causes for Current Crash
 
-### Critical Discovery
-
-**Even a minimal React Native app (just View + Text) crashes immediately**. This indicates:
-
-- ❌ Not a component-specific issue
-- ❌ Not a navigation or complex feature issue  
-- ❌ Not a Termux integration issue
-- ✅ **Fundamental React Native engine problem**
-
-### Potential Root Causes
-
-1. **JSC Engine Configuration** - JSC not properly initialized
-2. **Metro Bundle Corruption** - Bundle not compatible with runtime
-3. **React Native Version Conflicts** - Dependencies incompatible
-4. **Native Module Setup** - Something broken in native RN setup
-5. **Build Tool Configuration** - Gradle/Android build issues
+1. **Native Module Initialization** - Termux native modules failing to initialize
+2. **Expo Module Configuration** - expo-termux module not properly configured
+3. **Dependency Version Conflicts** - React Native/Expo version incompatibilities
+4. **Build Configuration Issues** - Gradle/Kotlin compilation problems
+5. **Auto-linking Problems** - Expo auto-linking not finding native modules
 
 ### Build Commands
 
@@ -121,21 +126,28 @@ gh run list --workflow="Build and Release APKs" --limit 1
 gh workflow run "APK Validation Testing"
 ```
 
-### React Native Debugging
+### Termux Integration Architecture
 
-When app crashes on launch, common causes:
-- Missing native modules
-- Incorrect native module initialization
-- Metro bundler issues
-- WebView loading failures
-- JavaScript runtime errors in JSC engine
+**Native Layer:**
+- `modules/termux-core/` - Native Android implementation
+- `modules/termux-core/android/` - Gradle build configuration
+- `modules/termux-core/src/` - TypeScript/React Native bridge
+
+**Package Layer:**
+- `packages/expo-termux/` - Main npm package
+- `packages/demo-app/` - Demo application using expo-termux
+
+**Demo App Features:**
+- Terminal tab with xterm.js integration
+- Editor tab with code editing capabilities
+- Preview tab with WebView for live preview
+- Termux Demo tab showcasing native Termux features
 
 ### File Structure Notes
 
-- **Termux Integration**: `src/lib/termux/TermuxManager.ts`
-- **Main Terminal**: `src/screens/TerminalScreen.tsx`  
-- **WebView Terminal**: `src/lib/termux/TermuxTerminal.tsx`
-- **Native Module**: `modules/termux-core/`
+- **Termux Integration**: `packages/expo-termux/src/`
+- **Demo App Main**: `packages/demo-app/App.tsx`  
+- **Native Termux**: `modules/termux-core/android/`
 - **APK Validation**: `.github/workflows/apk-validation.yml`
 
 ## Expo Compatibility Priority
@@ -143,7 +155,7 @@ When app crashes on launch, common causes:
 **CRITICAL: Full Expo compatibility is essential for this Termux integration**
 
 - ✅ **Drop-in compatibility**: Should work in any fresh Expo project without major configuration changes
-- ✅ **Minimal setup required**: Users should be able to add the Termux module with minimal friction
+- ✅ **Minimal setup required**: Users should be able to add the expo-termux module with minimal friction
 - ✅ **Standard Expo workflows**: Must work with standard `expo build`, `eas build`, etc.
 - ✅ **No breaking changes**: Should not interfere with existing Expo modules or configurations
 
@@ -151,38 +163,43 @@ When app crashes on launch, common causes:
 1. **Get working build validated** (immediate priority)
 2. **Verify Termux functionality works end-to-end** 
 3. **Refactor for drop-in Expo compatibility** (post-validation)
-4. **Create installation guide for fresh Expo projects**
+4. **Publish expo-termux npm package**
 
 ### Drop-in Expo Compatibility Analysis
 
-**Current Required Configuration Changes:**
+**Required Configuration Changes for Target Users:**
 
-1. **android/build.gradle** (MUST MINIMIZE):
-   - ✅ **Critical**: Kotlin version enforcement (expo-modules-core compatibility)
-   - ❌ **Drop-in barrier**: Force resolution strategies (could be module-specific)
-   - ❌ **Drop-in barrier**: SoftwareComponent publishing fixes (could be automated)
-   - ✅ **Acceptable**: Java 17 compatibility (standard for modern projects)
+1. **app.json plugins** (REQUIRED):
+   ```json
+   {
+     "expo": {
+       "plugins": ["expo-termux"]
+     }
+   }
+   ```
 
-2. **gradle.properties** (MOSTLY ACCEPTABLE):
-   - ✅ **Standard**: Most properties are Expo/React Native best practices
-   - ❌ **Could minimize**: Kotlin version overrides (if we fix expo-modules-core detection)
-
-3. **android/settings.gradle** (CURRENTLY CLEAN):
-   - ✅ **Good**: No Termux-specific changes (Termux modules disabled)
-   - ✅ **Standard**: Uses expo-autolinking (standard Expo setup)
+2. **Dependencies** (REQUIRED):
+   ```json
+   {
+     "dependencies": {
+       "expo-termux": "^1.0.0",
+       "react-native-webview": "^13.15.0"
+     }
+   }
+   ```
 
 **Optimization Strategy for Drop-in Compatibility:**
-- **Package as expo-termux**: Create standalone npm package with auto-configuration
-- **Gradle plugin approach**: Termux plugin automatically applies needed fixes
-- **Conditional configuration**: Detect fresh Expo projects and apply minimal changes
-- **Version detection**: Auto-detect Kotlin version conflicts and resolve programmatically
+- **Package as expo-termux**: Standalone npm package with auto-configuration
+- **Plugin approach**: Expo plugin automatically applies needed native configurations
+- **Minimal user config**: Only require plugin addition to app.json
+- **Auto-dependency management**: Plugin handles WebView and other dependencies
 
 ### Post-Validation Compatibility Tasks:
-- Extract Termux integration into `expo-termux` npm package
-- Create gradle plugin that auto-applies Kotlin version fixes
-- Minimize required user configuration to near-zero
+- Extract Termux integration into publishable `expo-termux` npm package
+- Create Expo plugin that auto-applies native configurations
+- Minimize required user configuration to plugin addition only
 - Test integration with various Expo SDK versions (50, 51, 52, 53)
-- Document 3-step installation process for fresh projects
+- Document 2-step installation process for fresh projects
 
 ## Development Rules
 
@@ -197,61 +214,31 @@ When app crashes on launch, common causes:
    - Don't assume the problem based on general error types
    - Search for exact error text: "Could not find method X()"
    - **READ FULL LOGS, NOT JUST GREP** - Multiple different errors can occur simultaneously
-   - **Example**: Debug build had `classifier()` method error, Release build had `SoftwareComponent 'release'` property error
 
 ## Systematic Testing Progress
 
 ### Test Results Log
 
-**Build 124 (Original Complex App)**:
+**Build 124 (Complex App with Termux)**:
 - Screenshots: `00-clean-state.png` only
 - Result: ❌ Immediate crash on launch
-- Conclusion: Complex components suspected
+- Conclusion: Complex Termux integration causing runtime issues
 
 **Build 125 (Minimal App - View + Text only)**:
 - Screenshots: `00-clean-state.png` only  
 - Result: ❌ Immediate crash on launch
 - Conclusion: **FUNDAMENTAL REACT NATIVE RUNTIME ISSUE**
 
-**Build 126 (Simplified Configs)**:
-- Metro: Stripped to bare minimum
-- Babel: Only core preset
-- Screenshots: `00-clean-state.png` only
-- Result: ❌ Still crashing immediately
-- Conclusion: Config complexity not the issue
+**Build 129+ (Working Version)**:
+- ✅ App launches and runs successfully
+- ✅ All 12 test screenshots generated
+- ✅ Termux integration functional
+- **Configuration**: Proper Kotlin versions, fixed Babel issues, stable React Native versions
 
-**Build 127 (Hermes Engine)**:
-- Switched from JSC to Hermes
-- Screenshots: `00-clean-state.png` only
-- Result: ❌ Still crashing immediately
-- Conclusion: NOT an engine-specific issue
-
-**Build 128 (Stable Version Stack)**:
-- React: 19.0.0 → 18.2.0
-- React Native: 0.79.5 → 0.75.4  
-- Expo: 53.0.20 → 52.0.0
-- JSC engine (back from Hermes)
+**Build 200+ (Current - Post Webview Fix)**:
 - Screenshots: `00-clean-state.png` only
 - Result: ❌ **STILL CRASHING IMMEDIATELY**
-- Conclusion: Version compatibility not the root cause
-
-**Build 129+ (Final Fix)**:
-- ✅ Fixed Babel loose mode conflicts 
-- ✅ Added @babel/plugin-transform-private-methods
-- ✅ Upgraded Kotlin version 1.9.24 → 1.9.25 for Compose Compiler compatibility
-- ✅ Temporarily disabled Termux modules (modules-disabled/)
-- Screenshots: Complete success - all 12 screenshots generated
-- Result: ✅ **APP LAUNCHES AND RUNS SUCCESSFULLY**
-- Conclusion: **FUNDAMENTAL ISSUES RESOLVED**
-
-### Version Compatibility Issue Discovered
-
-The app was using **bleeding-edge versions** that have compatibility issues:
-- React 19.0.0 (very new, December 2024)
-- React Native 0.79.5 (latest, potential compatibility issues)
-- Expo 53 (newest SDK)
-
-**Hypothesis**: This combination is too new and has runtime incompatibilities causing immediate crashes.
+- **Issue**: Runtime crash preventing app initialization despite successful builds
 
 ### Enhanced Debugging Capabilities
 
@@ -260,7 +247,7 @@ The app was using **bleeding-edge versions** that have compatibility issues:
 - ✅ **Extended monitoring**: 15-second timeout with progress updates  
 - ✅ **System analysis**: Memory info, device properties, package dumps
 - ✅ **Native crash detection**: Tombstones, kernel logs, linker errors
-- ✅ **Complete debug artifacts**: Will capture ALL crash details
+- ✅ **Complete debug artifacts**: Will capture ALL crash details when properly uploaded
 
 **Key Log Files Generated**:
 - `full-launch-log.txt` - Filtered logs during app launch
@@ -270,54 +257,14 @@ The app was using **bleeding-edge versions** that have compatibility issues:
 - `memory-info.txt` - System memory status
 - `kernel-log.txt` - Kernel messages
 
-### Iteration Strategy - COMPLETED ✅
+### Current Status Summary
 
-All fundamental React Native runtime issues have been resolved:
-
-1. ✅ Simplified Metro/Babel configs
-2. ✅ Test JSC engine setup
-3. ✅ Check React Native version compatibility  
-4. ✅ Enhanced crash logging system implemented
-5. ✅ Disabled native CMake build (Termux module) - **CRITICAL FIX**
-6. ✅ Fixed Gradle/Android build configuration - **Kotlin version upgrade**
-7. ✅ **APP NOW LAUNCHES SUCCESSFULLY**
-
-### Next Phase: Termux Integration
-
-Now that basic React Native functionality works, re-enable Termux modules incrementally.
-
-### Termux Module Integration Fixes
-
-**Critical Gradle API Issues Fixed:**
-
-1. **Deprecated `classifier` API** - Fixed in 2 files:
-   - `modules/termux-core/terminal-emulator/build.gradle:59`
-   - `modules/termux-core/terminal-view/build.gradle:37`
-   - **Fix**: Changed `classifier "sources"` → `archiveClassifier = "sources"`
-   - **Root Cause**: Modern Gradle versions deprecated the `classifier` method
-
-2. **Kotlin Version Resolution** - Added force resolution in `android/build.gradle`:
-   ```gradle
-   configurations.all {
-     resolutionStrategy {
-       force "org.jetbrains.kotlin:kotlin-stdlib:1.9.25"
-       force "org.jetbrains.kotlin:kotlin-stdlib-common:1.9.25" 
-       force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.25"
-       force "org.jetbrains.kotlin:kotlin-reflect:1.9.25"
-     }
-   }
-   ```
-
-**Testing Progress:**
-- ✅ Basic React Native app launches successfully (without Termux)
-- ✅ Termux modules re-enabled with Gradle fixes applied
-- ✅ TypeScript compilation errors fixed with custom type declarations
-- 🔄 **IN PROGRESS**: Fixing SoftwareComponent 'release' errors in Termux module build.gradle files
-- **Current Issues**: Expo SoftwareComponent errors still occurring in terminal-emulator and terminal-view modules
+**BUILD STATUS**: ✅ APKs compile successfully  
+**INSTALLATION STATUS**: ✅ APKs install on emulator successfully  
+**LAUNCH STATUS**: ❌ **App crashes immediately on launch - no process appears**  
+**DEBUG STATUS**: ❌ **No debug artifacts captured - crash too early**
 
 ### Development Workflow Notes
-
-**Task Tool Limitation**: The Task tool for spawning sub-agents doesn't work reliably in this environment. All work must be done at the top level with manual build monitoring.
 
 **Lock File Management**: When adding dependencies to any workspace package (packages/demo-app, packages/expo-termux), always run `npm install` in that package directory and commit the updated root package-lock.json file to prevent dependency resolution issues.
 
@@ -332,7 +279,7 @@ sleep 60 && gh run list --workflow="APK Validation Testing" --limit 1
 # Safe artifact checking - use unique directory per run
 RUN_ID=$(gh run list --workflow="APK Validation Testing" --limit 1 --json databaseId --jq '.[0].databaseId')
 mkdir -p test-results/run-$RUN_ID
-gh run download $RUN_ID --name apk-validation-debug-screenshots --dir test-results/run-$RUN_ID
+gh run download $RUN_ID --name apk-validation-debug-artifacts --dir test-results/run-$RUN_ID
 ls -la test-results/run-$RUN_ID/  # Check what screenshots exist
 
 # Alternative: Check artifact list without downloading
@@ -344,5 +291,12 @@ gh api repos/:owner/:repo/actions/runs/$RUN_ID/artifacts --jq '.artifacts[].name
 ```bash
 # Just check if run passed/failed
 gh run list --workflow="APK Validation Testing" --limit 1
-# If status is 'failure' and no other screenshots mentioned = immediate crash
+# If status is 'failure' and no debug artifacts = immediate crash
 ```
+
+## Important Instruction Reminders
+
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
