@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
+import { CrashLogger } from './src/utils/CrashLogger';
 
 import TerminalScreen from './src/screens/TerminalScreen';
 import EditorScreen from './src/screens/EditorScreen';
@@ -12,8 +13,38 @@ import TermuxDemoScreen from './src/screens/TermuxDemoScreen';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  useEffect(() => {
+    CrashLogger.logAppStart();
+    
+    try {
+      CrashLogger.logModuleLoad('@react-navigation/native');
+      CrashLogger.logModuleLoad('@expo/vector-icons');
+      CrashLogger.logModuleLoad('expo-status-bar');
+    } catch (error) {
+      CrashLogger.logError(error, 'Module loading');
+    }
+  }, []);
+
+  const handleNavigationReady = () => {
+    CrashLogger.logNavigationReady();
+  };
+
+  const handleNavigationStateChange = (state: any) => {
+    try {
+      const currentRoute = state?.routes?.[state?.index];
+      if (currentRoute) {
+        CrashLogger.logScreenMount(currentRoute.name);
+      }
+    } catch (error) {
+      CrashLogger.logError(error, 'Navigation state change');
+    }
+  };
+
   return (
-    <NavigationContainer>
+    <NavigationContainer 
+      onReady={handleNavigationReady}
+      onStateChange={handleNavigationStateChange}
+    >
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {

@@ -175,7 +175,7 @@ jobs:
           # Clear logcat buffer
           adb logcat -c
           
-          # Start comprehensive logcat capture in background
+          # Start comprehensive logcat capture in background with crash logger support
           adb logcat -s \
             AndroidRuntime:V \
             System.err:V \
@@ -195,6 +195,7 @@ jobs:
             libc:V \
             linker:V \
             DEBUG:V \
+            CRASH_LOG:V \
             *:F \
             > screenshots/$BUILD_TYPE/full-launch-log.txt 2>&1 &
           

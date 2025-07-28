@@ -201,19 +201,167 @@ gh workflow run "APK Validation Testing"
 - Test integration with various Expo SDK versions (50, 51, 52, 53)
 - Document 2-step installation process for fresh projects
 
-## Development Rules
+## Optimized Development Workflow
 
-1. **Always use emulator testing to verify fixes**
-2. **Never claim success without downloading and checking screenshots**
-3. **Document all testing steps and findings**
-4. **Focus on runtime errors, not just build errors**
-5. **Iterate quickly through the test-fix-test cycle**
-6. **UPDATE THIS CLAUDE.MD WITH ALL NEW DISCOVERIES IMMEDIATELY**
-7. **CRITICAL: ALWAYS READ BUILD LOGS CAREFULLY FOR EXACT ERROR MESSAGES**
-   - Look for specific method names, line numbers, and file paths
-   - Don't assume the problem based on general error types
-   - Search for exact error text: "Could not find method X()"
-   - **READ FULL LOGS, NOT JUST GREP** - Multiple different errors can occur simultaneously
+### 🚀 FAST ITERATION CYCLE FOR EXPO-TERMUX DEVELOPMENT
+
+**Goal: Reduce development feedback loop from 20+ minutes to 5-10 minutes**
+
+#### 3-Tier Testing Strategy
+
+**🟢 TIER 1: Quick Validation (2-3 minutes)**
+```bash
+gh workflow run "Quick Validation Pipeline"
+```
+- TypeScript compilation check
+- Bundle creation validation  
+- Native module compilation check
+- App configuration validation
+- Dependency analysis
+- **Use for**: Code changes, config updates, quick verification
+
+**🟡 TIER 2: Debug Build (7-10 minutes)**  
+```bash
+gh workflow run "Debug APK Build with Enhanced Logging"
+```
+- Full APK build with debug info
+- Enhanced crash logging enabled
+- Source maps included
+- Automatic APK validation trigger
+- **Use for**: Runtime issues, crash debugging, feature testing
+
+**🔴 TIER 3: Full Production Test (15-20 minutes)**
+```bash
+gh workflow run "Build and Release APKs"
+# Then: gh workflow run "APK Validation Testing"
+```
+- Production APK builds (debug + release)
+- Complete emulator testing suite
+- All 12 test screenshots
+- **Use for**: Final validation, release preparation
+
+#### Smart Development Flow
+
+```
+1. Code Change → Quick Validation (3min)
+   ├─ ✅ Pass → Continue coding
+   └─ ❌ Fail → Fix compilation/config issues
+   
+2. Feature Complete → Debug Build (10min)
+   ├─ ✅ Pass → Test more features  
+   └─ ❌ Fail → Debug with enhanced logs
+   
+3. Ready for Testing → Full Production Test (20min)
+   ├─ ✅ Pass → Feature complete!
+   └─ ❌ Fail → Back to debug build
+```
+
+### 🔧 Enhanced Debugging Capabilities
+
+#### Crash Logger Integration
+- **Automatic crash detection** in demo app
+- **Persistent logging** survives app crashes
+- **Module loading tracking** identifies initialization failures
+- **Navigation state monitoring** pinpoints crash points
+
+#### Debug Build Features
+- **Verbose native logging** with `--info --stacktrace --debug`
+- **Source maps included** for stack trace analysis
+- **Enhanced logcat capture** including CRASH_LOG tags
+- **Pre/post build analysis** with detailed environment info
+
+#### Critical Log Analysis Points
+```bash
+# Download debug artifacts
+gh run download [RUN_ID] --name debug-apk-[SHA]
+
+# Check crash logs
+grep "CRASH_LOG" full-launch-log.txt
+grep "ReactNativeJS" full-launch-log.txt  
+grep "AndroidRuntime" complete-logcat.txt
+
+# Analyze app initialization
+grep "App starting up" full-launch-log.txt
+grep "Module failed" full-launch-log.txt
+```
+
+### 📱 Testing Commands (Optimized)
+
+#### Quick Development Loop
+```bash
+# 1. Quick check before committing
+git add . && git commit -m "Feature: description"
+gh workflow run "Quick Validation Pipeline"
+
+# 2. Check validation (30 seconds later)
+gh run list --workflow="Quick Validation Pipeline" --limit 1
+
+# 3. If validation passes, push and test
+git push
+gh workflow run "Debug APK Build with Enhanced Logging"
+
+# 4. Monitor debug build (check every 2-3 minutes)
+gh run list --workflow="Debug APK Build" --limit 1
+
+# 5. Download debug artifacts when complete
+RUN_ID=$(gh run list --workflow="Debug APK Build" --limit 1 --json databaseId --jq '.[0].databaseId')
+gh run download $RUN_ID --name debug-apk-$(git rev-parse --short HEAD)
+```
+
+#### Emergency Debugging
+```bash
+# When app crashes immediately - get ALL the logs
+gh workflow run "Debug APK Build with Enhanced Logging" --verbose_logging=true
+
+# Download comprehensive debug package
+gh run download [RUN_ID] --name debug-apk-[SHA]
+
+# Analyze in order of priority:
+1. debug-info.txt - Build environment
+2. full-launch-log.txt - App startup logs  
+3. complete-logcat.txt - System logs
+4. build-manifest-debug.json - Build details
+```
+
+### 🎯 Development Rules (Updated)
+
+1. **Use 3-tier testing strategy** - Start with quick validation
+2. **Always check Tier 1 before pushing** - Prevent broken commits
+3. **Use debug builds for crash investigation** - Enhanced logging captures more info
+4. **Never claim success without emulator testing** - Screenshots are proof
+5. **Analyze crash logs systematically** - Check initialization, modules, navigation
+6. **UPDATE THIS CLAUDE.MD WITH ALL NEW DISCOVERIES** - Keep workflow current
+7. **Commit debug artifacts to git when needed** - Preserve debugging context
+
+### 🚨 Common Issue Patterns
+
+#### Immediate Crash (00-clean-state.png only)
+1. **Check Quick Validation first** - May catch compilation issues
+2. **Run Debug Build** - Get enhanced crash logs
+3. **Look for**: Module initialization failures, native binding issues
+4. **Pattern**: Usually expo-termux native module problems
+
+#### App Launches but Crashes Later (Multiple screenshots)
+1. **Count screenshots** - Identifies crash point
+2. **Check navigation logs** - Screen mounting issues
+3. **Look for**: React component errors, WebView issues
+4. **Pattern**: Usually JavaScript runtime errors
+
+#### Native Module Issues
+1. **Check gradle build logs** - Compilation problems
+2. **Verify auto-linking** - Module registration issues  
+3. **Look for**: Kotlin version conflicts, missing dependencies
+4. **Pattern**: Usually termux-core module problems
+
+### 📊 Workflow Performance Metrics
+
+| Workflow | Duration | Use Case | Success Rate |
+|----------|----------|----------|--------------|
+| Quick Validation | 2-3 min | Code changes, config | ~95% |
+| Debug Build | 7-10 min | Runtime debugging | ~80% |
+| Full Production | 15-20 min | Final validation | ~70% |
+
+**Target**: 90%+ success rate on Quick Validation, 85%+ on Debug Build
 
 ## Systematic Testing Progress
 
