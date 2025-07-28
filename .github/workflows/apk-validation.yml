@@ -362,7 +362,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: apk-validation-${{ matrix.build_type }}-screenshots
-        path: screenshots/
+        path: screenshots/${{ matrix.build_type }}/
         retention-days: 30
         
     - name: Create Test Report
@@ -383,12 +383,12 @@ jobs:
         
         ## Test Results
         
-        - ✅ APK Installation: Success
-        - ✅ App Launch: Success  
-        - ✅ No Immediate Crashes: Success
-        - ✅ Tab Navigation: Success
-        - ✅ Termux Integration: Success
-        - ✅ App Lifecycle: Success
+        - ${{ steps.test-apk.outcome == 'success' && '✅' || '❌' }} APK Installation: ${{ steps.test-apk.outcome == 'success' && 'Success' || 'Failed' }}
+        - ${{ steps.test-apk.outcome == 'success' && '✅' || '❌' }} App Launch: ${{ steps.test-apk.outcome == 'success' && 'Success' || 'Failed' }}
+        - ${{ steps.test-apk.outcome == 'success' && '✅' || '❌' }} No Immediate Crashes: ${{ steps.test-apk.outcome == 'success' && 'Success' || 'Failed' }}
+        - ${{ steps.test-apk.outcome == 'success' && '✅' || '❌' }} Tab Navigation: ${{ steps.test-apk.outcome == 'success' && 'Success' || 'Failed' }}
+        - ${{ steps.test-apk.outcome == 'success' && '✅' || '❌' }} Termux Integration: ${{ steps.test-apk.outcome == 'success' && 'Success' || 'Failed' }}
+        - ${{ steps.test-apk.outcome == 'success' && '✅' || '❌' }} App Lifecycle: ${{ steps.test-apk.outcome == 'success' && 'Success' || 'Failed' }}
         
         ## Screenshots
         
