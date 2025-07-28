@@ -319,6 +319,8 @@ Now that basic React Native functionality works, re-enable Termux modules increm
 
 **Task Tool Limitation**: The Task tool for spawning sub-agents doesn't work reliably in this environment. All work must be done at the top level with manual build monitoring.
 
+**Lock File Management**: When adding dependencies to any workspace package (packages/demo-app, packages/expo-termux), always run `npm install` in that package directory and commit the updated root package-lock.json file to prevent dependency resolution issues.
+
 ### Testing Loop Commands (Safe - No rm required)
 
 ```bash
