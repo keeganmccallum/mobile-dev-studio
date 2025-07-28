@@ -357,11 +357,11 @@ jobs:
           echo "✅ Termux integration responds"
           echo "✅ App lifecycle works"
           
-    - name: Upload Test Screenshots
+    - name: Upload Test Screenshots and Logs
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: apk-validation-${{ matrix.build_type }}-screenshots
+        name: apk-validation-${{ matrix.build_type }}-debug-artifacts
         path: screenshots/${{ matrix.build_type }}/
         retention-days: 30
         
