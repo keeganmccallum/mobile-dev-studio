@@ -1,0 +1,98 @@
+=== NPM INSTALL ===
+npm warn deprecated @types/react-native@0.73.0: This is a stub types definition. react-native provides its own type definitions, so you do not need this installed.
+npm warn deprecated osenv@0.1.5: This package is no longer supported.
+npm warn deprecated @babel/plugin-proposal-optional-catch-binding@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
+npm warn deprecated @babel/plugin-proposal-nullish-coalescing-operator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
+npm warn deprecated @babel/plugin-proposal-numeric-separator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
+npm warn deprecated @babel/plugin-proposal-export-namespace-from@7.18.9: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-export-namespace-from instead.
+npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+npm warn deprecated @babel/plugin-proposal-logical-assignment-operators@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-logical-assignment-operators instead.
+npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated @babel/plugin-proposal-optional-chaining@7.21.0: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
+npm warn deprecated @babel/plugin-proposal-async-generator-functions@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated sudo-prompt@9.2.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+npm warn deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+npm warn deprecated glob@7.1.6: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.1.6: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.1.6: Glob versions prior to v9 are no longer supported
+npm warn deprecated @xmldom/xmldom@0.7.13: this version is no longer supported, please update to at least 0.8.*
+
+added 1396 packages, and audited 1400 packages in 15s
+
+201 packages are looking for funding
+  run `npm fund` for details
+
+4 vulnerabilities (3 low, 1 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+=== LINT CHECK ===
+
+> mobile-dev-studio-monorepo@1.0.0 lint
+> pnpm run --recursive lint
+
+sh: 1: pnpm: not found
+lint failed
+
+=== TYPECHECK ===
+
+> mobile-dev-studio-monorepo@1.0.0 typecheck
+> pnpm run --recursive typecheck
+
+sh: 1: pnpm: not found
+typecheck failed
+
+=== TESTS ===
+
+> mobile-dev-studio-monorepo@1.0.0 test
+> pnpm run --recursive test
+
+sh: 1: pnpm: not found
+tests failed
+
+=== PREBUILD ===
+
+CommandError: Cannot find module '/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/react-native-webview/lib/WebView' imported from /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/react-native-webview/index.js
+
+prebuild failed
+
+=== BUILD ATTEMPT ===
+Downloading https://services.gradle.org/distributions/gradle-8.13-bin.zip
+.............10%.............20%.............30%.............40%.............50%.............60%.............70%.............80%.............90%.............100%
+
+Welcome to Gradle 8.13!
+
+Here are the highlights of this release:
+ - Daemon JVM auto-provisioning
+ - Enhancements for Scala plugin and JUnit testing
+ - Improvements for build authors and plugin developers
+
+For more details see https://docs.gradle.org/8.13/release-notes.html
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.13/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Settings file '/home/runner/work/mobile-dev-studio/mobile-dev-studio/android/settings.gradle' line: 21
+
+* What went wrong:
+Error resolving plugin [id: 'com.facebook.react.settings']
+> Included build '/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/expo-modules-autolinking/android/expo-gradle-plugin' does not exist.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 25s
+build failed
