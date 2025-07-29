@@ -4,7 +4,7 @@
  * Automatically configures Android build settings for Termux integration
  */
 
-const { withGradleProperties, withProjectBuildGradle } = require('expo/config-plugins');
+const { withGradleProperties, withProjectBuildGradle, withSettingsGradle, withAppBuildGradle } = require('expo/config-plugins');
 
 function withTermuxCompatibility(config) {
   // Add Kotlin version compatibility fixes to gradle.properties
@@ -62,6 +62,38 @@ rootProject.ext.kotlinVersion = '1.9.25'
       }
       
       config.modResults.contents = buildGradle;
+    }
+    
+    return config;
+  });
+  
+  // Add termux-core module to settings.gradle
+  config = withSettingsGradle(config, (config) => {
+    const settings = config.modResults.contents;
+    
+    if (!settings.includes('termux-core')) {
+      config.modResults.contents = settings + `
+// Termux core module - auto-linked by @keeganmccallum/expo-termux
+project(':termux-core').projectDir = new File('../modules/termux-core/android')
+include ':termux-core'
+`;
+    }
+    
+    return config;
+  });
+  
+  // Add termux-core dependency to app/build.gradle
+  config = withAppBuildGradle(config, (config) => {
+    const buildGradle = config.modResults.contents;
+    
+    if (!buildGradle.includes('termux-core')) {
+      // Find the dependencies block and add termux-core
+      const depsStart = buildGradle.indexOf('dependencies {');
+      if (depsStart !== -1) {
+        const insertPoint = buildGradle.indexOf('\n', depsStart) + 1;
+        const termuxDep = '    // Termux core module - auto-linked by @keeganmccallum/expo-termux\n    implementation project(\':termux-core\')\n';
+        config.modResults.contents = buildGradle.slice(0, insertPoint) + termuxDep + buildGradle.slice(insertPoint);
+      }
     }
     
     return config;

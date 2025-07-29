@@ -175,6 +175,4 @@ dependencies {
         implementation jscFlavor
     }
     
-    // Termux core module
-    implementation project(':termux-core')
 }

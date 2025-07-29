@@ -17,6 +17,97 @@
 
 **TERMUX INTEGRATION IS THE CORE FEATURE - NEVER DISABLE IT**
 
+### Architecture Flow Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              EXPO-TERMUX MONOREPO                          │
+│                                                                             │
+│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────────────┐  │
+│  │   Demo App      │    │   expo-termux   │    │    termux-core          │  │
+│  │ packages/demo-  │    │   packages/     │    │   modules/termux-core/  │  │
+│  │     app/        │    │  expo-termux/   │    │                         │  │
+│  │                 │    │                 │    │                         │  │
+│  │  ┌─────────────┐│    │ ┌─────────────┐ │    │ ┌─────────────────────┐ │  │
+│  │  │TermuxDemo   ││    │ │TermuxManager│ │    │ │ TermuxCoreModule.kt │ │  │
+│  │  │Screen.tsx   ││───▶│ │    .ts      │ │───▶│ │                     │ │  │
+│  │  │             ││    │ │             │ │    │ │ TermuxSessionFallback│ │  │
+│  │  │- Create     ││    │ │- Session    │ │    │ │                     │ │  │
+│  │  │  Session    ││    │ │  Management │ │    │ │- Native Termux      │ │  │
+│  │  │- Execute    ││    │ │- Command    │ │    │ │  Implementation     │ │  │
+│  │  │  Commands   ││    │ │  Execution  │ │    │ │- Process Management │ │  │
+│  │  │- Display    ││    │ │- Event      │ │    │ │- File System       │ │  │
+│  │  │  Output     ││    │ │  Handling   │ │    │ │- Bootstrap Install  │ │  │
+│  │  └─────────────┘│    │ └─────────────┘ │    │ └─────────────────────┘ │  │
+│  └─────────────────┘    └─────────────────┘    └─────────────────────────┘  │
+│           │                       │                         │              │
+│           │                       │                         │              │
+│   ┌───────▼──────────────────────▼────────────────────────▼──────────┐   │
+│   │                        React Native Bridge                      │   │
+│   │                      NativeModules.TermuxCore                   │   │
+│   └──────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+│   ┌─────────────────────────────────────────────────────────────────────┐  │
+│   │                        Build Configuration                          │  │
+│   │                                                                     │  │
+│   │  app.json:                   android/settings.gradle:              │  │
+│   │  plugins: [                  include ':termux-core'                │  │
+│   │    "@keeganmccallum/          project(':termux-core').projectDir =  │  │
+│   │     expo-termux"             File('../modules/termux-core/android') │  │
+│   │  ]                                                                  │  │
+│   │                              android/app/build.gradle:              │  │
+│   │  Auto-linking via:           implementation project(':termux-core') │  │
+│   │  - Expo plugin system                                               │  │
+│   │  - Metro bundler                                                    │  │
+│   └─────────────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           PUBLISHED PACKAGE USAGE                          │
+│                                                                             │
+│   ┌─────────────────┐                    ┌─────────────────────────────────┐ │
+│   │  End User App   │                    │     @keeganmccallum/expo-termux │ │
+│   │                 │                    │        (Published Package)      │ │
+│   │  app.json:      │                    │                                 │ │
+│   │  plugins: [     │                    │  ┌─────────────────────────────┐ │ │
+│   │    "@keeganmc-  │───── npm install ──▶│  │        TermuxManager        │ │ │
+│   │     callum/     │                    │  │        TermuxCore           │ │ │
+│   │     expo-termux"│                    │  │        Native Modules       │ │ │
+│   │  ]              │                    │  │        Plugin Config        │ │ │
+│   │                 │                    │  └─────────────────────────────┘ │ │
+│   │  import {       │                    │                                 │ │
+│   │   termuxManager │◀─── Auto-linked ───│  Built from monorepo and        │ │
+│   │  } from '@kee-  │                    │  published to npm registry      │ │
+│   │   ganmccallum/  │                    │                                 │ │
+│   │   expo-termux'  │                    │                                 │ │
+│   └─────────────────┘                    └─────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+Key Integration Points:
+━━━━━━━━━━━━━━━━━━━━━
+
+1. **JavaScript Layer**: 
+   - Demo app imports TermuxManager from local expo-termux package
+   - End users import from published npm package
+
+2. **React Native Bridge**: 
+   - TermuxManager calls NativeModules.TermuxCore
+   - Event emitters handle session output/exit events
+
+3. **Native Module Registration**:
+   - expo-module.config.json defines module exports
+   - Android gradle builds include termux-core dependency
+
+4. **Build System Integration**:
+   - Expo plugin auto-configures Android build settings
+   - Metro bundler handles JavaScript/TypeScript compilation
+   - Gradle builds native Android modules
+
+5. **Auto-linking Chain**:
+   - app.json plugins → Expo plugin system → Gradle dependencies
+   - Package dependencies → Metro resolution → Native module registration
+```
+
 ## Development Environment Context
 
 **CRITICAL: Claude Code is running on Android phone in Termux environment**
