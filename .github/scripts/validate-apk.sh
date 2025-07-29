@@ -108,11 +108,24 @@ if [ "$INSTALL_SUCCESS" != "true" ]; then
   exit 1
 fi
 
-# Verify installation
-if ! adb shell pm list packages | grep -q "com.keeganmccallum.mobile_dev_studio"; then
-  echo "❌ APK installation failed verification"
-  exit 1
-fi
+# Verify installation (with retry for timing issues)
+echo "🔍 Verifying installation..."
+for i in {1..5}; do
+  if adb shell pm list packages | grep -q "com.keeganmccallum.mobile_dev_studio"; then
+    echo "✅ Package verification successful (attempt $i/5)"
+    break
+  fi
+  if [ $i -eq 5 ]; then
+    echo "❌ APK installation failed verification after 5 attempts"
+    echo "Installed packages containing 'mobile':"
+    adb shell pm list packages | grep mobile || echo "No packages found containing 'mobile'"
+    echo "All packages:"
+    adb shell pm list packages | head -20
+    exit 1
+  fi
+  echo "  Attempt $i/5: Package not yet visible, waiting..."
+  sleep 2
+done
 
 echo "✅ APK installed successfully"
 
