@@ -544,31 +544,29 @@ gh run download [RUN_ID] --name debug-apk-[SHA]
 
 **Lock File Management**: When adding dependencies to any workspace package (packages/demo-app, packages/expo-termux), always run `npm install` in that package directory and commit the updated root package-lock.json file to prevent dependency resolution issues.
 
-### Testing Loop Commands (Safe - No rm required)
+### Development Scripts (ALWAYS USE THESE INSTEAD OF INLINE COMMANDS)
+
+**CRITICAL: Always use reusable scripts in the `scripts/` directory instead of complex inline bash commands**
 
 ```bash
-# Complete test cycle
-git add . && git commit -m "Fix attempt X" && git push
-gh workflow run "APK Validation Testing"
-sleep 60 && gh run list --workflow="APK Validation Testing" --limit 1
+# Check workflow status
+./scripts/check-build-status.sh
+./scripts/check-build-status.sh "APK Validation Testing"
 
-# Safe artifact checking - use unique directory per run
-RUN_ID=$(gh run list --workflow="APK Validation Testing" --limit 1 --json databaseId --jq '.[0].databaseId')
-mkdir -p test-results/run-$RUN_ID
-gh run download $RUN_ID --name apk-validation-debug-artifacts --dir test-results/run-$RUN_ID
-ls -la test-results/run-$RUN_ID/  # Check what screenshots exist
+# Trigger APK validation
+./scripts/trigger-apk-test.sh
+./scripts/trigger-apk-test.sh --wait  # Wait for completion
 
-# Alternative: Check artifact list without downloading
-gh api repos/:owner/:repo/actions/runs/$RUN_ID/artifacts --jq '.artifacts[].name'
+# Download test results
+./scripts/download-test-results.sh
 ```
 
-### Quick Status Check (No Downloads)
-
-```bash
-# Just check if run passed/failed
-gh run list --workflow="APK Validation Testing" --limit 1
-# If status is 'failure' and no debug artifacts = immediate crash
-```
+**Script Development Rules:**
+1. **Always create reusable scripts** - Never use complex inline commands
+2. **Add detailed header comments** - Explain purpose, usage, and behavior
+3. **Make scripts executable** - `chmod +x scripts/*.sh`  
+4. **Handle errors gracefully** - Use `set -e` and proper error messages
+5. **Provide usage examples** - Show common use cases in comments
 
 ## Important Instruction Reminders
 
