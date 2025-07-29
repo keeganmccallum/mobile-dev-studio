@@ -110,22 +110,44 @@ fi
 
 # Verify installation (with retry for timing issues)
 echo "🔍 Verifying installation..."
-for i in {1..5}; do
+VERIFICATION_SUCCESS=false
+
+for i in {1..10}; do
+  echo "  Verification attempt $i/10..."
+  
+  # Try multiple verification methods
   if adb shell pm list packages | grep -q "com.keeganmccallum.mobile_dev_studio"; then
-    echo "✅ Package verification successful (attempt $i/5)"
+    echo "✅ Package verification successful via pm list packages (attempt $i/10)"
+    VERIFICATION_SUCCESS=true
     break
   fi
-  if [ $i -eq 5 ]; then
-    echo "❌ APK installation failed verification after 5 attempts"
-    echo "Installed packages containing 'mobile':"
-    adb shell pm list packages | grep mobile || echo "No packages found containing 'mobile'"
-    echo "All packages:"
-    adb shell pm list packages | head -20
-    exit 1
+  
+  if adb shell pm path com.keeganmccallum.mobile_dev_studio 2>/dev/null | grep -q "package:"; then
+    echo "✅ Package verification successful via pm path (attempt $i/10)"
+    VERIFICATION_SUCCESS=true
+    break
   fi
-  echo "  Attempt $i/5: Package not yet visible, waiting..."
-  sleep 2
+  
+  if [ $i -lt 10 ]; then
+    echo "    Package not yet visible, waiting 5 seconds..."
+    sleep 5
+  fi
 done
+
+if [ "$VERIFICATION_SUCCESS" != "true" ]; then
+  echo "❌ APK installation failed verification after 10 attempts (50 seconds)"
+  echo ""
+  echo "Debug information:"
+  echo "Installed packages containing 'mobile':"
+  adb shell pm list packages | grep mobile || echo "  No packages found containing 'mobile'"
+  echo ""
+  echo "Installed packages containing 'keeganmccallum':"
+  adb shell pm list packages | grep keeganmccallum || echo "  No packages found containing 'keeganmccallum'"
+  echo ""
+  echo "All recently installed packages:"
+  adb shell pm list packages | head -20
+  exit 1
+fi
 
 echo "✅ APK installed successfully"
 
