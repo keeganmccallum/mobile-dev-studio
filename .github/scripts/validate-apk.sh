@@ -111,6 +111,7 @@ fi
 # Verify installation (with retry for timing issues)
 echo "🔍 Verifying installation..."
 VERIFICATION_SUCCESS=false
+INSTALLED_PACKAGE=""
 
 # Wait a bit for package manager to update
 sleep 3
@@ -123,6 +124,7 @@ for i in {1..8}; do
     "com.keeganmccallum.mobile_dev_studio"
     "com.keeganmccallum.mobile-dev-studio" 
     "com.keeganmccallum.mobiledevstudio"
+    "com.keeganmccallum.termux_demo_app"
     "keeganmccallum.mobile"
     "mobile.dev.studio"
     "mobile_dev_studio"
@@ -131,25 +133,27 @@ for i in {1..8}; do
   for pattern in "${PACKAGE_PATTERNS[@]}"; do
     if adb shell pm list packages | grep -q "$pattern"; then
       echo "✅ Package verification successful via pm list packages: $pattern (attempt $i/8)"
+      INSTALLED_PACKAGE="$pattern"
       VERIFICATION_SUCCESS=true
       break 2
     fi
     
     if adb shell pm path "$pattern" 2>/dev/null | grep -q "package:"; then
       echo "✅ Package verification successful via pm path: $pattern (attempt $i/8)"
+      INSTALLED_PACKAGE="$pattern"
       VERIFICATION_SUCCESS=true
       break 2
     fi
   done
   
   # Also try finding any package containing our app name parts
-  if adb shell pm list packages | grep -E "(mobile|studio|keeganmccallum)" | head -1; then
-    FOUND_PACKAGE=$(adb shell pm list packages | grep -E "(mobile|studio|keeganmccallum)" | head -1)
-    if [ -n "$FOUND_PACKAGE" ]; then
-      echo "✅ Package verification successful via pattern match: $FOUND_PACKAGE (attempt $i/8)"
-      VERIFICATION_SUCCESS=true
-      break
-    fi
+  FOUND_PACKAGE_LINE=$(adb shell pm list packages | grep -E "(mobile|studio|keeganmccallum)" | head -1)
+  if [ -n "$FOUND_PACKAGE_LINE" ]; then
+    # Extract package name from "package:com.example.app" format
+    INSTALLED_PACKAGE=$(echo "$FOUND_PACKAGE_LINE" | sed 's/package://')
+    echo "✅ Package verification successful via pattern match: $FOUND_PACKAGE_LINE (attempt $i/8)"
+    VERIFICATION_SUCCESS=true
+    break
   fi
   
   if [ $i -lt 8 ]; then
@@ -171,17 +175,42 @@ if [ "$VERIFICATION_SUCCESS" != "true" ]; then
 fi
 
 echo "✅ APK installed successfully"
+echo "📋 Detected package name: $INSTALLED_PACKAGE"
 
 # Take screenshot after installation
 adb exec-out screencap -p > screenshots/$BUILD_TYPE/01-post-install.png
 
-# Launch the app
+# Launch the app using the detected package name
 echo "🚀 Launching app..."
-adb shell am start -n com.keeganmccallum.mobile_dev_studio/.MainActivity
+echo "📋 Using package: $INSTALLED_PACKAGE"
+
+# Try multiple activity name patterns
+MAIN_ACTIVITIES=(
+  ".MainActivity"
+  ".MainActivity"
+  "com.keeganmccallum.mobile_dev_studio.MainActivity"
+  "${INSTALLED_PACKAGE}.MainActivity"  
+)
+
+LAUNCH_SUCCESS=false
+for activity in "${MAIN_ACTIVITIES[@]}"; do
+  echo "  Trying to launch: $INSTALLED_PACKAGE/$activity"
+  if adb shell am start -n "$INSTALLED_PACKAGE/$activity" 2>/dev/null; then
+    echo "✅ Launch command executed successfully"
+    LAUNCH_SUCCESS=true
+    break
+  fi
+done
+
+if [ "$LAUNCH_SUCCESS" != "true" ]; then
+  echo "❌ All launch attempts failed"
+  adb exec-out screencap -p > screenshots/$BUILD_TYPE/02-launch-failed.png
+  exit 1
+fi
 
 # Wait and check if app launched
 sleep 5
-APP_PID=$(adb shell ps | grep com.keeganmccallum.mobile_dev_studio | awk '{print $2}' || echo "")
+APP_PID=$(adb shell ps | grep "$INSTALLED_PACKAGE" | awk '{print $2}' || echo "")
 
 if [ -z "$APP_PID" ]; then
   echo "❌ App failed to launch"
