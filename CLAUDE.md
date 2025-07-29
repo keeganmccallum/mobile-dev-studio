@@ -546,6 +546,15 @@ gh run download [RUN_ID] --name debug-apk-[SHA]
 
 ### Development Scripts (ALWAYS USE THESE INSTEAD OF INLINE COMMANDS)
 
+**🚨 CRITICAL WORKFLOW RULE - NO EXCEPTIONS 🚨**
+
+**NEVER USE COMPLEX INLINE BASH COMMANDS - ALWAYS CREATE SCRIPTS**
+
+- ❌ **FORBIDDEN**: Multi-line bash commands, complex pipes, loops in tool calls
+- ✅ **REQUIRED**: All commands must use scripts in `scripts/` directory
+- ✅ **REQUIRED**: Each script must have detailed header comment explaining purpose
+- ✅ **REQUIRED**: User explicitly requested this pattern to avoid "impossible to auto approve" commands
+
 **CRITICAL: Always use reusable scripts in the `scripts/` directory instead of complex inline bash commands**
 
 ```bash
