@@ -23,9 +23,9 @@
         "backgroundColor": "#0d1117"
       },
       "package": "com.keeganmccallum.mobile_dev_studio",
-      "compileSdkVersion": 34,
-      "targetSdkVersion": 34,
-      "minSdkVersion": 26,
+      "compileSdkVersion": 30,
+      "targetSdkVersion": 30,
+      "minSdkVersion": 24,
       "permissions": [
         "INTERNET",
         "ACCESS_NETWORK_STATE",

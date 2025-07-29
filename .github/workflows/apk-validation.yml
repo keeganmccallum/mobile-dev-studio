@@ -101,16 +101,16 @@ jobs:
         path: |
           ~/.android/avd/*
           ~/.android/adb*
-        key: avd-api-34-validation
+        key: avd-api-30-validation
         
     - name: Create AVD and generate snapshot for caching
       if: steps.avd-cache.outputs.cache-hit != 'true'
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: 34
+        api-level: 30
         target: google_apis
         arch: x86_64
-        profile: pixel_2
+        profile: Nexus 6
         force-avd-creation: false
         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
         disable-animations: false
@@ -123,10 +123,10 @@ jobs:
         APK_PATH: ${{ steps.download-apk.outputs.apk_path }}
         BUILD_TYPE: ${{ matrix.build_type }}
       with:
-        api-level: 34
+        api-level: 30
         target: google_apis
         arch: x86_64
-        profile: pixel_2
+        profile: Nexus 6
         force-avd-creation: false
         emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
         disable-animations: true
