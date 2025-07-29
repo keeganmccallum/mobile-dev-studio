@@ -303,15 +303,30 @@ jobs:
           # Test Termux functionality
           echo "🔧 Testing Termux integration..."
           
-          # Test if buttons are clickable (tap on Create Session button)
-          adb shell input tap 200 300  # Approximate coordinates for Create Session
-          sleep 2
+          # Test Create Session button - more specific coordinates for Termux Demo tab
+          adb shell input tap 540 400  # Create Session button in Termux Demo
+          sleep 3
           adb exec-out screencap -p > screenshots/$BUILD_TYPE/08-create-session-test.png
           
-          # Test Execute Command button
-          adb shell input tap 400 300  # Approximate coordinates for Execute Command
+          # Test Execute Command buttons (try multiple command buttons)
+          echo "Testing pwd command..."
+          adb shell input tap 540 450  # pwd command button
           sleep 2
-          adb exec-out screencap -p > screenshots/$BUILD_TYPE/09-execute-command-test.png
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/09-execute-pwd-test.png
+          
+          echo "Testing ls command..."
+          adb shell input tap 540 500  # ls command button  
+          sleep 2
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/10-execute-ls-test.png
+          
+          echo "Testing echo command..."
+          adb shell input tap 540 550  # echo command button
+          sleep 2
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/11-execute-echo-test.png
+          
+          # Test output area for content
+          echo "Checking if Termux output appears..."
+          adb shell dumpsys window | grep -i "output\|terminal\|session" > screenshots/$BUILD_TYPE/termux-window-dump.txt || true
           
           # Check if app is still running (no crashes during testing)
           APP_PID_AFTER=$(adb shell ps | grep com.keeganmccallum.mobile_dev_studio | awk '{print $2}' || echo "")
@@ -328,7 +343,7 @@ jobs:
           echo "✅ App remained stable throughout testing"
           
           # Final screenshot
-          adb exec-out screencap -p > screenshots/$BUILD_TYPE/10-final-state.png
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/12-final-state.png
           
           # Capture app logs
           adb logcat -d -s ReactNativeJS:* > screenshots/$BUILD_TYPE/app-logs.txt || true
@@ -337,12 +352,12 @@ jobs:
           echo "📱 Testing app lifecycle..."
           adb shell input keyevent 3  # Home button
           sleep 2
-          adb exec-out screencap -p > screenshots/$BUILD_TYPE/11-backgrounded.png
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/13-backgrounded.png
           
           # Bring app back to foreground
           adb shell am start -n com.keeganmccallum.mobile_dev_studio/.MainActivity
           sleep 3
-          adb exec-out screencap -p > screenshots/$BUILD_TYPE/12-foregrounded.png
+          adb exec-out screencap -p > screenshots/$BUILD_TYPE/14-foregrounded.png
           
           # Final stability check
           APP_PID_FINAL=$(adb shell ps | grep com.keeganmccallum.mobile_dev_studio | awk '{print $2}' || echo "")

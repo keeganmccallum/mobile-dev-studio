@@ -27,17 +27,49 @@
 - ✅ **GitHub Actions only** - All testing must be done via GitHub Actions workflows
 - ✅ **Remote emulator testing** - APK Validation Testing workflow is the only way to test
 
+## 🧪 Comprehensive Testing Strategy (Test Pyramid)
+
+### **Tier 1: Unit Tests (Fast - seconds)**
+- **Location**: `packages/expo-termux/src/__tests__/`
+- **Coverage**: TypeScript/JavaScript business logic
+- **Tools**: Jest, ts-jest
+- **Commands**:
+  ```bash
+  cd packages/expo-termux && npm run test:unit
+  npm run test:coverage  # Generate coverage reports
+  ```
+
+### **Tier 2: Integration Tests (Medium - minutes)**
+- **Location**: `packages/expo-termux/src/__tests__/integration/`
+- **Coverage**: Native bridge communication, API contracts
+- **Tools**: Jest with React Native mocks
+- **Commands**:
+  ```bash
+  cd packages/expo-termux && npm run test:integration
+  ```
+
+### **Tier 3: APK Validation Tests (Slow - 10-20 minutes)**
+- **Location**: `.github/workflows/apk-validation.yml`
+- **Coverage**: Full app functionality on real emulator
+- **Tools**: Android emulator, UI automation
+- **Enhanced Termux Testing**:
+  - Session creation testing (08-create-session-test.png)
+  - Command execution validation (09-execute-pwd-test.png, 10-execute-ls-test.png, 11-execute-echo-test.png)
+  - Output capture verification (termux-window-dump.txt)
+  - Fallback implementation testing
+
 ## Critical Testing Workflow
 
 ### NEVER CLAIM SUCCESS WITHOUT ACTUAL TESTING
 
-**The only way to verify fixes work is through the GitHub Actions emulator testing pipeline:**
+**The comprehensive testing approach:**
 
-1. **Build APK**: `gh run list --workflow="Build and Release APKs"`
-2. **Test APK**: `gh workflow run "APK Validation Testing"`
-3. **Check Results**: `gh run list --workflow="APK Validation Testing" --limit 1`
-4. **Download Logs**: `gh run download [RUN_ID] --name apk-validation-debug-artifacts`
-5. **Analyze Failure**: Check what screenshots exist vs missing ones
+1. **Unit Tests**: `npm run test:unit` (if possible locally)
+2. **Build APK**: `gh run list --workflow="Build and Release APKs"`
+3. **Test APK**: `gh workflow run "APK Validation Testing"`
+4. **Check Results**: `gh run list --workflow="APK Validation Testing" --limit 1`
+5. **Download Logs**: `gh run download [RUN_ID] --name apk-validation-debug-artifacts`
+6. **Analyze Results**: Check screenshots + test coverage
 
 ### APK Validation Testing Pipeline
 

@@ -19,6 +19,8 @@ export class TermuxManager {
   private sessions = new Map<string, TermuxSession>();
   private eventEmitter: NativeEventEmitter | null = null;
   private static instance: TermuxManager | null = null;
+  private outputCallbacks: Array<(sessionId: string, lines: string[]) => void> = [];
+  private exitCallbacks: Array<(sessionId: string, exitCode: number) => void> = [];
 
   constructor() {
     // Initialize event emitter for session events
@@ -39,8 +41,16 @@ export class TermuxManager {
     if (!this.eventEmitter) return;
 
     this.eventEmitter.addListener('onSessionOutput', (event: any) => {
-      // Handle session output
+      // Handle session output and forward to listeners
       console.log('Session output:', event);
+      this.outputCallbacks.forEach(callback => {
+        try {
+          const lines = event.data ? event.data.split('\n').filter((line: string) => line.length > 0) : [];
+          callback(event.sessionId, lines);
+        } catch (error) {
+          console.error('Error in output callback:', error);
+        }
+      });
     });
 
     this.eventEmitter.addListener('onSessionExit', (event: any) => {
@@ -50,6 +60,15 @@ export class TermuxManager {
         session.isRunning = false;
         console.log(`Session ${event.sessionId} exited with code ${event.exitCode}`);
       }
+      
+      // Forward to listeners
+      this.exitCallbacks.forEach(callback => {
+        try {
+          callback(event.sessionId, event.exitCode || 0);
+        } catch (error) {
+          console.error('Error in exit callback:', error);
+        }
+      });
     });
 
     this.eventEmitter.addListener('onTitleChanged', (event: any) => {
@@ -64,6 +83,10 @@ export class TermuxManager {
 
   async createSession(options: TermuxSessionOptions = {}): Promise<string> {
     try {
+      if (!NativeModules.TermuxCore) {
+        throw new Error('TermuxCore native module not available');
+      }
+
       const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       
       const defaultOptions = {
@@ -81,19 +104,33 @@ export class TermuxManager {
         }
       };
 
-      // For now, we'll create a mock session since we need the native module to be properly configured
+      // Call native module to create session
+      const command = options.command || defaultOptions.command;
+      const cwd = options.cwd || defaultOptions.cwd;
+      const env = defaultOptions.environment;
+      
+      const result = await NativeModules.TermuxCore.createSession(
+        sessionId,
+        command,
+        [], // args
+        cwd,
+        env,
+        24, // rows
+        80  // cols
+      );
+
       const session: TermuxSession = {
         id: sessionId,
-        pid: Math.floor(Math.random() * 10000) + 1000, // Mock PID
-        isRunning: true,
-        command: options.command || defaultOptions.command,
-        cwd: options.cwd || defaultOptions.cwd,
+        pid: result.pid,
+        isRunning: result.isRunning,
+        command: command,
+        cwd: cwd,
         title: 'Terminal'
       };
 
       this.sessions.set(sessionId, session);
       
-      console.log(`Created terminal session: ${sessionId}`);
+      console.log(`Created terminal session: ${sessionId} (PID: ${result.pid})`);
       return sessionId;
       
     } catch (error) {
@@ -113,11 +150,12 @@ export class TermuxManager {
     }
 
     try {
-      // For now, just log the data since we need proper native integration
-      console.log(`Writing to session ${sessionId}:`, data);
+      if (!NativeModules.TermuxCore) {
+        throw new Error('TermuxCore native module not available');
+      }
       
-      // In a real implementation, this would call the native module
-      // await NativeModules.TermuxCore.writeToSession(sessionId, data);
+      console.log(`Writing to session ${sessionId}:`, data);
+      await NativeModules.TermuxCore.writeToSession(sessionId, data);
       
     } catch (error) {
       console.error(`Failed to write to session ${sessionId}:`, error);
@@ -132,12 +170,18 @@ export class TermuxManager {
     }
 
     try {
-      // In a real implementation, this would call the native module
-      // await NativeModules.TermuxCore.killSession(sessionId);
+      if (!NativeModules.TermuxCore) {
+        throw new Error('TermuxCore native module not available');
+      }
       
-      session.isRunning = false;
-      console.log(`Killed session: ${sessionId}`);
-      return true;
+      const result = await NativeModules.TermuxCore.killSession(sessionId);
+      
+      if (result) {
+        session.isRunning = false;
+        console.log(`Killed session: ${sessionId}`);
+      }
+      
+      return result;
       
     } catch (error) {
       console.error(`Failed to kill session ${sessionId}:`, error);
@@ -160,18 +204,40 @@ export class TermuxManager {
   async executeCommand(
     command: string, 
     options: TermuxSessionOptions = {}
-  ): Promise<{ sessionId: string; output: string }> {
+  ): Promise<{ sessionId: string; output: string; stdout: string }> {
     const sessionId = await this.createSession(options);
     
     try {
       await this.writeToSession(sessionId, command + '\n');
       
-      // In a real implementation, we would wait for command completion
-      // and return the actual output. For now, return a mock response.
-      return {
-        sessionId,
-        output: `Executed: ${command}\n`
-      };
+      // Wait for command completion and collect output
+      return new Promise((resolve, reject) => {
+        let output = '';
+        const timeout = setTimeout(() => {
+          this.killSession(sessionId);
+          reject(new Error('Command execution timeout'));
+        }, 10000);
+
+        const outputListener = this.onSessionOutput((sid, lines) => {
+          if (sid === sessionId) {
+            output += lines.join('\n') + '\n';
+          }
+        });
+
+        const exitListener = this.onSessionExit((sid, exitCode) => {
+          if (sid === sessionId) {
+            clearTimeout(timeout);
+            outputListener();
+            exitListener();
+            
+            resolve({
+              sessionId,
+              output,
+              stdout: output
+            });
+          }
+        });
+      });
       
     } catch (error) {
       await this.killSession(sessionId);
@@ -181,27 +247,25 @@ export class TermuxManager {
 
   // Event subscription methods
   onSessionOutput(callback: (sessionId: string, lines: string[]) => void): () => void {
-    if (!this.eventEmitter) {
-      return () => {};
-    }
-
-    const subscription = this.eventEmitter.addListener('onSessionOutput', (event) => {
-      callback(event.sessionId, event.lines);
-    });
-
-    return () => subscription.remove();
+    this.outputCallbacks.push(callback);
+    
+    return () => {
+      const index = this.outputCallbacks.indexOf(callback);
+      if (index > -1) {
+        this.outputCallbacks.splice(index, 1);
+      }
+    };
   }
 
   onSessionExit(callback: (sessionId: string, exitCode: number) => void): () => void {
-    if (!this.eventEmitter) {
-      return () => {};
-    }
-
-    const subscription = this.eventEmitter.addListener('onSessionExit', (event) => {
-      callback(event.sessionId, event.exitCode);
-    });
-
-    return () => subscription.remove();
+    this.exitCallbacks.push(callback);
+    
+    return () => {
+      const index = this.exitCallbacks.indexOf(callback);
+      if (index > -1) {
+        this.exitCallbacks.splice(index, 1);
+      }
+    };
   }
 
   onTitleChanged(callback: (sessionId: string, title: string) => void): () => void {
