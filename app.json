@@ -24,8 +24,8 @@
       },
       "package": "com.keeganmccallum.mobile_dev_studio",
       "compileSdkVersion": 34,
-      "targetSdkVersion": 30,
-      "minSdkVersion": 23,
+      "targetSdkVersion": 34,
+      "minSdkVersion": 26,
       "permissions": [
         "INTERNET",
         "ACCESS_NETWORK_STATE",
