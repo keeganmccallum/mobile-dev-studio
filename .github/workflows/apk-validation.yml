@@ -190,22 +190,57 @@ jobs:
           ls -la "$APK_PATH"
           file "$APK_PATH" || true
           
-          # Try installing with more permissive flags
+          # Try installing with more permissive flags and capture all output
           echo "Attempting APK installation..."
-          if ! adb install -r -t -d "$APK_PATH"; then
-            echo "❌ Initial install failed, trying with force flag..."
-            if ! adb install -r -t -d -g "$APK_PATH"; then
-              echo "❌ Install with grants failed, trying basic install..."
-              adb install "$APK_PATH" || {
-                echo "❌ All install methods failed"
-                echo "Device info:"
-                adb shell getprop ro.build.version.sdk
-                adb shell getprop ro.product.cpu.abi
-                echo "Package manager logs:"
-                adb logcat -d -s PackageManager:*,PackageInstaller:* | tail -20
-                exit 1
-              }
+          
+          # Create debug log file
+          DEBUG_LOG="screenshots/$BUILD_TYPE/installation-debug.log"
+          echo "=== APK Installation Debug Log ===" > "$DEBUG_LOG"
+          echo "APK Path: $APK_PATH" >> "$DEBUG_LOG"
+          echo "APK Info:" >> "$DEBUG_LOG"
+          ls -la "$APK_PATH" >> "$DEBUG_LOG" 2>&1
+          file "$APK_PATH" >> "$DEBUG_LOG" 2>&1
+          echo "" >> "$DEBUG_LOG"
+          
+          echo "=== Device Info ===" >> "$DEBUG_LOG"
+          adb shell getprop ro.build.version.sdk >> "$DEBUG_LOG" 2>&1
+          adb shell getprop ro.product.cpu.abi >> "$DEBUG_LOG" 2>&1
+          adb shell getprop ro.build.version.release >> "$DEBUG_LOG" 2>&1
+          echo "" >> "$DEBUG_LOG"
+          
+          echo "=== Installation Attempt 1: adb install -r -t -d ===" >> "$DEBUG_LOG"
+          if adb install -r -t -d "$APK_PATH" >> "$DEBUG_LOG" 2>&1; then
+            echo "✅ Installation successful with method 1"
+            INSTALL_SUCCESS=true
+          else
+            echo "❌ Method 1 failed, trying method 2..."
+            echo "" >> "$DEBUG_LOG"
+            echo "=== Installation Attempt 2: adb install -r -t -d -g ===" >> "$DEBUG_LOG"
+            if adb install -r -t -d -g "$APK_PATH" >> "$DEBUG_LOG" 2>&1; then
+              echo "✅ Installation successful with method 2"
+              INSTALL_SUCCESS=true
+            else
+              echo "❌ Method 2 failed, trying method 3..."
+              echo "" >> "$DEBUG_LOG"
+              echo "=== Installation Attempt 3: adb install ===" >> "$DEBUG_LOG"
+              if adb install "$APK_PATH" >> "$DEBUG_LOG" 2>&1; then
+                echo "✅ Installation successful with method 3"
+                INSTALL_SUCCESS=true
+              else
+                echo "❌ All installation methods failed"
+                INSTALL_SUCCESS=false
+              fi
             fi
+          fi
+          
+          echo "" >> "$DEBUG_LOG"
+          echo "=== Package Manager Logs ===" >> "$DEBUG_LOG"
+          adb logcat -d -s PackageManager:*,PackageInstaller:* >> "$DEBUG_LOG" 2>&1
+          
+          if [ "$INSTALL_SUCCESS" != "true" ]; then
+            echo "📋 Installation failed - debug info saved to $DEBUG_LOG"
+            cat "$DEBUG_LOG"
+            exit 1
           fi
           
           # Verify installation
