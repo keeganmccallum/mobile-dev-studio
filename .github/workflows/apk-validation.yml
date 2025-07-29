@@ -101,16 +101,16 @@ jobs:
         path: |
           ~/.android/avd/*
           ~/.android/adb*
-        key: avd-api-30-validation
+        key: avd-api-34-validation
         
     - name: Create AVD and generate snapshot for caching
       if: steps.avd-cache.outputs.cache-hit != 'true'
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: 30
+        api-level: 34
         target: google_apis
         arch: x86_64
-        profile: Nexus 6
+        profile: pixel_2
         force-avd-creation: false
         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
         disable-animations: false
@@ -123,10 +123,10 @@ jobs:
         APK_PATH: ${{ steps.download-apk.outputs.apk_path }}
         BUILD_TYPE: ${{ matrix.build_type }}
       with:
-        api-level: 30
+        api-level: 34
         target: google_apis
         arch: x86_64
-        profile: Nexus 6
+        profile: pixel_2
         force-avd-creation: false
         emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
         disable-animations: true
@@ -141,9 +141,26 @@ jobs:
           [ -z "$APK_PATH" ] && { echo "❌ APK_PATH is empty!"; find . -name "*.apk" -type f; exit 1; }
           [ ! -f "$APK_PATH" ] && { echo "❌ APK file not found: $APK_PATH"; exit 1; }
           
-          # Wait for emulator to be ready
-          echo "⏳ Waiting for emulator..."
-          adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done; input keyevent 82'
+          # Wait for emulator to be ready with better error handling
+          echo "⏳ Waiting for emulator to boot completely..."
+          adb wait-for-device
+          
+          # Wait for system to be ready
+          timeout 120 bash -c 'while [[ -z $(adb shell getprop sys.boot_completed 2>/dev/null | tr -d "\r") ]]; do 
+            echo "Still booting..."
+            sleep 2
+          done'
+          
+          # Additional stability wait
+          echo "⏳ Ensuring emulator stability..."
+          sleep 10
+          
+          # Unlock screen
+          adb shell input keyevent 82 || true
+          adb shell input keyevent 26 || true  # Power button
+          adb shell input swipe 540 1200 540 600 || true  # Swipe up to unlock
+          
+          echo "✅ Emulator ready for testing"
           
           # Clear any existing installs
           echo "🧹 Clearing previous installations..."
@@ -155,9 +172,29 @@ jobs:
           # Take screenshot of clean state
           adb exec-out screencap -p > screenshots/$BUILD_TYPE/00-clean-state.png
           
-          # Install the APK
+          # Install the APK with additional debugging
           echo "📱 Installing $BUILD_TYPE APK..."
-          adb install "$APK_PATH"
+          echo "APK file info:"
+          ls -la "$APK_PATH"
+          file "$APK_PATH" || true
+          
+          # Try installing with more permissive flags
+          echo "Attempting APK installation..."
+          if ! adb install -r -t -d "$APK_PATH"; then
+            echo "❌ Initial install failed, trying with force flag..."
+            if ! adb install -r -t -d -g "$APK_PATH"; then
+              echo "❌ Install with grants failed, trying basic install..."
+              adb install "$APK_PATH" || {
+                echo "❌ All install methods failed"
+                echo "Device info:"
+                adb shell getprop ro.build.version.sdk
+                adb shell getprop ro.product.cpu.abi
+                echo "Package manager logs:"
+                adb logcat -d -s PackageManager:*,PackageInstaller:* | tail -20
+                exit 1
+              }
+            fi
+          fi
           
           # Verify installation
           if ! adb shell pm list packages | grep -q "com.keeganmccallum.mobile_dev_studio"; then
