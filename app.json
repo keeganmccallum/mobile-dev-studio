@@ -49,6 +49,7 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
+      "@keeganmccallum/expo-termux",
       "react-native-webview"
     ]
   }

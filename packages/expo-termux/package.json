@@ -58,5 +58,6 @@
     "android": {
       "package": "@keeganmccallum/expo-termux"
     }
-  }
+  },
+  "plugin": "./plugin/index.js"
 }
