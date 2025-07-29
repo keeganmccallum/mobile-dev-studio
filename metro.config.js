@@ -2,7 +2,11 @@ const { getDefaultConfig } = require('expo/metro-config');
 
 const config = getDefaultConfig(__dirname);
 
-// Configure for Hermes engine
+// Disable Hermes for Termux compatibility
+config.transformer.hermesConfig = false;
+config.transformer.enableHermes = false;
+
+// Configure for JSC engine
 config.transformer.minifierConfig = {
   keep_fnames: true,
   mangle: {
