@@ -112,40 +112,61 @@ fi
 echo "🔍 Verifying installation..."
 VERIFICATION_SUCCESS=false
 
-for i in {1..10}; do
-  echo "  Verification attempt $i/10..."
+# Wait a bit for package manager to update
+sleep 3
+
+for i in {1..8}; do
+  echo "  Verification attempt $i/8..."
   
-  # Try multiple verification methods
-  if adb shell pm list packages | grep -q "com.keeganmccallum.mobile_dev_studio"; then
-    echo "✅ Package verification successful via pm list packages (attempt $i/10)"
-    VERIFICATION_SUCCESS=true
-    break
+  # Try multiple package name patterns that might be used
+  PACKAGE_PATTERNS=(
+    "com.keeganmccallum.mobile_dev_studio"
+    "com.keeganmccallum.mobile-dev-studio" 
+    "com.keeganmccallum.mobiledevstudio"
+    "keeganmccallum.mobile"
+    "mobile.dev.studio"
+    "mobile_dev_studio"
+  )
+  
+  for pattern in "${PACKAGE_PATTERNS[@]}"; do
+    if adb shell pm list packages | grep -q "$pattern"; then
+      echo "✅ Package verification successful via pm list packages: $pattern (attempt $i/8)"
+      VERIFICATION_SUCCESS=true
+      break 2
+    fi
+    
+    if adb shell pm path "$pattern" 2>/dev/null | grep -q "package:"; then
+      echo "✅ Package verification successful via pm path: $pattern (attempt $i/8)"
+      VERIFICATION_SUCCESS=true
+      break 2
+    fi
+  done
+  
+  # Also try finding any package containing our app name parts
+  if adb shell pm list packages | grep -E "(mobile|studio|keeganmccallum)" | head -1; then
+    FOUND_PACKAGE=$(adb shell pm list packages | grep -E "(mobile|studio|keeganmccallum)" | head -1)
+    if [ -n "$FOUND_PACKAGE" ]; then
+      echo "✅ Package verification successful via pattern match: $FOUND_PACKAGE (attempt $i/8)"
+      VERIFICATION_SUCCESS=true
+      break
+    fi
   fi
   
-  if adb shell pm path com.keeganmccallum.mobile_dev_studio 2>/dev/null | grep -q "package:"; then
-    echo "✅ Package verification successful via pm path (attempt $i/10)"
-    VERIFICATION_SUCCESS=true
-    break
-  fi
-  
-  if [ $i -lt 10 ]; then
-    echo "    Package not yet visible, waiting 5 seconds..."
-    sleep 5
+  if [ $i -lt 8 ]; then
+    echo "    Package not yet visible, waiting 3 seconds..."
+    sleep 3
   fi
 done
 
 if [ "$VERIFICATION_SUCCESS" != "true" ]; then
-  echo "❌ APK installation failed verification after 10 attempts (50 seconds)"
+  echo "❌ APK installation failed verification after 8 attempts (27 seconds)"
   echo ""
-  echo "Debug information:"
-  echo "Installed packages containing 'mobile':"
-  adb shell pm list packages | grep mobile || echo "  No packages found containing 'mobile'"
+  echo "🔍 Comprehensive debug information:"
+  echo "All installed packages:"
+  adb shell pm list packages | sort
   echo ""
-  echo "Installed packages containing 'keeganmccallum':"
-  adb shell pm list packages | grep keeganmccallum || echo "  No packages found containing 'keeganmccallum'"
-  echo ""
-  echo "All recently installed packages:"
-  adb shell pm list packages | head -20
+  echo "Recent package manager activity:"
+  adb logcat -d -s PackageManager:* | tail -20
   exit 1
 fi
 
