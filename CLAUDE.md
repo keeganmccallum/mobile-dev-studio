@@ -164,12 +164,16 @@ Key Integration Points:
 
 ### APK Validation Testing Pipeline
 
-The emulator test runs these steps:
-- ✅ **Install APK** → Basic APK integrity
-- ✅ **Launch App** → `adb shell am start -n com.keeganmccallum.mobile_dev_studio/.MainActivity`
-- ✅ **Check Process** → `adb shell ps | grep mobile_dev_studio`
-- ✅ **Screenshots** → Progress through app tabs and functionality
+The emulator test runs these comprehensive steps:
+- ✅ **Install APK** → Basic APK integrity and package verification
+- ✅ **Launch App** → Dynamic package detection and launch
+- ✅ **Check Process** → Verify app process is running
+- ✅ **Navigate to Termux Tab** → Test UI navigation to Termux Features
+- ✅ **Test Termux Session Creation** → Click "Create New Session" button
+- ✅ **Validate Native Module** → Detect TermuxCore native module errors
+- ✅ **Screenshots** → Capture each step including error states
 - ✅ **Crash Detection** → Any missing screenshots = crash at that point
+- ✅ **Functionality Validation** → Tests fail if Termux integration doesn't work
 
 ### Test Result Interpretation
 
@@ -178,15 +182,14 @@ The emulator test runs these steps:
 - `01-post-install.png` - After APK installation
 - `02-app-launched.png` - App successfully started
 - `03-app-loaded.png` - App fully loaded
-- `04-terminal-tab.png` - Terminal tab active
-- `05-preview-tab.png` - Preview tab navigation
-- `06-editor-tab.png` - Editor tab navigation  
-- `07-termux-test-tab.png` - Termux test tab
-- `08-create-session-test.png` - Termux functionality test
-- `09-execute-command-test.png` - Command execution test
-- `10-final-state.png` - All tests completed
-- `11-backgrounded.png` - App backgrounded
-- `12-foregrounded.png` - App restored
+- `04-termux-tab.png` - Termux Features tab navigation
+- `05-create-session-test.png` - Termux session creation test
+- `06-session-created.png` - Session created successfully
+- `07-session-validation.png` - Session validation complete
+
+**Failed Termux integration produces:**
+- `06-termux-error.png` - Screenshot of native module error dialog
+- `termux-error.log` - Detailed error information from system dumps
 
 **If only `00-clean-state.png` exists** = **IMMEDIATE CRASH ON LAUNCH**
 

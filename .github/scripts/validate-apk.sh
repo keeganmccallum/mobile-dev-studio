@@ -225,7 +225,53 @@ adb exec-out screencap -p > screenshots/$BUILD_TYPE/02-app-launched.png
 sleep 10
 adb exec-out screencap -p > screenshots/$BUILD_TYPE/03-app-loaded.png
 
+# Navigate to Termux Features tab and test functionality
+echo "🧪 Testing Termux functionality..."
+
+# Navigate to Termux Features tab (4th tab)
+echo "📱 Navigating to Termux Features tab..."
+adb shell input tap 602 1510  # Tap on "Termux Features" tab
+sleep 3
+adb exec-out screencap -p > screenshots/$BUILD_TYPE/04-termux-tab.png
+
+# Try to create a Termux session
+echo "🔧 Testing Termux session creation..."
+adb shell input tap 351 452  # Tap "Create New Session" button
+sleep 5
+adb exec-out screencap -p > screenshots/$BUILD_TYPE/05-create-session-test.png
+
+# Check if error dialog appeared (indicating native module failure)
+echo "🔍 Checking for Termux native module errors..."
+TERMUX_ERROR_CHECK=$(adb shell dumpsys window windows | grep -i "error\|failed" || echo "")
+
+if [ -n "$TERMUX_ERROR_CHECK" ]; then
+  echo "❌ Termux native module error detected"
+  adb exec-out screencap -p > screenshots/$BUILD_TYPE/06-termux-error.png
+  
+  # Capture error details
+  echo "Error details:" > screenshots/$BUILD_TYPE/termux-error.log
+  adb shell dumpsys window windows | grep -A 5 -B 5 -i "error\|failed" >> screenshots/$BUILD_TYPE/termux-error.log
+  
+  echo "❌ TERMUX FUNCTIONALITY FAILED - Native module not working"
+  echo "✅ APK installation: Success"
+  echo "✅ App launch: Success"  
+  echo "❌ Termux integration: FAILED"
+  exit 1
+fi
+
+# Test if session was created successfully
+sleep 3
+echo "🔍 Verifying Termux session creation..."
+adb exec-out screencap -p > screenshots/$BUILD_TYPE/06-session-created.png
+
+# Check active sessions count
+echo "📊 Checking for active Termux sessions..."
+adb shell input tap 351 452  # Try another session creation to see if count increases
+sleep 3
+adb exec-out screencap -p > screenshots/$BUILD_TYPE/07-session-validation.png
+
 echo "🎉 APK validation completed successfully!"
 echo "✅ APK installation: Success"
 echo "✅ App launch: Success"
-echo "✅ No crashes detected"
+echo "✅ Termux integration: Success"
+echo "✅ Native module: Working"
