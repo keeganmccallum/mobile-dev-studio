@@ -73,6 +73,13 @@ jobs:
         npm run build
         cd ../..
         
+    - name: Install demo app dependencies
+      run: |
+        # Install demo app dependencies after building expo-termux package
+        cd packages/demo-app
+        npm install
+        cd ../..
+        
     - name: Clean and prebuild Expo project
       run: |
         # Build from demo app directory
