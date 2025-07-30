@@ -240,17 +240,54 @@ adb shell input tap 351 452  # Tap "Create New Session" button
 sleep 5
 adb exec-out screencap -p > screenshots/$BUILD_TYPE/05-create-session-test.png
 
-# Check if error dialog appeared (indicating native module failure)
+# Check for multiple types of errors indicating native module failure
 echo "🔍 Checking for Termux native module errors..."
-TERMUX_ERROR_CHECK=$(adb shell dumpsys window windows | grep -i "error\|failed" || echo "")
 
-if [ -n "$TERMUX_ERROR_CHECK" ]; then
+# Method 1: Check logcat for React Native JavaScript errors
+REACT_ERROR=$(adb logcat -d -s ReactNativeJS:E | grep -i "termux\|native.*module" | tail -5 || echo "")
+
+# Method 2: Check logcat for native crashes
+NATIVE_ERROR=$(adb logcat -d -s AndroidRuntime:E | grep -i "termux" | tail -3 || echo "")
+
+# Method 3: Look for UI text indicating error (using UI automator dump)
+echo "📋 Checking UI for error dialog..."
+adb shell uiautomator dump /data/local/tmp/ui.xml 2>/dev/null || echo "UI dump failed"
+UI_ERROR=$(adb shell cat /data/local/tmp/ui.xml 2>/dev/null | grep -i "error.*termux\|failed.*create.*session\|native.*module.*not.*available" || echo "")
+
+# Method 4: Check window manager for error dialogs 
+WINDOW_ERROR=$(adb shell dumpsys window windows | grep -i "error\|alert" || echo "")
+
+if [ -n "$REACT_ERROR" ] || [ -n "$NATIVE_ERROR" ] || [ -n "$UI_ERROR" ] || [ -n "$WINDOW_ERROR" ]; then
   echo "❌ Termux native module error detected"
   adb exec-out screencap -p > screenshots/$BUILD_TYPE/06-termux-error.png
   
-  # Capture error details
-  echo "Error details:" > screenshots/$BUILD_TYPE/termux-error.log
-  adb shell dumpsys window windows | grep -A 5 -B 5 -i "error\|failed" >> screenshots/$BUILD_TYPE/termux-error.log
+  # Capture comprehensive error details
+  echo "=== Error Detection Report ===" > screenshots/$BUILD_TYPE/termux-error.log
+  echo "Timestamp: $(date)" >> screenshots/$BUILD_TYPE/termux-error.log
+  echo "" >> screenshots/$BUILD_TYPE/termux-error.log
+  
+  if [ -n "$REACT_ERROR" ]; then
+    echo "React Native JavaScript Errors:" >> screenshots/$BUILD_TYPE/termux-error.log
+    echo "$REACT_ERROR" >> screenshots/$BUILD_TYPE/termux-error.log
+    echo "" >> screenshots/$BUILD_TYPE/termux-error.log
+  fi
+  
+  if [ -n "$NATIVE_ERROR" ]; then
+    echo "Native Runtime Errors:" >> screenshots/$BUILD_TYPE/termux-error.log
+    echo "$NATIVE_ERROR" >> screenshots/$BUILD_TYPE/termux-error.log
+    echo "" >> screenshots/$BUILD_TYPE/termux-error.log
+  fi
+  
+  if [ -n "$UI_ERROR" ]; then
+    echo "UI Error Dialog Detected:" >> screenshots/$BUILD_TYPE/termux-error.log
+    echo "$UI_ERROR" >> screenshots/$BUILD_TYPE/termux-error.log
+    echo "" >> screenshots/$BUILD_TYPE/termux-error.log
+  fi
+  
+  if [ -n "$WINDOW_ERROR" ]; then
+    echo "Window Manager Errors:" >> screenshots/$BUILD_TYPE/termux-error.log
+    echo "$WINDOW_ERROR" >> screenshots/$BUILD_TYPE/termux-error.log
+  fi
   
   echo "❌ TERMUX FUNCTIONALITY FAILED - Native module not working"
   echo "✅ APK installation: Success"
@@ -259,14 +296,39 @@ if [ -n "$TERMUX_ERROR_CHECK" ]; then
   exit 1
 fi
 
-# Test if session was created successfully
+echo "✅ No immediate errors detected, continuing validation..."
+
+# Test if session was created successfully by checking UI
 sleep 3
 echo "🔍 Verifying Termux session creation..."
 adb exec-out screencap -p > screenshots/$BUILD_TYPE/06-session-created.png
 
-# Check active sessions count
-echo "📊 Checking for active Termux sessions..."
-adb shell input tap 351 452  # Try another session creation to see if count increases
+# Check if "Active Sessions: 0" text changed to indicate session creation
+echo "📋 Checking session count in UI..."
+adb shell uiautomator dump /data/local/tmp/ui_after.xml 2>/dev/null || echo "UI dump failed"
+SESSION_COUNT=$(adb shell cat /data/local/tmp/ui_after.xml 2>/dev/null | grep -o "Active Sessions: [0-9]*" || echo "Active Sessions: 0")
+echo "Current session count: $SESSION_COUNT"
+
+if echo "$SESSION_COUNT" | grep -q "Active Sessions: 0"; then
+  echo "❌ No Termux sessions were created - native module likely failed"
+  adb exec-out screencap -p > screenshots/$BUILD_TYPE/07-session-failed.png
+  
+  # Double check for error dialogs that might have appeared later
+  LATE_UI_ERROR=$(adb shell cat /data/local/tmp/ui_after.xml 2>/dev/null | grep -i "error\|failed\|not.*available" || echo "")
+  if [ -n "$LATE_UI_ERROR" ]; then
+    echo "Late error detected: $LATE_UI_ERROR" >> screenshots/$BUILD_TYPE/termux-error.log
+  fi
+  
+  echo "❌ TERMUX FUNCTIONALITY FAILED - Sessions not created"
+  echo "✅ APK installation: Success"
+  echo "✅ App launch: Success"  
+  echo "❌ Termux integration: FAILED"
+  exit 1
+fi
+
+# Try creating another session to test functionality
+echo "📊 Testing additional session creation..."
+adb shell input tap 351 452  # Try another session creation
 sleep 3
 adb exec-out screencap -p > screenshots/$BUILD_TYPE/07-session-validation.png
 
