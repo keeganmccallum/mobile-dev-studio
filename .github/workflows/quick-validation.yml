@@ -43,6 +43,13 @@ jobs:
         echo "📦 Installing dependencies..."
         npm ci
         
+    - name: Build expo-termux package
+      run: |
+        echo "🔨 Building expo-termux package..."
+        cd packages/expo-termux
+        npm run build
+        cd ../..
+        
     - name: TypeScript Check
       run: |
         echo "🔍 Running TypeScript checks..."
@@ -72,6 +79,13 @@ jobs:
         fi
         
         echo "✅ TypeScript checks completed"
+        
+    - name: Install demo app dependencies
+      run: |
+        echo "📦 Installing demo app dependencies..."
+        cd packages/demo-app
+        npm install
+        cd ../..
         
     - name: Bundle Validation
       run: |
