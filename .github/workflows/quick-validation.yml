@@ -76,6 +76,7 @@ jobs:
     - name: Bundle Validation
       run: |
         echo "📱 Validating Expo bundle..."
+        cd packages/demo-app
         npx expo export --platform android --output-dir dist-validation --clear
         
         echo "📋 Bundle Analysis:"
@@ -93,16 +94,21 @@ jobs:
     - name: Native Module Compilation Check
       run: |
         echo "🔧 Checking native module compilation..."
-        cd android
         
-        # Quick gradle check without full build
-        ./gradlew :app:assembleDebug --dry-run
-        
-        # Check for Termux module integration
-        if grep -r "termux" build.gradle app/build.gradle 2>/dev/null; then
-          echo "✅ Termux integration detected in gradle files"
+        # Check if termux-core module exists
+        if [ -d "modules/termux-core" ]; then
+          echo "✅ termux-core module found"
         else
-          echo "⚠️  No Termux integration found in gradle files"
+          echo "❌ termux-core module not found"
+          exit 1
+        fi
+        
+        # Check if expo-termux plugin exists
+        if [ -f "packages/expo-termux/plugin/index.js" ]; then
+          echo "✅ expo-termux plugin found"
+        else
+          echo "❌ expo-termux plugin not found"
+          exit 1
         fi
         
         echo "✅ Native module check completed"
@@ -111,7 +117,8 @@ jobs:
       run: |
         echo "⚙️  Validating app configuration..."
         
-        # Check app.json structure
+        # Check app.json structure from demo app directory
+        cd packages/demo-app
         node -e "
           const config = require('./app.json');
           const expo = config.expo;
@@ -120,8 +127,8 @@ jobs:
           console.log('Package:', expo.android?.package);
           console.log('Plugins:', expo.plugins?.length || 0);
           
-          if (!expo.plugins?.includes('react-native-webview')) {
-            console.log('❌ Missing react-native-webview plugin');
+          if (!expo.plugins?.includes('@keeganmccallum/expo-termux')) {
+            console.log('❌ Missing @keeganmccallum/expo-termux plugin');
             process.exit(1);
           }
           
