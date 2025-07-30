@@ -27,6 +27,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["@keeganmccallum/expo-termux"]
+    "plugins": ["../expo-termux/plugin/index.js"]
   }
 }

@@ -14,7 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "noEmit": false,
-    "target": "ES2020",
+    "target": "ES2018",
     "module": "CommonJS",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "jsx": "react"
