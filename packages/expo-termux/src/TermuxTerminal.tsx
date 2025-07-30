@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState, useImperativeHandle, forwardRef } from 'react';
 import { View, ViewStyle } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { TermuxSession, TermuxSessionConfig, termuxManager } from './TermuxManager';
+import { TermuxSession, TermuxSessionOptions, termuxManager } from './TermuxManager';
 
 export interface TermuxTerminalProps {
   sessionId?: string;
-  sessionConfig?: TermuxSessionConfig;
+  sessionConfig?: TermuxSessionOptions;
   style?: ViewStyle;
   theme?: 'dark' | 'light';
   fontSize?: number;
@@ -44,7 +44,7 @@ const TermuxTerminal = forwardRef<TermuxTerminalRef, TermuxTerminalProps>((props
   useImperativeHandle(ref, () => ({
     writeToTerminal: (data: string) => {
       if (session && session.isRunning) {
-        session.write(data);
+        termuxManager.writeToSession(session.id, data);
       }
     },
     clearTerminal: () => {
@@ -79,13 +79,16 @@ const TermuxTerminal = forwardRef<TermuxTerminalRef, TermuxTerminalProps>((props
         }
         
         if (!currentSession) {
-          currentSession = await termuxManager.createSession(sessionId, sessionConfig);
+          const newSessionId = await termuxManager.createSession(sessionConfig);
+          currentSession = termuxManager.getSession(newSessionId) ?? null;
         }
 
         setSession(currentSession);
 
         // Set up event listeners
-        dataUnsubscribe = currentSession.onData((data) => {
+        dataUnsubscribe = termuxManager.onSessionOutput((sid, lines) => {
+          if (sid !== currentSession?.id) return;
+          const data = lines.join('\n');
           // Send data to xterm.js
           if (webViewRef.current) {
             webViewRef.current.postMessage(JSON.stringify({
@@ -99,7 +102,8 @@ const TermuxTerminal = forwardRef<TermuxTerminalRef, TermuxTerminalProps>((props
           }
         });
 
-        exitUnsubscribe = currentSession.onExit((code) => {
+        exitUnsubscribe = termuxManager.onSessionExit((sid, code) => {
+          if (sid !== currentSession?.id) return;
           setSession(null);
           if (onExit) {
             onExit(code);
@@ -140,7 +144,7 @@ const TermuxTerminal = forwardRef<TermuxTerminalRef, TermuxTerminalProps>((props
           
         case 'input':
           if (session && session.isRunning) {
-            session.write(message.data);
+            termuxManager.writeToSession(session.id, message.data);
           }
           break;
           

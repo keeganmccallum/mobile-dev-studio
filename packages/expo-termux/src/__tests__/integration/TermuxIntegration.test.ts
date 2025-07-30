@@ -65,7 +65,7 @@ describe('Termux Native Integration', () => {
         ]);
         expect(typeof result).toBe('boolean');
       } catch (error) {
-        if (error.message === 'Timeout') {
+        if (error instanceof Error && error.message === 'Timeout') {
           console.log('Bootstrap installation test timed out (expected in CI)');
         } else {
           throw error;
@@ -169,7 +169,7 @@ describe('Termux Native Integration', () => {
         expect(result).toHaveProperty('output');
         expect(result).toHaveProperty('stdout');
       } catch (error) {
-        if (error.message === 'Command timeout') {
+        if (error instanceof Error && error.message === 'Command timeout') {
           console.log('Command execution test timed out (expected in CI)');
         } else {
           throw error;

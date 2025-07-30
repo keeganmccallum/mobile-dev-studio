@@ -20,4 +20,4 @@ jest.mock('react-native', () => ({
 }));
 
 // Global test utilities
-global.flushPromises = () => new Promise(resolve => setImmediate(resolve));
+(global as any).flushPromises = () => new Promise(resolve => setImmediate(resolve));
