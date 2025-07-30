@@ -97,8 +97,8 @@ jobs:
         echo "Bundle size: $(du -sh dist-validation 2>/dev/null || echo 'N/A')"
         echo "Assets: $(find dist-validation -name '*.js' -o -name '*.png' -o -name '*.json' | wc -l || echo '0') files"
         
-        # Check for critical files
-        if [ ! -f "dist-validation/_expo/static/js/android/index-*.js" ]; then
+        # Check for critical files (can be .js or .hbc)
+        if [ ! -f dist-validation/_expo/static/js/android/index-*.js ] && [ ! -f dist-validation/_expo/static/js/android/index-*.hbc ]; then
           echo "❌ Missing main bundle file"
           exit 1
         fi
