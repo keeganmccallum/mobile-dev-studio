@@ -141,8 +141,13 @@ jobs:
           console.log('Package:', expo.android?.package);
           console.log('Plugins:', expo.plugins?.length || 0);
           
-          if (!expo.plugins?.includes('@keeganmccallum/expo-termux')) {
-            console.log('❌ Missing @keeganmccallum/expo-termux plugin');
+          const hasTermuxPlugin = expo.plugins?.some(plugin => 
+            plugin === '@keeganmccallum/expo-termux' || 
+            plugin.includes('expo-termux/plugin/index.js')
+          );
+          
+          if (!hasTermuxPlugin) {
+            console.log('❌ Missing expo-termux plugin');
             process.exit(1);
           }
           
