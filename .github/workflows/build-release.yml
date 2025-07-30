@@ -66,6 +66,13 @@ jobs:
     - name: Install Expo CLI
       run: npm install -g @expo/cli eas-cli
       
+    - name: Build expo-termux package
+      run: |
+        # Build the expo-termux package first so its plugin is available
+        cd packages/expo-termux
+        npm run build
+        cd ../..
+        
     - name: Clean and prebuild Expo project
       run: |
         # Build from demo app directory
