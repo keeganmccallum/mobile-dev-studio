@@ -7,15 +7,15 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "pnpm run --recursive build",
-    "dev:demo": "cd packages/demo-app && pnpm start",
-    "dev:package": "cd packages/expo-termux && pnpm watch",
-    "android:demo": "cd packages/demo-app && pnpm android",
-    "build:package": "cd packages/expo-termux && pnpm build",
-    "test": "pnpm run --recursive test",
-    "lint": "pnpm run --recursive lint",
-    "typecheck": "pnpm run --recursive typecheck",
-    "clean": "pnpm run --recursive clean && rm -rf node_modules packages/*/node_modules"
+    "build": "npm run build --workspaces",
+    "dev:demo": "cd packages/demo-app && npm start",
+    "dev:package": "cd packages/expo-termux && npm run watch",
+    "android:demo": "cd packages/demo-app && npm run android",
+    "build:package": "cd packages/expo-termux && npm run build",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "typecheck": "npm run typecheck --workspaces",
+    "clean": "npm run clean --workspaces && rm -rf node_modules packages/*/node_modules"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
