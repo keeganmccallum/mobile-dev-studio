@@ -173,6 +173,25 @@ jobs:
         }
         EOF
         
+    - name: Debug termux-core module path
+      run: |
+        echo "🔍 Debugging termux-core module path..."
+        echo "Current directory: $(pwd)"
+        echo "Listing project structure:"
+        find . -name "termux-core" -type d
+        
+        echo "Contents of packages/demo-app/android:"
+        ls -la packages/demo-app/android/ || echo "Android directory not found"
+        
+        echo "Testing path resolution from android directory:"
+        cd packages/demo-app/android
+        echo "Current directory: $(pwd)"
+        echo "Testing ../../../modules/termux-core/android:"
+        ls -la ../../../modules/termux-core/android/ || echo "Path not found"
+        
+        echo "Contents of settings.gradle:"
+        grep -n "termux-core" settings.gradle || echo "No termux-core found in settings.gradle"
+        
     - name: Build Android APK
       run: |
         cd packages/demo-app/android
