@@ -74,8 +74,8 @@ rootProject.ext.kotlinVersion = '1.9.25'
     if (!settings.includes('termux-core')) {
       config.modResults.contents = settings + `
 // Termux core module - auto-linked by @keeganmccallum/expo-termux
-project(':termux-core').projectDir = new File('../../../modules/termux-core/android')
 include ':termux-core'
+project(':termux-core').projectDir = file('../../../modules/termux-core/android')
 `;
     }
     
