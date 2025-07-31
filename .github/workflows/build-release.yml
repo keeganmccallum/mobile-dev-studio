@@ -206,24 +206,100 @@ jobs:
         }
         EOF
         
-    - name: Debug termux-core module path
+    - name: Comprehensive Native Module Validation
       run: |
-        echo "🔍 Debugging termux-core module path..."
-        echo "Current directory: $(pwd)"
-        echo "Listing project structure:"
-        find . -name "termux-core" -type d
+        echo "🔍 COMPREHENSIVE NATIVE MODULE VALIDATION (${{ matrix.build_type }})"
+        echo "================================================================"
         
-        echo "Contents of packages/demo-app/android:"
-        ls -la packages/demo-app/android/ || echo "Android directory not found"
+        VALIDATION_FAILED=false
         
-        echo "Testing path resolution from android directory:"
-        cd packages/demo-app/android
-        echo "Current directory: $(pwd)"
-        echo "Testing ../../../modules/termux-core/android:"
-        ls -la ../../../modules/termux-core/android/ || echo "Path not found"
+        # 1. Validate Expo Module Configuration
+        echo "📋 Checking expo-module.config.json..."
+        if [ ! -f "packages/expo-termux/expo-module.config.json" ]; then
+          echo "❌ CRITICAL: expo-module.config.json not found"
+          VALIDATION_FAILED=true
+        elif ! jq empty packages/expo-termux/expo-module.config.json 2>/dev/null; then
+          echo "❌ CRITICAL: expo-module.config.json has invalid JSON syntax"
+          VALIDATION_FAILED=true
+        elif ! jq -e '.android.modules[]' packages/expo-termux/expo-module.config.json | grep -q "TermuxCoreModule"; then
+          echo "❌ CRITICAL: TermuxCoreModule not found in expo-module.config.json"
+          VALIDATION_FAILED=true
+        else
+          echo "✅ Expo module configuration valid"
+        fi
         
-        echo "Contents of settings.gradle:"
-        grep -n "termux-core" settings.gradle || echo "No termux-core found in settings.gradle"
+        # 2. Validate Native Module Source
+        echo "🔍 Checking native Kotlin module..."
+        KOTLIN_FILE="packages/expo-termux/android/src/main/java/expo/modules/termuxcore/TermuxCoreModule.kt"
+        if [ ! -f "$KOTLIN_FILE" ]; then
+          echo "❌ CRITICAL: TermuxCoreModule.kt not found"
+          VALIDATION_FAILED=true
+        elif ! grep -q 'Name("TermuxCore")' "$KOTLIN_FILE"; then
+          echo "❌ CRITICAL: Module name 'TermuxCore' not found in Kotlin module"
+          VALIDATION_FAILED=true
+        else
+          echo "✅ Native module source valid"
+        fi
+        
+        # 3. Validate TypeScript Interface
+        echo "🔍 Checking TypeScript interface..."
+        TS_FILE="packages/expo-termux/src/TermuxManager.ts"
+        if [ ! -f "$TS_FILE" ]; then
+          echo "❌ CRITICAL: TermuxManager.ts not found"
+          VALIDATION_FAILED=true
+        elif ! grep -q "NativeModulesProxy?.TermuxCore\|NativeModules.TermuxCore" "$TS_FILE"; then
+          echo "❌ CRITICAL: TermuxCore module access not found"
+          VALIDATION_FAILED=true
+        else
+          echo "✅ TypeScript interface valid"
+        fi
+        
+        # 4. Validate Package Configuration
+        echo "🔍 Checking package.json configuration..."
+        PKG_FILE="packages/expo-termux/package.json"
+        MAIN_ENTRY=$(jq -r '.main' "$PKG_FILE")
+        if [[ "$MAIN_ENTRY" == *"src/"* ]]; then
+          echo "❌ CRITICAL: package.json main points to source files (should be build files)"
+          VALIDATION_FAILED=true
+        else
+          echo "✅ Package configuration valid"
+        fi
+        
+        # 5. Validate Build Files Exist
+        echo "🔍 Checking compiled build files..."
+        if [ ! -f "packages/expo-termux/build/index.js" ]; then
+          echo "❌ CRITICAL: Compiled JavaScript not found"
+          VALIDATION_FAILED=true
+        elif [ ! -f "packages/expo-termux/build/index.d.ts" ]; then
+          echo "❌ CRITICAL: TypeScript declarations not found"
+          VALIDATION_FAILED=true
+        else
+          echo "✅ Build files exist"
+        fi
+        
+        # 6. Validate Android Configuration
+        echo "🔍 Checking Android build configuration..."
+        if ! grep -q "useExpoModules()" packages/demo-app/android/settings.gradle; then
+          echo "❌ CRITICAL: useExpoModules() not found in settings.gradle"
+          VALIDATION_FAILED=true
+        elif ! grep -q "autolinkLibrariesWithApp()" packages/demo-app/android/app/build.gradle; then
+          echo "❌ CRITICAL: autolinkLibrariesWithApp() not found in build.gradle"
+          VALIDATION_FAILED=true
+        else
+          echo "✅ Android configuration valid"
+        fi
+        
+        # 7. Final Validation
+        echo "📊 VALIDATION SUMMARY"
+        echo "===================="
+        if [ "$VALIDATION_FAILED" = "true" ]; then
+          echo "❌ VALIDATION FAILED - Native module linking issues detected"
+          echo "🚫 ABORTING BUILD - TermuxCore will not be available at runtime"
+          exit 1
+        else
+          echo "✅ ALL VALIDATIONS PASSED"
+          echo "🚀 Native module should be properly linked in APK"
+        fi
         
     - name: Build Android APK
       id: build_apk

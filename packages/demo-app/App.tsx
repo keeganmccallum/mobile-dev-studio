@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { CrashLogger } from './src/utils/CrashLogger';
+import { RuntimeValidator } from '../expo-termux/src/RuntimeValidator';
 
 import TerminalScreen from './src/screens/TerminalScreen';
 import EditorScreen from './src/screens/EditorScreen';
@@ -16,10 +17,20 @@ export default function App() {
   useEffect(() => {
     CrashLogger.logAppStart();
     
+    // CRITICAL: Validate native modules immediately on startup
+    RuntimeValidator.validateOnStartup();
+    
     try {
       CrashLogger.logModuleLoad('@react-navigation/native');
       CrashLogger.logModuleLoad('@expo/vector-icons');
       CrashLogger.logModuleLoad('expo-status-bar');
+      
+      // Test TermuxCore functionality after a brief delay
+      setTimeout(async () => {
+        const isWorking = await RuntimeValidator.testBasicFunctionality();
+        CrashLogger.logInfo(`TermuxCore functionality test: ${isWorking ? 'PASSED' : 'FAILED'}`);
+      }, 1000);
+      
     } catch (error) {
       CrashLogger.logError(error, 'Module loading');
     }
