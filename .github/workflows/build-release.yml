@@ -55,6 +55,50 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       
+    - name: Native Module Pre-flight Check
+      run: |
+        echo "🔍 Native Module Pre-flight Validation..."
+        
+        # 1. Check expo-module.config.json exists (ROOT CAUSE CHECK)
+        if [ ! -f "packages/expo-termux/expo-module.config.json" ]; then
+          echo "❌ CRITICAL: Missing packages/expo-termux/expo-module.config.json"
+          echo "This will cause 'native module not available' errors at runtime"
+          exit 1
+        else
+          echo "✅ expo-module.config.json found"
+          cat packages/expo-termux/expo-module.config.json
+        fi
+        
+        # 2. Check TypeScript compilation (catches type errors early)
+        echo "🔍 Checking TypeScript compilation..."
+        cd packages/expo-termux
+        if ! npx tsc --noEmit; then
+          echo "❌ CRITICAL: TypeScript compilation failed"
+          echo "Fix TypeScript errors before proceeding with build"
+          exit 1
+        else
+          echo "✅ TypeScript compilation successful"
+        fi
+        cd ../..
+        
+        # 3. Validate native module structure
+        echo "🔍 Checking native module structure..."
+        if [ ! -d "modules/termux-core/android" ]; then
+          echo "❌ CRITICAL: Missing modules/termux-core/android directory"
+          exit 1
+        else
+          echo "✅ Native module directory found"
+        fi
+        
+        # 4. Check for common import issues
+        echo "🔍 Checking for NativeModulesProxy usage..."
+        if grep -r "NativeModules\.TermuxCore" packages/expo-termux/src/ && ! grep -r "NativeModulesProxy" packages/expo-termux/src/; then
+          echo "⚠️  WARNING: Using NativeModules.TermuxCore without NativeModulesProxy fallback"
+          echo "This may cause runtime issues with Expo modules"
+        fi
+        
+        echo "✅ Native Module Pre-flight Check PASSED"
+        
     - name: Install dependencies
       run: |
         npm install

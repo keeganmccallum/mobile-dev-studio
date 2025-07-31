@@ -38,6 +38,28 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
       
+    - name: Native Module Pre-flight Check
+      run: |
+        echo "🔍 Native Module Pre-flight Validation..."
+        
+        # 1. Check expo-module.config.json exists (ROOT CAUSE CHECK) 
+        if [ ! -f "packages/expo-termux/expo-module.config.json" ]; then
+          echo "❌ CRITICAL: Missing packages/expo-termux/expo-module.config.json"
+          echo "This will cause 'native module not available' errors at runtime"
+          exit 1
+        else
+          echo "✅ expo-module.config.json found"
+        fi
+        
+        # 2. Quick TypeScript check (no dependencies needed)
+        echo "🔍 Checking for obvious TypeScript issues..."
+        if grep -r "NativeEventEmitter.*NativeModulesProxy" packages/expo-termux/src/; then
+          echo "⚠️  WARNING: Potential type mismatch with NativeEventEmitter and NativeModulesProxy"
+          echo "Consider using 'as any' cast or proper type handling"
+        fi
+        
+        echo "✅ Native Module Pre-flight Check PASSED"
+        
     - name: Install dependencies
       run: |
         echo "📦 Installing dependencies..."
