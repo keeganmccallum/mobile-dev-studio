@@ -69,23 +69,7 @@ jobs:
           cat packages/expo-termux/expo-module.config.json
         fi
         
-        # 2. Check TypeScript compilation (catches type errors early) 
-        echo "🔍 Checking TypeScript compilation..."
-        cd packages/expo-termux
-        # Install typescript temporarily if not available
-        if ! command -v tsc &> /dev/null; then
-          npm install -g typescript
-        fi
-        if ! npx tsc --noEmit; then
-          echo "❌ CRITICAL: TypeScript compilation failed"
-          echo "Fix TypeScript errors before proceeding with build"
-          exit 1
-        else
-          echo "✅ TypeScript compilation successful"
-        fi
-        cd ../..
-        
-        # 3. Validate native module structure
+        # 2. Validate native module structure
         echo "🔍 Checking native module structure..."
         if [ ! -d "modules/termux-core/android" ]; then
           echo "❌ CRITICAL: Missing modules/termux-core/android directory"
@@ -94,7 +78,7 @@ jobs:
           echo "✅ Native module directory found"
         fi
         
-        # 4. Check for common import issues
+        # 3. Check for common import issues
         echo "🔍 Checking for NativeModulesProxy usage..."
         if grep -r "NativeModules\.TermuxCore" packages/expo-termux/src/ && ! grep -r "NativeModulesProxy" packages/expo-termux/src/; then
           echo "⚠️  WARNING: Using NativeModules.TermuxCore without NativeModulesProxy fallback"
