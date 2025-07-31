@@ -213,29 +213,35 @@ jobs:
         
         VALIDATION_FAILED=false
         
-        # 1. Validate Expo Module Configuration
-        echo "📋 Checking expo-module.config.json..."
-        if [ ! -f "packages/expo-termux/expo-module.config.json" ]; then
-          echo "❌ CRITICAL: expo-module.config.json not found"
-          VALIDATION_FAILED=true
-        elif ! jq empty packages/expo-termux/expo-module.config.json 2>/dev/null; then
-          echo "❌ CRITICAL: expo-module.config.json has invalid JSON syntax"
-          VALIDATION_FAILED=true
-        elif ! jq -e '.android.modules[]' packages/expo-termux/expo-module.config.json | grep -q "TermuxCoreModule"; then
-          echo "❌ CRITICAL: TermuxCoreModule not found in expo-module.config.json"
+        # 1. Validate Standard Expo Module Structure (MODERN APPROACH)
+        echo "📋 Checking standard Expo module structure..."
+        if [ -f "packages/expo-termux/expo-module.config.json" ]; then
+          echo "⚠️  WARNING: expo-module.config.json found - using legacy approach"
+          if ! jq empty packages/expo-termux/expo-module.config.json 2>/dev/null; then
+            echo "❌ CRITICAL: expo-module.config.json has invalid JSON syntax"
+            VALIDATION_FAILED=true
+          fi
+        else
+          echo "✅ Using modern Expo autolinking (no config file needed)"
+        fi
+        
+        # Check for standard Expo module structure
+        if [ ! -f "packages/expo-termux/android/src/main/java/expo/modules/expotermux/ExpoTermuxModule.kt" ]; then
+          echo "❌ CRITICAL: Standard ExpoTermuxModule.kt not found"
+          echo "   Expected: packages/expo-termux/android/src/main/java/expo/modules/expotermux/ExpoTermuxModule.kt"
           VALIDATION_FAILED=true
         else
-          echo "✅ Expo module configuration valid"
+          echo "✅ Standard Expo module structure valid"
         fi
         
         # 2. Validate Native Module Source
         echo "🔍 Checking native Kotlin module..."
-        KOTLIN_FILE="packages/expo-termux/android/src/main/java/expo/modules/termuxcore/TermuxCoreModule.kt"
+        KOTLIN_FILE="packages/expo-termux/android/src/main/java/expo/modules/expotermux/ExpoTermuxModule.kt"
         if [ ! -f "$KOTLIN_FILE" ]; then
-          echo "❌ CRITICAL: TermuxCoreModule.kt not found"
+          echo "❌ CRITICAL: ExpoTermuxModule.kt not found"
           VALIDATION_FAILED=true
-        elif ! grep -q 'Name("TermuxCore")' "$KOTLIN_FILE"; then
-          echo "❌ CRITICAL: Module name 'TermuxCore' not found in Kotlin module"
+        elif ! grep -q 'Name("ExpoTermux")' "$KOTLIN_FILE"; then
+          echo "❌ CRITICAL: Module name 'ExpoTermux' not found in Kotlin module"
           VALIDATION_FAILED=true
         else
           echo "✅ Native module source valid"

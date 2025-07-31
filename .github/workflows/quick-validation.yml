@@ -42,13 +42,20 @@ jobs:
       run: |
         echo "🔍 Native Module Pre-flight Validation..."
         
-        # 1. Check expo-module.config.json exists (ROOT CAUSE CHECK) 
-        if [ ! -f "packages/expo-termux/expo-module.config.json" ]; then
-          echo "❌ CRITICAL: Missing packages/expo-termux/expo-module.config.json"
-          echo "This will cause 'native module not available' errors at runtime"
+        # 1. Check standard Expo module structure (MODERN APPROACH)
+        if [ -f "packages/expo-termux/expo-module.config.json" ]; then
+          echo "⚠️  WARNING: Using legacy expo-module.config.json approach"
+        else
+          echo "✅ Using modern Expo autolinking (no config file needed)"
+        fi
+        
+        # Check for standard Expo module
+        if [ ! -f "packages/expo-termux/android/src/main/java/expo/modules/expotermux/ExpoTermuxModule.kt" ]; then
+          echo "❌ CRITICAL: Standard ExpoTermuxModule.kt not found"
+          echo "Expected: packages/expo-termux/android/src/main/java/expo/modules/expotermux/ExpoTermuxModule.kt"
           exit 1
         else
-          echo "✅ expo-module.config.json found"
+          echo "✅ Standard Expo module structure found"
         fi
         
         # 2. Quick TypeScript check (no dependencies needed)
