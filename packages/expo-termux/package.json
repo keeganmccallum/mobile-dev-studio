@@ -2,8 +2,8 @@
   "name": "@keeganmccallum/expo-termux",
   "version": "0.1.0",
   "description": "Termux integration for Expo applications with automatic configuration",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
