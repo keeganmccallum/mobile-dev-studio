@@ -253,8 +253,8 @@ jobs:
         if [ ! -f "$TS_FILE" ]; then
           echo "❌ CRITICAL: TermuxManager.ts not found"
           VALIDATION_FAILED=true
-        elif ! grep -q "NativeModulesProxy?.TermuxCore\|NativeModules.TermuxCore" "$TS_FILE"; then
-          echo "❌ CRITICAL: TermuxCore module access not found"
+        elif ! grep -q "NativeModulesProxy?.ExpoTermux\|NativeModules.ExpoTermux" "$TS_FILE"; then
+          echo "❌ CRITICAL: ExpoTermux module access not found"
           VALIDATION_FAILED=true
         else
           echo "✅ TypeScript interface valid"
