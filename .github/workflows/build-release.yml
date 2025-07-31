@@ -69,9 +69,13 @@ jobs:
           cat packages/expo-termux/expo-module.config.json
         fi
         
-        # 2. Check TypeScript compilation (catches type errors early)
+        # 2. Check TypeScript compilation (catches type errors early) 
         echo "🔍 Checking TypeScript compilation..."
         cd packages/expo-termux
+        # Install typescript temporarily if not available
+        if ! command -v tsc &> /dev/null; then
+          npm install -g typescript
+        fi
         if ! npx tsc --noEmit; then
           echo "❌ CRITICAL: TypeScript compilation failed"
           echo "Fix TypeScript errors before proceeding with build"
