@@ -1,5 +1,6 @@
 import { NativeModules, NativeEventEmitter } from 'react-native';
 import { NativeModulesProxy } from 'expo-modules-core';
+import { BridgeDebugger } from './BridgeDebugger';
 
 export interface TermuxSession {
   id: string;
@@ -29,15 +30,24 @@ export class TermuxManager {
   }
 
   constructor() {
+    // DEBUG: Comprehensive bridge debugging
+    console.log('[TermuxManager] INITIALIZING - Running bridge diagnostics...');
+    BridgeDebugger.debugBridgeRegistration();
+    BridgeDebugger.testBridgeConnectivity();
+    BridgeDebugger.logModuleLoadAttempt();
+    
     // Initialize event emitter for session events
     const TermuxCore = this.getTermuxCore();
     if (TermuxCore) {
       // Cast to any to handle type differences between NativeModule and ProxyNativeModule
       this.eventEmitter = new NativeEventEmitter(TermuxCore as any);
       this.setupEventListeners();
-      console.log('[TermuxManager] Native module found and initialized');
+      console.log('[TermuxManager] ✅ Native module found and initialized');
+      console.log('[TermuxManager] Module methods:', Object.keys(TermuxCore));
     } else {
-      console.warn('[TermuxManager] Native module not available - using fallback');
+      console.error('[TermuxManager] ❌ Native module not available - check expo-termux installation');
+      console.error('[TermuxManager] Expected module name: ExpoTermux');
+      console.error('[TermuxManager] Make sure expo-termux plugin is in app.json');
     }
   }
 
