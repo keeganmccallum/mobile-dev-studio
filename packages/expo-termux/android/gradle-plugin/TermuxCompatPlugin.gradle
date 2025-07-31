@@ -14,10 +14,8 @@ class TermuxCompatPlugin implements Plugin<Project> {
             setupKotlinVersionCompatibility(project)
         }
         
-        project.afterEvaluate {
-            configureAndroidBuildSettings(project)
-            fixPublishingIssues(project)
-        }
+        configureAndroidBuildSettings(project)
+        fixPublishingIssues(project)
     }
     
     private void setupKotlinVersionCompatibility(Project project) {
@@ -98,11 +96,9 @@ class TermuxCompatPlugin implements Plugin<Project> {
     private void fixPublishingIssues(Project project) {
         // Fix SoftwareComponent 'release' issues that occur with Expo modules
         project.rootProject.allprojects { proj ->
-            proj.afterEvaluate {
-                if (proj.hasProperty('publishing')) {
-                    proj.publishing {
-                        publications.removeAll { it.name == 'release' }
-                    }
+            if (proj.hasProperty('publishing')) {
+                proj.publishing {
+                    publications.removeAll { it.name == 'release' }
                 }
             }
         }
