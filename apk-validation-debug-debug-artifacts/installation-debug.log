@@ -1,0 +1,1032 @@
+=== APK Installation Debug Log - Thu Jul 31 03:50:26 UTC 2025 ===
+APK Path: /home/runner/work/mobile-dev-studio/mobile-dev-studio/apk-download/mobile-dev-studio-beta-debug-262-377a1a3a.apk
+APK Info:
+-rw-r--r-- 1 runner docker 200333073 Jul 31 03:48 /home/runner/work/mobile-dev-studio/mobile-dev-studio/apk-download/mobile-dev-studio-beta-debug-262-377a1a3a.apk
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/apk-download/mobile-dev-studio-beta-debug-262-377a1a3a.apk: Android package (APK), with gradle app-metadata.properties
+
+=== Device Info ===
+30
+x86_64
+11
+
+=== Installation Attempt 1: adb install -r -t -d ===
+Performing Streamed Install
+Success
+
+=== Package Manager Logs ===
+--------- beginning of kernel
+--------- beginning of main
+--------- beginning of system
+07-29 21:49:24.001   491   491 D PackageManager: Directories scanned as system partitions: [/system:0, /vendor:524288, /odm:4194304, /oem:262144, /product:1048576, /system_ext:2097152, /apex/com.android.vndk.v30:8388608, /apex/com.android.telephony:8388608, /apex/com.android.tethering:8388608, /apex/com.android.extservices:8388608, /apex/com.android.wifi:8388608, /apex/com.android.mediaprovider:8388608, /apex/com.android.tzdata:8388608, /apex/com.android.cellbroadcast:8388608, /apex/com.android.adbd:8388608, /apex/com.android.i18n:8388608, /apex/com.android.os.statsd:8388608, /apex/com.android.apex.cts.shim:8388608, /apex/com.android.neuralnetworks:8388608, /apex/com.android.media:8388608, /apex/com.android.sdkext:8388608, /apex/com.android.media.swcodec:8388608, /apex/com.android.runtime:8388608, /apex/com.android.permission:8388608, /apex/com.android.conscrypt:8388608, /apex/com.android.ipsec:8388608, /apex/com.android.resolv:8388608, /apex/com.android.art:8388608]
+07-29 21:49:24.003   491   491 I PackageManager: No settings file; creating initial state
+07-29 21:49:26.399   491   491 D PackageManager: No files in app dir /system_ext/overlay
+07-29 21:49:26.406   491   491 I PackageManager: /product/overlay/SystemUIEmulationPixel4 changed; collecting certs
+07-29 21:49:26.424   491   491 I PackageManager: /product/overlay/DisplayCutoutEmulationDouble changed; collecting certs
+07-29 21:49:26.427   491   491 I PackageManager: /product/overlay/DisplayCutoutEmulationEmu01 changed; collecting certs
+07-29 21:49:26.427   491   491 I PackageManager: /product/overlay/IconPackFilledThemePicker changed; collecting certs
+07-29 21:49:26.429   491   491 I PackageManager: /product/overlay/IconShapeTeardrop changed; collecting certs
+07-29 21:49:26.435   491   491 I PackageManager: /product/overlay/IconShapeTaperedRect changed; collecting certs
+07-29 21:49:26.439   491   491 I PackageManager: /product/overlay/SystemUIEmulationPixel3 changed; collecting certs
+07-29 21:49:26.440   491   491 I PackageManager: /product/overlay/AccentColorBlack changed; collecting certs
+07-29 21:49:26.441   491   491 I PackageManager: /product/overlay/AccentColorGreen changed; collecting certs
+07-29 21:49:26.442   491   491 I PackageManager: /product/overlay/GooglePermissionControllerOverlay.apk changed; collecting certs
+07-29 21:49:26.443   491   491 I PackageManager: /product/overlay/BuiltInPrintService__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.445   491   491 I PackageManager: /product/overlay/SystemUIEmulationPixel5 changed; collecting certs
+07-29 21:49:26.446   491   491 I PackageManager: /product/overlay/IconPackFilledSystemUI changed; collecting certs
+07-29 21:49:26.447   491   491 I PackageManager: /product/overlay/IconPackRoundedSettings changed; collecting certs
+07-29 21:49:26.448   491   491 I PackageManager: /product/overlay/IconShapeSquircle changed; collecting certs
+07-29 21:49:26.449   491   491 I PackageManager: /product/overlay/IconPackCircularSettings changed; collecting certs
+07-29 21:49:26.451   491   491 I PackageManager: /product/overlay/NavigationBarMode3Button changed; collecting certs
+07-29 21:49:26.452   491   491 I PackageManager: /product/overlay/IconPackRoundedThemePicker changed; collecting certs
+07-29 21:49:26.453   491   491 I PackageManager: /product/overlay/IconPackRoundedLauncher changed; collecting certs
+07-29 21:49:26.454   491   491 I PackageManager: /product/overlay/TelephonyProvider__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.456   491   491 I PackageManager: /product/overlay/AccentColorSpace changed; collecting certs
+07-29 21:49:26.457   491   491 I PackageManager: /product/overlay/SystemUIEmulationPixel4a changed; collecting certs
+07-29 21:49:26.458   491   491 I PackageManager: /product/overlay/AccentColorOcean changed; collecting certs
+07-29 21:49:26.459   491   491 I PackageManager: /product/overlay/EmulatorTetheringGoogleConfigOverlay.apk changed; collecting certs
+07-29 21:49:26.462   491   491 I PackageManager: /product/overlay/NavigationBarModeGestural changed; collecting certs
+07-29 21:49:26.463   491   491 I PackageManager: /product/overlay/SystemUIEmulationPixel3XL changed; collecting certs
+07-29 21:49:26.464   491   491 I PackageManager: /product/overlay/ManagedProvisioning__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.465   491   491 I PackageManager: /product/overlay/NavigationBarModeGesturalExtraWideBack changed; collecting certs
+07-29 21:49:26.466   491   491 I PackageManager: /product/overlay/IconPackFilledLauncher changed; collecting certs
+07-29 21:49:26.468   491   491 I PackageManager: /product/overlay/NexusLauncherRelease__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.469   491   491 I PackageManager: /product/overlay/IconPackRoundedSystemUI changed; collecting certs
+07-29 21:49:26.470   491   491 I PackageManager: /product/overlay/SystemUIEmulationPixel3aXL changed; collecting certs
+07-29 21:49:26.471   491   491 I PackageManager: /product/overlay/PixelConfigOverlayCommon.apk changed; collecting certs
+07-29 21:49:26.473   491   491 I PackageManager: /product/overlay/CarrierConfig__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.474   491   491 I PackageManager: /product/overlay/IconPackFilledSettings changed; collecting certs
+07-29 21:49:26.475   491   491 I PackageManager: /product/overlay/NavigationBarModeGesturalWideBack changed; collecting certs
+07-29 21:49:26.476   491   491 I PackageManager: /product/overlay/IconPackCircularSystemUI changed; collecting certs
+07-29 21:49:26.478   491   491 I PackageManager: /product/overlay/ContactsProvider__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.479   491   491 I PackageManager: /product/overlay/DisplayCutoutEmulationTall changed; collecting certs
+07-29 21:49:26.480   491   491 I PackageManager: /product/overlay/IconPackRoundedAndroid changed; collecting certs
+07-29 21:49:26.482   491   491 I PackageManager: /product/overlay/AccentColorCinnamon changed; collecting certs
+07-29 21:49:26.483   491   491 I PackageManager: /product/overlay/EmulationPixel4a changed; collecting certs
+07-29 21:49:26.484   491   491 I PackageManager: /product/overlay/IconPackCircularAndroid changed; collecting certs
+07-29 21:49:26.485   491   491 I PackageManager: /product/overlay/FontNotoSerifSource changed; collecting certs
+07-29 21:49:26.486   491   491 I PackageManager: /product/overlay/IconShapeRoundedRect changed; collecting certs
+07-29 21:49:26.486   491   491 I PackageManager: /product/overlay/TeleService__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.487   491   491 I PackageManager: /product/overlay/EmulationPixel4XL changed; collecting certs
+07-29 21:49:26.488   491   491 I PackageManager: /product/overlay/AccentColorOrchid changed; collecting certs
+07-29 21:49:26.489   491   491 I PackageManager: /product/overlay/NfcNci__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.489   491   491 I PackageManager: /product/overlay/SettingsProvider__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.490   491   491 I PackageManager: /product/overlay/EmulatorConfigOverlay.apk changed; collecting certs
+07-29 21:49:26.491   491   491 I PackageManager: /product/overlay/IconPackCircularLauncher changed; collecting certs
+07-29 21:49:26.492   491   491 I PackageManager: /product/overlay/EmulationPixel2XL changed; collecting certs
+07-29 21:49:26.493   491   491 I PackageManager: /product/overlay/IconPackFilledAndroid changed; collecting certs
+07-29 21:49:26.493   491   491 I PackageManager: /product/overlay/EmulationPixel4 changed; collecting certs
+07-29 21:49:26.494   491   491 I PackageManager: /product/overlay/framework-res__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.495   491   491 I PackageManager: /product/overlay/Settings__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.496   491   491 I PackageManager: /product/overlay/GoogleConfigOverlay.apk changed; collecting certs
+07-29 21:49:26.496   491   491 I PackageManager: /product/overlay/EmulationPixel5 changed; collecting certs
+07-29 21:49:26.498   491   491 I PackageManager: /product/overlay/SystemUIEmulationPixel2XL changed; collecting certs
+07-29 21:49:26.498   491   491 I PackageManager: /product/overlay/IconShapePebble changed; collecting certs
+07-29 21:49:26.499   491   491 I PackageManager: /product/overlay/NavigationBarModeGesturalNarrowBack changed; collecting certs
+07-29 21:49:26.500   491   491 I PackageManager: /product/overlay/AccentColorPurple changed; collecting certs
+07-29 21:49:26.500   491   491 I PackageManager: /product/overlay/DisplayCutoutEmulationHole changed; collecting certs
+07-29 21:49:26.501   491   491 I PackageManager: /product/overlay/SystemUIEmulationPixel3a changed; collecting certs
+07-29 21:49:26.502   491   491 I PackageManager: /product/overlay/SimAppDialog__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.503   491   491 I PackageManager: /product/overlay/SystemUIGoogle__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.503   491   491 I PackageManager: /product/overlay/GoogleWebViewOverlay.apk changed; collecting certs
+07-29 21:49:26.504   491   491 I PackageManager: /product/overlay/Telecom__auto_generated_rro_product.apk changed; collecting certs
+07-29 21:49:26.505   491   491 I PackageManager: /product/overlay/NavigationBarMode2Button changed; collecting certs
+07-29 21:49:26.506   491   491 I PackageManager: /product/overlay/EmulationPixel3XL changed; collecting certs
+07-29 21:49:26.507   491   491 I PackageManager: /product/overlay/DisplayCutoutEmulationWaterfall changed; collecting certs
+07-29 21:49:26.507   491   491 I PackageManager: /product/overlay/IconPackCircularThemePicker changed; collecting certs
+07-29 21:49:26.508   491   491 I PackageManager: /product/overlay/SystemUIEmulationPixel4XL changed; collecting certs
+07-29 21:49:26.509   491   491 I PackageManager: /product/overlay/DisplayCutoutEmulationCorner changed; collecting certs
+07-29 21:49:26.509   491   491 I PackageManager: /product/overlay/IconShapeVessel changed; collecting certs
+07-29 21:49:26.510   491   491 D PackageManager: No files in app dir /oem/overlay
+07-29 21:49:26.510   491   491 D PackageManager: No files in app dir /odm/overlay
+07-29 21:49:26.510   491   491 D PackageManager: No files in app dir /vendor/overlay
+07-29 21:49:26.511   491   491 W PackageManager: Failed to parse /system/framework/x86: Missing base APK in /system/framework/x86
+07-29 21:49:26.518   491   491 W PackageManager: Failed to parse /system/framework/x86_64: Missing base APK in /system/framework/x86_64
+07-29 21:49:26.518   491   491 W PackageManager: Failed to parse /system/framework/oat: Missing base APK in /system/framework/oat
+07-29 21:49:26.532   491   491 I PackageManager: /system/framework/framework-res.apk changed; collecting certs
+07-29 21:49:26.534   491   491 E PackageManager: Adding duplicate shared id: 1000 name=android
+07-29 21:49:26.541   491   491 I PackageManager: /system/priv-app/NetworkPermissionConfigGoogle changed; collecting certs
+07-29 21:49:26.549   491   491 E PackageManager: Adding duplicate shared id: 1073 name=com.google.android.networkstack.permissionconfig
+07-29 21:49:26.550   491   491 I PackageManager: /system/priv-app/MusicFX changed; collecting certs
+07-29 21:49:26.551   491   491 I PackageManager: /system/priv-app/TagGoogle changed; collecting certs
+07-29 21:49:26.553   491   491 I PackageManager: /system/priv-app/BackupRestoreConfirmation changed; collecting certs
+07-29 21:49:26.554   491   491 I PackageManager: /system/priv-app/LocalTransport changed; collecting certs
+07-29 21:49:26.555   491   491 E PackageManager: Adding duplicate shared id: 1000 name=com.android.localtransport
+07-29 21:49:26.556   491   491 I PackageManager: /system/priv-app/TelephonyProvider changed; collecting certs
+07-29 21:49:26.556   491   491 E PackageManager: Adding duplicate shared id: 1001 name=com.android.providers.telephony
+07-29 21:49:26.557   491   491 I PackageManager: New shared user android.uid.shared: id=10079
+07-29 21:49:26.557   491   491 I PackageManager: /system/priv-app/ContactsProvider changed; collecting certs
+07-29 21:49:26.560   491   491 E PackageManager: Adding duplicate app id: 10079 name=com.android.providers.contacts
+07-29 21:49:26.560   491   491 I PackageManager: /system/priv-app/CellBroadcastLegacyApp changed; collecting certs
+07-29 21:49:26.563   491   491 I PackageManager: New shared user android.media: id=10081
+07-29 21:49:26.563   491   491 I PackageManager: /system/priv-app/DownloadProviderUi changed; collecting certs
+07-29 21:49:26.565   491   491 E PackageManager: Adding duplicate app id: 10081 name=com.android.providers.downloads.ui
+07-29 21:49:26.565   491   491 I PackageManager: /system/priv-app/MediaProviderLegacy changed; collecting certs
+07-29 21:49:26.568   491   491 E PackageManager: Adding duplicate app id: 10081 name=com.android.providers.media
+07-29 21:49:26.568   491   491 I PackageManager: /system/priv-app/StatementService changed; collecting certs
+07-29 21:49:26.570   491   491 I PackageManager: /system/priv-app/UserDictionaryProvider changed; collecting certs
+07-29 21:49:26.571   491   491 E PackageManager: Adding duplicate app id: 10079 name=com.android.providers.userdictionary
+07-29 21:49:26.571   491   491 I PackageManager: /system/priv-app/ProxyHandler changed; collecting certs
+07-29 21:49:26.572   491   491 I PackageManager: /system/priv-app/DownloadProvider changed; collecting certs
+07-29 21:49:26.573   491   491 E PackageManager: Adding duplicate app id: 10081 name=com.android.providers.downloads
+07-29 21:49:26.574   491   491 I PackageManager: /system/priv-app/ONS changed; collecting certs
+07-29 21:49:26.576   491   491 E PackageManager: Adding duplicate shared id: 1001 name=com.android.ons
+07-29 21:49:26.576   491   491 I PackageManager: /system/priv-app/SettingsProvider changed; collecting certs
+07-29 21:49:26.578   491   491 E PackageManager: Adding duplicate shared id: 1000 name=com.android.providers.settings
+07-29 21:49:26.578   491   491 I PackageManager: New shared user android.uid.calendar: id=10084
+07-29 21:49:26.578   491   491 I PackageManager: /system/priv-app/CalendarProvider changed; collecting certs
+07-29 21:49:26.582   491   491 E PackageManager: Adding duplicate app id: 10084 name=com.android.providers.calendar
+07-29 21:49:26.582   491   491 I PackageManager: /system/priv-app/TimeZoneUpdater changed; collecting certs
+07-29 21:49:26.583   491   491 I PackageManager: /system/priv-app/SoundPicker changed; collecting certs
+07-29 21:49:26.587   491   491 E PackageManager: Adding duplicate app id: 10081 name=com.android.soundpicker
+07-29 21:49:26.587   491   491 I PackageManager: /system/priv-app/InputDevices changed; collecting certs
+07-29 21:49:26.588   491   491 E PackageManager: Adding duplicate shared id: 1000 name=com.android.inputdevices
+07-29 21:49:26.588   491   491 I PackageManager: /system/priv-app/BlockedNumberProvider changed; collecting certs
+07-29 21:49:26.589   491   491 E PackageManager: Adding duplicate app id: 10079 name=com.android.providers.blockednumber
+07-29 21:49:26.590   491   491 I PackageManager: /system/priv-app/ExternalStorageProvider changed; collecting certs
+07-29 21:49:26.593   491   491 I PackageManager: /system/priv-app/Shell changed; collecting certs
+07-29 21:49:26.595   491   491 E PackageManager: Adding duplicate shared id: 2000 name=com.android.shell
+07-29 21:49:26.595   491   491 I PackageManager: /system/priv-app/VpnDialogs changed; collecting certs
+07-29 21:49:26.600   491   491 I PackageManager: /system/priv-app/TeleService changed; collecting certs
+07-29 21:49:26.602   491   491 E PackageManager: Adding duplicate shared id: 1001 name=com.android.phone
+07-29 21:49:26.602   491   491 I PackageManager: /system/priv-app/MtpService changed; collecting certs
+07-29 21:49:26.604   491   491 E PackageManager: Adding duplicate app id: 10081 name=com.android.mtp
+07-29 21:49:26.608   491   491 I PackageManager: /system/priv-app/BuiltInPrintService changed; collecting certs
+07-29 21:49:26.613   491   491 I PackageManager: /system/priv-app/CallLogBackup changed; collecting certs
+07-29 21:49:26.614   491   491 E PackageManager: Adding duplicate app id: 10079 name=com.android.calllogbackup
+07-29 21:49:26.615   491   491 I PackageManager: /system/priv-app/SharedStorageBackup changed; collecting certs
+07-29 21:49:26.617   491   491 I PackageManager: /system/priv-app/GooglePackageInstaller changed; collecting certs
+07-29 21:49:26.619   491   491 I PackageManager: /system/priv-app/FusedLocation changed; collecting certs
+07-29 21:49:26.620   491   491 E PackageManager: Adding duplicate shared id: 1000 name=com.android.location.fused
+07-29 21:49:26.623   491   491 I PackageManager: /system/priv-app/MmsService changed; collecting certs
+07-29 21:49:26.624   491   491 E PackageManager: Adding duplicate shared id: 1001 name=com.android.mms.service
+07-29 21:49:26.629   491   491 I PackageManager: /system/priv-app/DynamicSystemInstallationService changed; collecting certs
+07-29 21:49:26.630   491   491 E PackageManager: Adding duplicate shared id: 1000 name=com.android.dynsystem
+07-29 21:49:26.635   491   491 I PackageManager: /system/priv-app/ManagedProvisioning changed; collecting certs
+07-29 21:49:26.639   491   491 I PackageManager: /system/priv-app/NetworkStackGoogle changed; collecting certs
+07-29 21:49:26.641   491   491 E PackageManager: Adding duplicate shared id: 1073 name=com.google.android.networkstack
+07-29 21:49:26.642   491   491 I PackageManager: /system/priv-app/DocumentsUIGoogle changed; collecting certs
+07-29 21:49:26.643   491   491 I PackageManager: /system/priv-app/Telecom changed; collecting certs
+07-29 21:49:26.643   491   491 E PackageManager: Adding duplicate shared id: 1000 name=com.android.server.telecom
+07-29 21:49:26.648   491   491 I PackageManager: /system/app/BookmarkProvider changed; collecting certs
+07-29 21:49:26.649   491   491 I PackageManager: /system/app/CarrierDefaultApp changed; collecting certs
+07-29 21:49:26.651   491   491 I PackageManager: /system/app/GooglePrintRecommendationService changed; collecting certs
+07-29 21:49:26.653   491   491 I PackageManager: /system/app/RcsService changed; collecting certs
+07-29 21:49:26.654   491   491 E PackageManager: Adding duplicate shared id: 1001 name=com.android.service.ims
+07-29 21:49:26.654   491   491 I PackageManager: /system/app/PartnerBookmarksProvider changed; collecting certs
+07-29 21:49:26.655   491   491 I PackageManager: /system/app/HTMLViewer changed; collecting certs
+07-29 21:49:26.661   491   491 I PackageManager: /system/app/BluetoothMidiService changed; collecting certs
+07-29 21:49:26.662   491   491 I PackageManager: /system/app/LiveWallpapersPicker changed; collecting certs
+07-29 21:49:26.664   491   491 I PackageManager: /system/app/CertInstaller changed; collecting certs
+07-29 21:49:26.670   491   491 I PackageManager: /system/app/NfcNci changed; collecting certs
+07-29 21:49:26.672   491   491 E PackageManager: Adding duplicate shared id: 1027 name=com.android.nfc
+07-29 21:49:26.673   491   491 I PackageManager: /system/app/KeyChain changed; collecting certs
+07-29 21:49:26.673   491   491 E PackageManager: Adding duplicate shared id: 1000 name=com.android.keychain
+07-29 21:49:26.674   491   491 I PackageManager: /system/app/SecureElement changed; collecting certs
+07-29 21:49:26.675   491   491 E PackageManager: Adding duplicate shared id: 1068 name=com.android.se
+07-29 21:49:26.677   491   491 I PackageManager: /system/app/WallpaperBackup changed; collecting certs
+07-29 21:49:26.678   491   491 E PackageManager: Adding duplicate shared id: 1000 name=com.android.wallpaperbackup
+07-29 21:49:26.678   491   491 I PackageManager: /system/app/EasterEgg changed; collecting certs
+07-29 21:49:26.681   491   491 I PackageManager: /system/app/Bluetooth changed; collecting certs
+07-29 21:49:26.682   491   491 E PackageManager: Adding duplicate shared id: 1002 name=com.android.bluetooth
+07-29 21:49:26.685   491   491 I PackageManager: /system/app/GoogleExtShared changed; collecting certs
+07-29 21:49:26.687   491   491 I PackageManager: /system/app/SafetyRegulatoryInfo changed; collecting certs
+07-29 21:49:26.690   491   491 I PackageManager: /system/app/PresencePolling changed; collecting certs
+07-29 21:49:26.691   491   491 E PackageManager: Adding duplicate shared id: 1001 name=com.android.service.ims.presence
+07-29 21:49:26.692   491   491 I PackageManager: /system/app/BasicDreams changed; collecting certs
+07-29 21:49:26.693   491   491 I PackageManager: /system/app/Traceur changed; collecting certs
+07-29 21:49:26.696   491   491 I PackageManager: /system/app/Stk changed; collecting certs
+07-29 21:49:26.696   491   491 E PackageManager: Adding duplicate shared id: 1001 name=com.android.stk
+07-29 21:49:26.697   491   491 I PackageManager: /system/app/PacProcessor changed; collecting certs
+07-29 21:49:26.698   491   491 I PackageManager: /system/app/CaptivePortalLoginGoogle changed; collecting certs
+07-29 21:49:26.699   491   491 I PackageManager: /system/app/SimAppDialog changed; collecting certs
+07-29 21:49:26.700   491   491 I PackageManager: /system/app/CompanionDeviceManager changed; collecting certs
+07-29 21:49:26.702   491   491 I PackageManager: /system/app/PrintSpooler changed; collecting certs
+07-29 21:49:26.703   491   491 D PackageManager: No files in app dir /vendor/priv-app
+07-29 21:49:26.703   491   491 D PackageManager: No files in app dir /vendor/app
+07-29 21:49:26.703   491   491 D PackageManager: No files in app dir /odm/priv-app
+07-29 21:49:26.703   491   491 D PackageManager: No files in app dir /odm/app
+07-29 21:49:26.703   491   491 D PackageManager: No files in app dir /oem/app
+07-29 21:49:26.707   491   491 I PackageManager: /product/priv-app/SettingsIntelligence changed; collecting certs
+07-29 21:49:26.717   491   491 I PackageManager: /product/priv-app/AndroidMigratePrebuilt changed; collecting certs
+07-29 21:49:26.718   491   491 I PackageManager: /product/priv-app/WellbeingPrebuilt changed; collecting certs
+07-29 21:49:26.726   491   491 I PackageManager: /product/priv-app/CarrierServices changed; collecting certs
+07-29 21:49:26.733   491   491 I PackageManager: /product/priv-app/PartnerSetupPrebuilt changed; collecting certs
+07-29 21:49:26.741   491   491 I PackageManager: /product/priv-app/SetupWizardPrebuilt changed; collecting certs
+07-29 21:49:26.743   491   491 I PackageManager: New shared user com.google.android.projection.gearhead: id=10117
+07-29 21:49:26.743   491   491 I PackageManager: /product/priv-app/AndroidAutoFullPrebuilt changed; collecting certs
+07-29 21:49:26.745   491   491 E PackageManager: Adding duplicate app id: 10117 name=com.google.android.projection.gearhead
+07-29 21:49:26.746   491   491 I PackageManager: /product/priv-app/ConfigUpdater changed; collecting certs
+07-29 21:49:26.754   491   491 I PackageManager: /product/priv-app/Contacts changed; collecting certs
+07-29 21:49:26.756   491   491 I PackageManager: /product/priv-app/Dialer changed; collecting certs
+07-29 21:49:26.762   491   491 I PackageManager: /product/priv-app/GoogleRestorePrebuilt changed; collecting certs
+07-29 21:49:26.782   491   491 I PackageManager: New shared user com.google.uid.shared: id=10122
+07-29 21:49:26.782   491   491 I PackageManager: /product/priv-app/PrebuiltGmsCore changed; collecting certs
+07-29 21:49:26.787   491   491 E PackageManager: Adding duplicate app id: 10122 name=com.google.android.gms
+07-29 21:49:26.796   491   491 I PackageManager: /product/priv-app/Velvet changed; collecting certs
+07-29 21:49:26.806   491   491 I PackageManager: /product/app/PrebuiltGoogleTelemetryTvp changed; collecting certs
+07-29 21:49:26.809   491   491 I PackageManager: /product/app/ModuleMetadataGoogle changed; collecting certs
+07-29 21:49:26.815   491   491 I PackageManager: /product/app/PrebuiltDeskClockGoogle changed; collecting certs
+07-29 21:49:26.818   491   491 I PackageManager: /product/app/NexusWallpapersStubPrebuilt2018 changed; collecting certs
+07-29 21:49:26.822   491   491 I PackageManager: /product/app/TrichromeLibrary changed; collecting certs
+07-29 21:49:26.824   491   491 I PackageManager: /product/app/GoogleTTS changed; collecting certs
+07-29 21:49:26.827   491   491 I PackageManager: /product/app/LicenseChecker changed; collecting certs
+07-29 21:49:26.831   491   491 I PackageManager: /product/app/Chrome changed; collecting certs
+07-29 21:49:26.846   491   491 I PackageManager: /product/app/LatinIMEGooglePrebuilt changed; collecting certs
+07-29 21:49:26.854   491   491 I PackageManager: /product/app/Camera2 changed; collecting certs
+07-29 21:49:26.858   491   491 I PackageManager: /product/app/PrebuiltGmail changed; collecting certs
+07-29 21:49:26.861   491   491 I PackageManager: /product/app/MarkupGoogle changed; collecting certs
+07-29 21:49:26.870   491   491 I PackageManager: /product/app/Drive changed; collecting certs
+07-29 21:49:26.875   491   491 I PackageManager: /product/app/Photos changed; collecting certs
+07-29 21:49:26.883   491   491 I PackageManager: /product/app/YouTubeMusicPrebuilt changed; collecting certs
+07-29 21:49:26.890   491   491 I PackageManager: New shared user com.google.android.apps.maps: id=10139
+07-29 21:49:26.890   491   491 I PackageManager: /product/app/Maps changed; collecting certs
+07-29 21:49:26.894   491   491 E PackageManager: Adding duplicate app id: 10139 name=com.google.android.apps.maps
+07-29 21:49:26.895   491   491 I PackageManager: /product/app/Videos changed; collecting certs
+07-29 21:49:26.898   491   491 I PackageManager: /product/app/WallpapersBReel2018 changed; collecting certs
+07-29 21:49:26.900   491   491 I PackageManager: /product/app/SoundPickerPrebuilt changed; collecting certs
+07-29 21:49:26.902   491   491 I PackageManager: /product/app/GoogleContactsSyncAdapter changed; collecting certs
+07-29 21:49:26.903   491   491 I PackageManager: /product/app/WebViewGoogle changed; collecting certs
+07-29 21:49:26.904   491   491 I PackageManager: New shared user com.google.android.calendar.uid.shared: id=10145
+07-29 21:49:26.904   491   491 I PackageManager: /product/app/CalendarGooglePrebuilt changed; collecting certs
+07-29 21:49:26.906   491   491 E PackageManager: Adding duplicate app id: 10145 name=com.google.android.calendar
+07-29 21:49:26.907   491   491 I PackageManager: /product/app/YouTube changed; collecting certs
+07-29 21:49:26.911   491   491 I PackageManager: /product/app/PrebuiltBugle changed; collecting certs
+07-29 21:49:26.918   491   491 I PackageManager: /system_ext/priv-app/GoogleFeedback changed; collecting certs
+07-29 21:49:26.921   491   491 I PackageManager: /system_ext/priv-app/QuickAccessWallet changed; collecting certs
+07-29 21:49:26.924   491   491 I PackageManager: /system_ext/priv-app/WallpaperPickerGooglePrebuilt changed; collecting certs
+07-29 21:49:26.926   491   491 I PackageManager: /system_ext/priv-app/GoogleOneTimeInitializer changed; collecting certs
+07-29 21:49:26.933   491   491 I PackageManager: /system_ext/priv-app/GoogleSdkSetup changed; collecting certs
+07-29 21:49:26.937   491   491 I PackageManager: /system_ext/priv-app/GoogleServicesFramework changed; collecting certs
+07-29 21:49:26.940   491   491 E PackageManager: Adding duplicate app id: 10122 name=com.google.android.gsf
+07-29 21:49:26.941   491   491 W PackageManager: Skipping provider name com.android.car.ui.CarUiInstaller (in package com.google.android.gsf): name already used by com.android.managedprovisioning
+07-29 21:49:26.942   491   491 I PackageManager: /system_ext/priv-app/NexusLauncherRelease changed; collecting certs
+07-29 21:49:26.945   491   491 I PackageManager: /system_ext/priv-app/MultiDisplayProvider changed; collecting certs
+07-29 21:49:26.946   491   491 E PackageManager: Adding duplicate shared id: 1000 name=com.android.emulator.multidisplay
+07-29 21:49:26.946   491   491 I PackageManager: /system_ext/priv-app/StorageManager changed; collecting certs
+07-29 21:49:26.948   491   491 I PackageManager: /system_ext/priv-app/CarrierConfig changed; collecting certs
+07-29 21:49:26.949   491   491 I PackageManager: /system_ext/priv-app/EmulatorRadioConfig changed; collecting certs
+07-29 21:49:26.951   491   491 I PackageManager: New shared user android.uid.systemui: id=10157
+07-29 21:49:26.951   491   491 I PackageManager: /system_ext/priv-app/SystemUIGoogle changed; collecting certs
+07-29 21:49:26.953   491   491 E PackageManager: Adding duplicate app id: 10157 name=com.android.systemui
+07-29 21:49:26.967   491   491 I PackageManager: /system_ext/priv-app/Settings changed; collecting certs
+07-29 21:49:26.968   491   491 E PackageManager: Adding duplicate shared id: 1000 name=com.android.settings
+07-29 21:49:26.972   491   491 I PackageManager: New shared user com.android.emergency.uid: id=10158
+07-29 21:49:26.972   491   491 I PackageManager: /system_ext/app/EmergencyInfoGoogleNoUi changed; collecting certs
+07-29 21:49:26.972   491   491 E PackageManager: Adding duplicate app id: 10158 name=com.android.emergency
+07-29 21:49:26.973   491   491 D PackageManager: No files in app dir /apex/com.android.vndk.v30/priv-app
+07-29 21:49:26.973   491   491 D PackageManager: No files in app dir /apex/com.android.vndk.v30/app
+07-29 21:49:26.973   491   491 D PackageManager: No files in app dir /apex/com.android.telephony/priv-app
+07-29 21:49:26.973   491   491 D PackageManager: No files in app dir /apex/com.android.telephony/app
+07-29 21:49:26.976   491   491 I PackageManager: /apex/com.android.tethering/priv-app/TetheringGoogle changed; collecting certs
+07-29 21:49:26.978   491   491 E PackageManager: Adding duplicate shared id: 1073 name=com.google.android.networkstack.tethering
+07-29 21:49:26.978   491   491 D PackageManager: No files in app dir /apex/com.android.tethering/app
+07-29 21:49:26.982   491   491 I PackageManager: /apex/com.android.extservices/priv-app/GoogleExtServices changed; collecting certs
+07-29 21:49:26.983   491   491 D PackageManager: No files in app dir /apex/com.android.extservices/app
+07-29 21:49:26.988   491   491 I PackageManager: /apex/com.android.wifi/priv-app/ServiceWifiResourcesGoogle changed; collecting certs
+07-29 21:49:26.992   491   491 I PackageManager: /apex/com.android.wifi/app/OsuLoginGoogle changed; collecting certs
+07-29 21:49:26.998   491   491 I PackageManager: /apex/com.android.mediaprovider/priv-app/MediaProviderGoogle changed; collecting certs
+07-29 21:49:27.000   491   491 D PackageManager: No files in app dir /apex/com.android.mediaprovider/app
+07-29 21:49:27.000   491   491 D PackageManager: No files in app dir /apex/com.android.tzdata/priv-app
+07-29 21:49:27.000   491   491 D PackageManager: No files in app dir /apex/com.android.tzdata/app
+07-29 21:49:27.004   491   491 I PackageManager: /apex/com.android.cellbroadcast/priv-app/GoogleCellBroadcastServiceModule changed; collecting certs
+07-29 21:49:27.005   491   491 E PackageManager: Adding duplicate shared id: 1073 name=com.google.android.cellbroadcastservice
+07-29 21:49:27.012   491   491 I PackageManager: /apex/com.android.cellbroadcast/priv-app/GoogleCellBroadcastApp changed; collecting certs
+07-29 21:49:27.014   491   491 D PackageManager: No files in app dir /apex/com.android.cellbroadcast/app
+07-29 21:49:27.014   491   491 D PackageManager: No files in app dir /apex/com.android.adbd/priv-app
+07-29 21:49:27.014   491   491 D PackageManager: No files in app dir /apex/com.android.adbd/app
+07-29 21:49:27.014   491   491 D PackageManager: No files in app dir /apex/com.android.i18n/priv-app
+07-29 21:49:27.014   491   491 D PackageManager: No files in app dir /apex/com.android.i18n/app
+07-29 21:49:27.014   491   491 D PackageManager: No files in app dir /apex/com.android.os.statsd/priv-app
+07-29 21:49:27.014   491   491 D PackageManager: No files in app dir /apex/com.android.os.statsd/app
+07-29 21:49:27.016   491   491 I PackageManager: /apex/com.android.apex.cts.shim/priv-app/CtsShimPriv changed; collecting certs
+07-29 21:49:27.019   491   491 I PackageManager: /apex/com.android.apex.cts.shim/app/CtsShim changed; collecting certs
+07-29 21:49:27.020   491   491 D PackageManager: No files in app dir /apex/com.android.neuralnetworks/priv-app
+07-29 21:49:27.020   491   491 D PackageManager: No files in app dir /apex/com.android.neuralnetworks/app
+07-29 21:49:27.020   491   491 D PackageManager: No files in app dir /apex/com.android.media/priv-app
+07-29 21:49:27.020   491   491 D PackageManager: No files in app dir /apex/com.android.media/app
+07-29 21:49:27.021   491   491 D PackageManager: No files in app dir /apex/com.android.sdkext/priv-app
+07-29 21:49:27.021   491   491 D PackageManager: No files in app dir /apex/com.android.sdkext/app
+07-29 21:49:27.021   491   491 D PackageManager: No files in app dir /apex/com.android.media.swcodec/priv-app
+07-29 21:49:27.021   491   491 D PackageManager: No files in app dir /apex/com.android.media.swcodec/app
+07-29 21:49:27.021   491   491 D PackageManager: No files in app dir /apex/com.android.runtime/priv-app
+07-29 21:49:27.021   491   491 D PackageManager: No files in app dir /apex/com.android.runtime/app
+07-29 21:49:27.033   491   491 I PackageManager: /apex/com.android.permission/priv-app/GooglePermissionController changed; collecting certs
+07-29 21:49:27.034   491   491 D PackageManager: No files in app dir /apex/com.android.permission/app
+07-29 21:49:27.034   491   491 D PackageManager: No files in app dir /apex/com.android.conscrypt/priv-app
+07-29 21:49:27.034   491   491 D PackageManager: No files in app dir /apex/com.android.conscrypt/app
+07-29 21:49:27.034   491   491 D PackageManager: No files in app dir /apex/com.android.ipsec/priv-app
+07-29 21:49:27.034   491   491 D PackageManager: No files in app dir /apex/com.android.ipsec/app
+07-29 21:49:27.034   491   491 D PackageManager: No files in app dir /apex/com.android.resolv/priv-app
+07-29 21:49:27.034   491   491 D PackageManager: No files in app dir /apex/com.android.resolv/app
+07-29 21:49:27.034   491   491 D PackageManager: No files in app dir /apex/com.android.art/priv-app
+07-29 21:49:27.034   491   491 D PackageManager: No files in app dir /apex/com.android.art/app
+07-29 21:49:27.038   491   491 I PackageManager: Finished scanning system apps. Time: 3035 ms, packageCount: 201 , timePerPackage: 15 , cached: 0
+07-29 21:49:27.038   491   491 D PackageManager: No files in app dir /data/app
+07-29 21:49:27.039   491   491 I PackageManager: Finished scanning non-system apps. Time: 0 ms, packageCount: 0 , timePerPackage: 0 , cached: 0
+07-29 21:49:27.042   491   491 E PackageManager: Shared lib without setting: SharedLibraryInfo{name:com.google.android.trichromelibrary, type:static, version:410410686}
+07-29 21:49:27.042   491   491 E PackageManager: Shared lib without setting: SharedLibraryInfo{name:com.google.android.trichromelibrary, type:static, version:410410686}
+07-29 21:49:27.045   491   491 I PackageManager: Time to scan packages: 3.041 seconds
+07-29 21:49:27.045   491   491 I PackageManager: Permission ownership changed. Updating all permissions.
+07-29 21:49:27.056   491   491 W PackageManager: Unknown package com.google.android.apps.docs.editors.docs in sysconfig <app-link>
+07-29 21:49:27.056   491   491 W PackageManager: Unknown package com.google.android.apps.docs.editors.sheets in sysconfig <app-link>
+07-29 21:49:27.056   491   491 W PackageManager: Unknown package com.google.android.apps.docs.editors.slides in sysconfig <app-link>
+07-29 21:49:27.056   491   491 W PackageManager: Sysconfig <app-link> package 'com.android.vending' does not handle web links
+07-29 21:49:27.056   491   491 W PackageManager: Unknown package com.google.android.apps.plus in sysconfig <app-link>
+07-29 21:49:27.056   491   491 W PackageManager: Unknown package com.google.android.apps.tycho in sysconfig <app-link>
+07-29 21:49:27.056   491   491 W PackageManager: Unknown package com.google.android.talk in sysconfig <app-link>
+07-29 21:49:27.056   491   491 V PackageManager: reconcileAppsData for null u0 0x1 migrateAppData=true
+07-29 21:49:27.079   491   491 V PackageManager: reconcileAppsData finished 22 packages
+07-29 21:49:27.093   491   491 E PackageManager: There should probably be a verifier, but, none were found
+07-29 21:49:27.098   491   491 V PackageManager: Ephemeral resolver found; pkg: com.google.android.gms, info:ResolveInfo{2a99124 com.google.android.gms/.chimera.PersistentBoundBrokerService m=0x108000}
+07-29 21:49:27.098   491   491 D PackageManager: Set ephemeral resolver: Pair{ComponentInfo{com.google.android.gms/com.google.android.gms.chimera.PersistentBoundBrokerService} android.intent.action.RESOLVE_INSTANT_APP_PACKAGE}
+07-29 21:49:27.099   491   491 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:27.099   491   491 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:27.358   491   560 I PackageManager: Deferred reconcileAppsData finished 179 packages
+07-29 21:49:28.781   491   491 W PackageManager: No disk maintenance in 1753825768781; running immediately
+07-29 21:49:29.181   491   491 I PackageManager: Permission ownership changed. Updating all permissions.
+07-29 21:49:29.435   491   631 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:29.435   491   631 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:29.446   491   631 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:29.446   491   631 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:29.628   491   491 I PackageManager: Permission ownership changed. Updating all permissions.
+07-29 21:49:29.937   491   520 D PackageManager: Size of mPackageChangeObservers after registry is 1
+07-29 21:49:30.753   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:30.753   491  1095 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:30.986   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:30.986   491   520 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:32.629   491   523 V PackageManager: reconcileAppsData for null u0 0x2 migrateAppData=true
+07-29 21:49:35.101   491   523 V PackageManager: reconcileAppsData finished 201 packages
+07-29 21:49:37.054   491   841 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:37.054   491   841 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:37.412   491   841 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:37.412   491   841 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:40.277   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:40.277   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:41.585   491   841 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:41.585   491   841 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:42.080   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:42.080   491  1095 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:42.246   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:42.246   491   521 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:42.307   491   841 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:42.307   491   841 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:42.307   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:42.307   491   843 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:42.801   491  1643 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:42.801   491  1643 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:43.104   491  2356 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:43.104   491  2356 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:43.113   491  2357 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:43.113   491  2357 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:43.165   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:43.165   491  1652 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:43.251   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:43.251   491  2340 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:43.350   491  2356 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:43.350   491  2356 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:43.413   491  1651 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:43.413   491  1651 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:43.695   491   596 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:43.695   491   596 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:43.714   491  2356 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:43.714   491  2356 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:43.733   491  1651 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:43.733   491  1651 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:43.745   491  1651 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:43.745   491  1651 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:43.967   491   596 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:43.967   491   596 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:44.004   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:44.004   491  1652 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:44.012   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:44.012   491  1652 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:44.027   491  1651 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:44.028   491  1651 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:44.215   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:44.215   491   521 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:45.518   491  2338 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:45.518   491  2338 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:48.564   491   631 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:48.564   491   631 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:49.567   491  1640 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:49.567   491  1640 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:49.567   491  1640 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:49.567   491  1640 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:49.567   491  1640 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:49.567   491  1640 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:49.567   491  1640 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:49.567   491  1640 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:49.589   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:49.589   491  1639 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:49.633   491  1640 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:49.633   491  1640 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:49.905   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:49.905   491  1095 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:50.438   491  1640 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:50.438   491  1640 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.322   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.322   491   843 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.323   491  1650 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.323   491  1650 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.323   491  1650 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.323   491  1650 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.365   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.365   491   843 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.366   491  1650 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.366   491  1650 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.366   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.366   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.366   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.366   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.514   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.514   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.518   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.518   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.519   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.519   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.519   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.519   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.519   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.519   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.522   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.522   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.535   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.535   491   843 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.540   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.540   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.587   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.587   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.588   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.588   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.588   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.588   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.588   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.588   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.588   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.588   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.588   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.588   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.589   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.589   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.589   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.589   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.589   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.589   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.589   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.589   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.589   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.589   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.590   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.590   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.590   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.590   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.590   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.590   491  1649 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:51.915   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:51.915   491  1648 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.000   491  2357 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.000   491  2357 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.001   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.001   491  1648 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.001   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.001   491  1648 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.001   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.001   491  1648 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.001   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.001   491  1648 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.001   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.001   491  1648 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.001   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.001   491  1648 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.003   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.003   491  1648 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.003   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.003   491  1648 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.004   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.004   491  1648 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.005   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.005   491  1648 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.054   491   631 W PackageManager: Cannot suspend the platform package: android
+07-29 21:49:52.054   491   631 W PackageManager: Cannot suspend package "com.google.android.permissioncontroller": required for permissions management
+07-29 21:49:52.056   491   631 W PackageManager: Cannot suspend package "com.android.dialer": is the default dialer
+07-29 21:49:52.057   491   631 W PackageManager: Cannot suspend package "com.google.android.packageinstaller": required for package installation
+07-29 21:49:52.057   491   631 W PackageManager: Cannot suspend package "com.google.android.apps.nexuslauncher": contains the active launcher
+07-29 21:49:52.144   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.144   491  1095 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.144   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.144   491  1095 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.144   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.144   491  1095 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.144   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.144   491  1095 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.148   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.148   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.152   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.152   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.192   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.192   491   815 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.199   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.199   491   815 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.199   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.199   491   815 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.199   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.199   491   815 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.199   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.199   491  1095 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.200   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.200   491   815 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.200   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.200   491  1095 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.200   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.200   491   815 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.202   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.202   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.203   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.203   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.203   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.203   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.203   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.203   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.203   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.203   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.203   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.203   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.203   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.203   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.203   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.203   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.204   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.204   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.205   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.205   491  1648 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.275   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.275   491  1095 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.468   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.468   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.495   491  2356 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.496   491  2356 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.497   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.497   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.556   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.556   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.563   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.563   491  1257 D PackageManager: Clear ephemeral installer activity
+07-29 21:49:52.978   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-29 21:49:52.978   491  1648 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:15.909   491  1646 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:15.909   491  1646 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:15.913   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:15.913   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:15.913   491  1646 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:15.913   491  1646 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:15.914   491  1646 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:15.914   491  1646 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:15.915   491  1646 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:15.915   491  1646 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:15.991   491  1150 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:15.991   491  1150 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:15.992   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:15.992   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:15.993   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:15.993   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.267   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.267   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.349   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.349   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.349   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.349   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.349   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.349   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.350   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.350   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.350   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.350   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.350   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.350   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.354   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.354   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.355   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.355   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.355   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.355   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.355   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.355   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.355   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.355   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.391   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.391   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.430   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.430   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.435   491  1647 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.435   491  1647 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.437   491  1647 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.437   491  1647 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.438   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.438   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.447   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.447   491  1648 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.447   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.447   491  1648 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.453   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.453   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.453   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.453   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.454   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.454   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.454   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.454   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.455   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.455   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.455   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.455   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.455   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.455   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.498   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.498   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.499   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.499   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.499   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.499   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.499   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.499   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.499   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.499   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.499   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.499   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.500   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.500   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.500   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.500   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.500   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.500   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.530   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.530   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.530   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.530   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.532   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.532   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.532   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.532   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.533   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.533   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.533   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.533   491  1648 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.537   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.537   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.538   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.538   491  1648 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.547   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.547   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.547   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.547   491  1648 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.556   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.556   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.556   491  1257 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.556   491  1257 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.632   491  2357 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.633   491  2357 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.637   491  1650 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.637   491  1650 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.638   491  1650 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.638   491  1650 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.686   491  1647 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.686   491  1647 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.709   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.709   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.714   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.714   491  1648 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.714   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.714   491  1648 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.714   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.714   491  1648 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.714   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.714   491  1648 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.862   491  1014 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.862   491  1014 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.862   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.862   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.862   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.862   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.863   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.863   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.863   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.863   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:16.863   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:16.863   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.041   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.041   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.043   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.043   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.045   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.045   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.045   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.045   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.046   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.046   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.046   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.046   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.046   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.046   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.047   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.047   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.047   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.047   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.054   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.054   491   843 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.055   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.055   491   843 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.064   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.064   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.067   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.067   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.161   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.161   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.161   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.161   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.162   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.162   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.162   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.162   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.317   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.317   491   815 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.322   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.322   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.589   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.589   491   843 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:17.589   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:17.589   491   843 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.067   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.067   491   815 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.231   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.231   491   815 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.232   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.232   491   815 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.534   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.534   491   815 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.550   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.550   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.551   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.551   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.551   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.551   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.552   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.552   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.552   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.552   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.554   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.554   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.559   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.559   491   815 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.559   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.559   491   815 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.585   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.585   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.596   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.596   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.597   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.597   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.597   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.597   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.597   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.597   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.597   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.597   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.597   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.597   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.654   491  1640 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.654   491  1640 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.662   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.662   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.666   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.666   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.724   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.724   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.728   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.728   491   815 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.728   491  1648 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.728   491  1648 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.730   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.730   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.730   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.730   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.731   491  2356 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.731   491  2356 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.731   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.731   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.780   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.780   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.976   491  2356 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.976   491  2356 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.976   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.976   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:18.976   491  2356 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:18.976   491  2356 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.105   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.105   491   815 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.105   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.105   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.105   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.105   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.106   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.106   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.106   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.106   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.106   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.106   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.106   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.106   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.106   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.106   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.106   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.106   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.121   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.121   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.273   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.273   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.290   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.290   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.290   491  2359 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.290   491  2359 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.290   491  1640 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.290   491  1640 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.292   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.292   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.292   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.292   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.292   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.292   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.293   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.293   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.293   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.293   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.293   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.293   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.293   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.293   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.293   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.293   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.293   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.293   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.353   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.353   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.354   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.354   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.357   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.357   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.357   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.357   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.369   491   520 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.369   491   520 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.414   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.414   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.415   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.415   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.415   491  1640 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.415   491  1640 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.420   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.420   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.420   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.420   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.420   491   521 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.420   491   521 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.421   491  1639 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.421   491  1639 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.422   491  1652 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.422   491  1652 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.707   491   631 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.707   491   631 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.880   491  2356 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.880   491  2356 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:19.903   491  2356 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:19.903   491  2356 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:20.108   491   531 V PackageManager: [Optimistic Bind] Binding to instant app resolver
+07-31 03:50:20.152   491  2341 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:20.152   491  2341 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:20.202   491  2341 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:20.203   491  2341 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:20.332   491  1567 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:20.332   491  1567 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:20.455   491   531 E PackageManager: Optimistic bind failed.
+07-31 03:50:20.455   491   531 E PackageManager: java.util.concurrent.TimeoutException: [Optimistic Bind] Didn't bind to resolver in time!
+07-31 03:50:20.455   491   531 E PackageManager: 	at com.android.server.pm.InstantAppResolverConnection.waitForBindLocked(InstantAppResolverConnection.java:160)
+07-31 03:50:20.455   491   531 E PackageManager: 	at com.android.server.pm.InstantAppResolverConnection.bind(InstantAppResolverConnection.java:225)
+07-31 03:50:20.455   491   531 E PackageManager: 	at com.android.server.pm.InstantAppResolverConnection.lambda$optimisticBind$0$InstantAppResolverConnection(InstantAppResolverConnection.java:255)
+07-31 03:50:20.455   491   531 E PackageManager: 	at com.android.server.pm.-$$Lambda$InstantAppResolverConnection$D-JKXi4qrYjnPQMOwj8UtfZenps.run(Unknown Source:2)
+07-31 03:50:20.455   491   531 E PackageManager: 	at android.os.Handler.handleCallback(Handler.java:938)
+07-31 03:50:20.455   491   531 E PackageManager: 	at android.os.Handler.dispatchMessage(Handler.java:99)
+07-31 03:50:20.455   491   531 E PackageManager: 	at android.os.Looper.loop(Looper.java:223)
+07-31 03:50:20.455   491   531 E PackageManager: 	at android.os.HandlerThread.run(HandlerThread.java:67)
+07-31 03:50:20.504   491   491 D PackageManager: Connected to instant app resolver
+07-31 03:50:20.564   491  2341 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:20.564   491  2341 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:20.944   491   815 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:20.944   491   815 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:20.973   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:20.973   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:20.989   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:20.989   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:21.748   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:21.748   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:21.749   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:21.749   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:21.750   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:21.750   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:21.750   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:21.750   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.049   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.049   491   843 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.060   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.060   491   843 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.062   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.062   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.076   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.076   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.076   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.076   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.077   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.077   491   843 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.080   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.080   491   843 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.080   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.080   491   843 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.081   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.081   491   843 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.081   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.081   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.081   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.081   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.082   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.082   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.082   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.082   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.084   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.084   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.084   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.084   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.085   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.085   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.085   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.085   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.085   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.085   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.085   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.085   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.141   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.141   491   843 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.141   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.141   491  1095 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.142   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.142   491  1095 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.142   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.142   491  1095 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.142   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.142   491  1095 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.269   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.269   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:22.270   491  1649 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:22.270   491  1649 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:24.489   491  1095 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:24.489   491  1095 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:24.491   491  1651 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:24.491   491  1651 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:24.925   491   549 W PackageManager: Not removing non-existent package com.keeganmccallum.mobile_dev_studio
+07-31 03:50:25.714   491  2341 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:25.714   491  2341 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:25.949   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:25.949   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:27.702   491  1640 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:27.702   491  1640 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:27.775   491  1640 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:27.775   491  1640 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:28.122   491  1643 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:28.122   491  1643 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:28.136   491  1643 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:28.136   491  1643 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:28.136   491  1643 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:28.136   491  1643 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:28.576   491   549 I PackageManager: Integrity check passed for file:///data/app/vmdl331037353.tmp
+07-31 03:50:28.680   491   549 I PackageManager: Permission ownership changed. Updating all permissions.
+07-31 03:50:28.761   491   549 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:28.761   491   549 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:30.114   491  1650 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:30.114   491  1650 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:30.114   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:30.114   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:30.117   491  1650 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:30.117   491  1650 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:30.124   491  2340 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:30.124   491  2340 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:30.194   491  1650 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:30.194   491  1650 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:30.195   491  1650 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:30.195   491  1650 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:30.195   491  1650 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:30.195   491  1650 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:30.195   491  1650 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:30.195   491  1650 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:30.195   491  1650 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:30.195   491  1650 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:30.586   491  2357 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:30.586   491  2357 D PackageManager: Clear ephemeral installer activity
+07-31 03:50:30.586   491   843 D PackageManager: Instant App installer not found with android.intent.action.INSTALL_INSTANT_APP_PACKAGE
+07-31 03:50:30.586   491   843 D PackageManager: Clear ephemeral installer activity
