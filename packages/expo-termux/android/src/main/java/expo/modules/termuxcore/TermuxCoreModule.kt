@@ -33,11 +33,19 @@ class TermuxCoreModule : Module() {
 
     override fun definition() = ModuleDefinition {
         Name("TermuxCore")
+        
+        // CRITICAL: Add extensive logging for debugging
+        Log.i(LOG_TAG, "TermuxCore module definition() called - MODULE IS BEING REGISTERED")
+        Log.i(LOG_TAG, "Module class: ${this::class.java.name}")
+        Log.i(LOG_TAG, "Module package: ${this::class.java.`package`?.name}")
 
         Events("onSessionOutput", "onSessionExit", "onBootstrapProgress")
 
         OnCreate {
-            Log.i(LOG_TAG, "TermuxCore module created")
+            Log.i(LOG_TAG, "TermuxCore module OnCreate() called - INITIALIZATION STARTING")
+            Log.i(LOG_TAG, "Context available: ${context != null}")
+            Log.i(LOG_TAG, "App context: ${appContext != null}")
+            
             termuxFilesDir = File(context.filesDir, "termux")
             termuxPrefixDir = File(termuxFilesDir, "usr")
             

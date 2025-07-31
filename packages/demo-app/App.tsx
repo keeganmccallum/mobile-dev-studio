@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { CrashLogger } from './src/utils/CrashLogger';
 import { RuntimeValidator } from '../expo-termux/src/RuntimeValidator';
+import { BridgeDebugger } from '../expo-termux/src/BridgeDebugger';
 
 import TerminalScreen from './src/screens/TerminalScreen';
 import EditorScreen from './src/screens/EditorScreen';
@@ -16,6 +17,11 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   useEffect(() => {
     CrashLogger.logAppStart();
+    
+    // CRITICAL: Debug React Native bridge registration
+    BridgeDebugger.logModuleLoadAttempt();
+    BridgeDebugger.debugBridgeRegistration();
+    BridgeDebugger.testBridgeConnectivity();
     
     // CRITICAL: Validate native modules immediately on startup
     RuntimeValidator.validateOnStartup();
