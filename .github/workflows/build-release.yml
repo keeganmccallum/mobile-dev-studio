@@ -59,20 +59,18 @@ jobs:
       run: |
         echo "🔍 Native Module Pre-flight Validation..."
         
-        # 1. Check expo-module.config.json exists (ROOT CAUSE CHECK)
-        if [ ! -f "packages/expo-termux/expo-module.config.json" ]; then
-          echo "❌ CRITICAL: Missing packages/expo-termux/expo-module.config.json"
-          echo "This will cause 'native module not available' errors at runtime"
-          exit 1
-        else
+        # 1. Check expo-module.config.json (OPTIONAL for modern Expo modules)
+        if [ -f "packages/expo-termux/expo-module.config.json" ]; then
           echo "✅ expo-module.config.json found"
           cat packages/expo-termux/expo-module.config.json
+        else
+          echo "ℹ️  No expo-module.config.json - using auto-registration via Kotlin module"
         fi
         
         # 2. Validate native module structure
         echo "🔍 Checking native module structure..."
-        if [ ! -d "modules/termux-core/android" ]; then
-          echo "❌ CRITICAL: Missing modules/termux-core/android directory"
+        if [ ! -d "packages/expo-termux/android" ]; then
+          echo "❌ CRITICAL: Missing packages/expo-termux/android directory"
           exit 1
         else
           echo "✅ Native module directory found"
