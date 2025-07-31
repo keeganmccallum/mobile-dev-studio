@@ -84,13 +84,11 @@ class TermuxCompatPlugin implements Plugin<Project> {
     
     private void configureAndroidBuildSettings(Project project) {
         project.rootProject.allprojects { proj ->
-            proj.afterEvaluate {
-                if (proj.hasProperty('android')) {
-                    proj.android {
-                        compileOptions {
-                            sourceCompatibility JavaVersion.VERSION_17
-                            targetCompatibility JavaVersion.VERSION_17
-                        }
+            if (proj.hasProperty('android')) {
+                proj.android {
+                    compileOptions {
+                        sourceCompatibility JavaVersion.VERSION_17
+                        targetCompatibility JavaVersion.VERSION_17
                     }
                 }
             }
