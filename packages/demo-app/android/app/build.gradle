@@ -150,8 +150,7 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     
-    // Expo-Termux integration
-    implementation project(':expo-termux')
+    // Expo-Termux integration will be auto-linked by Expo
 
     def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
     def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";
