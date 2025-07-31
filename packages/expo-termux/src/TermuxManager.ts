@@ -31,7 +31,8 @@ export class TermuxManager {
     // Initialize event emitter for session events
     const TermuxCore = this.getTermuxCore();
     if (TermuxCore) {
-      this.eventEmitter = new NativeEventEmitter(TermuxCore);
+      // Cast to any to handle type differences between NativeModule and ProxyNativeModule
+      this.eventEmitter = new NativeEventEmitter(TermuxCore as any);
       this.setupEventListeners();
       console.log('[TermuxManager] Native module found and initialized');
     } else {
