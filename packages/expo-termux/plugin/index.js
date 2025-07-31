@@ -67,37 +67,9 @@ rootProject.ext.kotlinVersion = '1.9.25'
     return config;
   });
   
-  // Add termux-core module to settings.gradle
-  config = withSettingsGradle(config, (config) => {
-    const settings = config.modResults.contents;
-    
-    if (!settings.includes('termux-core')) {
-      config.modResults.contents = settings + `
-// Termux core module - auto-linked by @keeganmccallum/expo-termux
-include ':termux-core'
-project(':termux-core').projectDir = file('../../../modules/termux-core/android')
-`;
-    }
-    
-    return config;
-  });
+  // Note: termux-core module integration now handled directly in expo-termux module
   
-  // Add termux-core dependency to app/build.gradle
-  config = withAppBuildGradle(config, (config) => {
-    const buildGradle = config.modResults.contents;
-    
-    if (!buildGradle.includes('termux-core')) {
-      // Find the dependencies block and add termux-core
-      const depsStart = buildGradle.indexOf('dependencies {');
-      if (depsStart !== -1) {
-        const insertPoint = buildGradle.indexOf('\n', depsStart) + 1;
-        const termuxDep = '    // Termux core module - auto-linked by @keeganmccallum/expo-termux\n    implementation project(\':termux-core\')\n';
-        config.modResults.contents = buildGradle.slice(0, insertPoint) + termuxDep + buildGradle.slice(insertPoint);
-      }
-    }
-    
-    return config;
-  });
+  // Note: termux functionality now integrated directly in expo-termux module
   
   return config;
 }
