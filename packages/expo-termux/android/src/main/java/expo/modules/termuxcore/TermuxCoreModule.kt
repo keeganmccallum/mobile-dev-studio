@@ -20,6 +20,14 @@ import java.util.zip.ZipInputStream
 import kotlin.collections.HashMap
 
 class TermuxCoreModule : Module() {
+    companion object {
+        private const val LOG_TAG = "TermuxCore"
+        
+        init {
+            Log.i(LOG_TAG, "📚 TermuxCoreModule class loaded - STATIC INITIALIZATION")
+        }
+    }
+    
     private val LOG_TAG = "TermuxCore"
     private val sessions = ConcurrentHashMap<String, Any>() // Can hold TermuxSession or TermuxSessionFallback
     private val fallbackSessions = ConcurrentHashMap<String, TermuxSessionFallback>()
@@ -30,6 +38,13 @@ class TermuxCoreModule : Module() {
     
     private val context: Context
         get() = appContext.reactContext ?: throw Exceptions.AppContextLost()
+
+    init {
+        Log.i(LOG_TAG, "🚀 TermuxCoreModule constructor called - CLASS IS BEING INSTANTIATED")
+        Log.i(LOG_TAG, "Module class path: ${this::class.java.name}")
+        Log.i(LOG_TAG, "Module class loader: ${this::class.java.classLoader}")
+        Log.i(LOG_TAG, "Init timestamp: ${System.currentTimeMillis()}")
+    }
 
     override fun definition() = ModuleDefinition {
         Name("TermuxCore")

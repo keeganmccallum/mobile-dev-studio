@@ -1,0 +1,7 @@
+=== Error Detection Report ===
+Timestamp: Thu Jul 31 15:58:52 UTC 2025
+
+React Native JavaScript Errors:
+07-31 15:58:24.866  5791  5827 E ReactNativeJS: 'Failed to create terminal session:', [Error: TermuxCore native module not available]
+07-31 15:58:24.869  5791  5827 E ReactNativeJS: 'Failed to initialize Termux session:', [Error: TermuxCore native module not available]
+

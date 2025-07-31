@@ -52,7 +52,7 @@ export class BridgeDebugger {
         console.log('🏪 NativeModulesProxy from core:', Object.keys(ExpoModulesCore.NativeModulesProxy).sort());
       }
     } catch (e) {
-      console.log('❌ Could not access Expo modules core:', e.message);
+      console.log('❌ Could not access Expo modules core:', (e as Error).message);
     }
     
     // 5. Try to find the module by brute force
@@ -113,7 +113,7 @@ export class BridgeDebugger {
             console.log(`✅ Can create emitter for ${moduleName}`);
           }
         } catch (e) {
-          console.log(`❌ Failed to create emitter for ${moduleName}:`, e.message);
+          console.log(`❌ Failed to create emitter for ${moduleName}:`, (e as Error).message);
         }
       });
       
@@ -153,7 +153,7 @@ export class BridgeDebugger {
           console.log(`❌ Attempt ${index + 1}: undefined`);
         }
       } catch (e) {
-        console.log(`💥 Attempt ${index + 1} CRASHED:`, e.message);
+        console.log(`💥 Attempt ${index + 1} CRASHED:`, (e as Error).message);
       }
     });
     
