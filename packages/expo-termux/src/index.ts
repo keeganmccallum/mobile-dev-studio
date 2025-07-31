@@ -38,9 +38,10 @@ import { termuxManager } from './TermuxManager';
 export class TermuxCore {
   private static get module() {
     try {
-      return NativeModulesProxy?.TermuxCore;
+      // CRITICAL: Must match the Name() in ExpoTermuxModule.kt
+      return NativeModulesProxy?.ExpoTermux;
     } catch (error) {
-      console.warn('Failed to access TermuxCore native module:', error);
+      console.warn('Failed to access ExpoTermux native module:', error);
       return null;
     }
   }

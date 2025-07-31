@@ -24,7 +24,8 @@ export class TermuxManager {
   private exitCallbacks: Array<(sessionId: string, exitCode: number) => void> = [];
 
   private getTermuxCore() {
-    return NativeModulesProxy?.TermuxCore || NativeModules.TermuxCore || null;
+    // CRITICAL: Must match the Name() in ExpoTermuxModule.kt
+    return NativeModulesProxy?.ExpoTermux || NativeModules.ExpoTermux || null;
   }
 
   constructor() {
