@@ -1,4 +1,5 @@
 import { NativeModules, NativeEventEmitter } from 'react-native';
+import { NativeModulesProxy } from 'expo-modules-core';
 
 export interface TermuxSession {
   id: string;
@@ -22,11 +23,19 @@ export class TermuxManager {
   private outputCallbacks: Array<(sessionId: string, lines: string[]) => void> = [];
   private exitCallbacks: Array<(sessionId: string, exitCode: number) => void> = [];
 
+  private getTermuxCore() {
+    return NativeModulesProxy?.TermuxCore || NativeModules.TermuxCore || null;
+  }
+
   constructor() {
     // Initialize event emitter for session events
-    if (NativeModules.TermuxCore) {
-      this.eventEmitter = new NativeEventEmitter(NativeModules.TermuxCore);
+    const TermuxCore = this.getTermuxCore();
+    if (TermuxCore) {
+      this.eventEmitter = new NativeEventEmitter(TermuxCore);
       this.setupEventListeners();
+      console.log('[TermuxManager] Native module found and initialized');
+    } else {
+      console.warn('[TermuxManager] Native module not available - using fallback');
     }
   }
 
@@ -83,7 +92,7 @@ export class TermuxManager {
 
   async createSession(options: TermuxSessionOptions = {}): Promise<string> {
     try {
-      if (!NativeModules.TermuxCore) {
+      if (!this.getTermuxCore()) {
         throw new Error('TermuxCore native module not available');
       }
 
@@ -109,7 +118,7 @@ export class TermuxManager {
       const cwd = options.cwd || defaultOptions.cwd;
       const env = defaultOptions.environment;
       
-      const result = await NativeModules.TermuxCore.createSession(
+      const result = await this.getTermuxCore()!.createSession(
         sessionId,
         command,
         [], // args
@@ -150,12 +159,12 @@ export class TermuxManager {
     }
 
     try {
-      if (!NativeModules.TermuxCore) {
+      if (!this.getTermuxCore()) {
         throw new Error('TermuxCore native module not available');
       }
       
       console.log(`Writing to session ${sessionId}:`, data);
-      await NativeModules.TermuxCore.writeToSession(sessionId, data);
+      await this.getTermuxCore()!.writeToSession(sessionId, data);
       
     } catch (error) {
       console.error(`Failed to write to session ${sessionId}:`, error);
@@ -170,11 +179,11 @@ export class TermuxManager {
     }
 
     try {
-      if (!NativeModules.TermuxCore) {
+      if (!this.getTermuxCore()) {
         throw new Error('TermuxCore native module not available');
       }
       
-      const result = await NativeModules.TermuxCore.killSession(sessionId);
+      const result = await this.getTermuxCore()!.killSession(sessionId);
       
       if (result) {
         session.isRunning = false;
