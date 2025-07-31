@@ -10,12 +10,13 @@
 - ⚙️ **Build Process**: Root-level builds create APKs of the demo app using the expo-termux package
 
 ### Key Components:
-1. **`packages/expo-termux/`** - The main npm package (to be published)
+1. **`packages/expo-termux/`** - The main npm package (to be published) - **STANDARD EXPO MODULE**
 2. **`packages/demo-app/`** - Demo application showcasing expo-termux features
-3. **`modules/termux-core/`** - Native Android Termux implementation
+3. **`packages/expo-termux/android/`** - Native Android implementation (standard Expo structure)
 4. **Root Level** - Monorepo build configuration and demo app compilation
 
-**TERMUX INTEGRATION IS THE CORE FEATURE - NEVER DISABLE IT**
+**CRITICAL: expo-termux MUST work exactly like any standard Expo module (expo-camera, expo-media-library, etc.)**
+**NEVER use custom module registration - only standard Expo autolinking**
 
 ### Architecture Flow Diagram
 
@@ -29,8 +30,8 @@
 │  │     app/        │    │  expo-termux/   │    │                         │  │
 │  │                 │    │                 │    │                         │  │
 │  │  ┌─────────────┐│    │ ┌─────────────┐ │    │ ┌─────────────────────┐ │  │
-│  │  │TermuxDemo   ││    │ │TermuxManager│ │    │ │ TermuxCoreModule.kt │ │  │
-│  │  │Screen.tsx   ││───▶│ │    .ts      │ │───▶│ │                     │ │  │
+│  │  │TermuxDemo   ││    │ │TermuxManager│ │    │ │ ExpoTermuxModule.kt │ │  │
+│  │  │Screen.tsx   ││───▶│ │    .ts      │ │───▶│ │ (STANDARD EXPO)     │ │  │
 │  │  │             ││    │ │             │ │    │ │ TermuxSessionFallback│ │  │
 │  │  │- Create     ││    │ │- Session    │ │    │ │                     │ │  │
 │  │  │  Session    ││    │ │  Management │ │    │ │- Native Termux      │ │  │
@@ -44,7 +45,7 @@
 │           │                       │                         │              │
 │   ┌───────▼──────────────────────▼────────────────────────▼──────────┐   │
 │   │                        React Native Bridge                      │   │
-│   │                      NativeModules.TermuxCore                   │   │
+│   │                   NativeModulesProxy.ExpoTermux                │   │
 │   └──────────────────────────────────────────────────────────────────┘   │
 │                                                                             │
 │   ┌─────────────────────────────────────────────────────────────────────┐  │
@@ -91,22 +92,61 @@ Key Integration Points:
    - End users import from published npm package
 
 2. **React Native Bridge**: 
-   - TermuxManager calls NativeModules.TermuxCore
+   - TermuxManager calls NativeModulesProxy.ExpoTermux (STANDARD EXPO)
    - Event emitters handle session output/exit events
 
 3. **Native Module Registration**:
-   - expo-module.config.json defines module exports
-   - Android gradle builds include termux-core dependency
+   - NO expo-module.config.json needed (modern Expo autolinking)
+   - Standard package structure: expo.modules.expotermux.ExpoTermuxModule
+   - Module name: "ExpoTermux" (simple and standard)
 
 4. **Build System Integration**:
    - Expo plugin auto-configures Android build settings
    - Metro bundler handles JavaScript/TypeScript compilation
-   - Gradle builds native Android modules
+   - Gradle builds native Android modules using STANDARD EXPO MODULE structure
 
 5. **Auto-linking Chain**:
    - app.json plugins → Expo plugin system → Gradle dependencies
-   - Package dependencies → Metro resolution → Native module registration
+   - Package dependencies → Metro resolution → AUTOMATIC module discovery
+   - **NO MANUAL CONFIGURATION REQUIRED** (like expo-camera)
 ```
+
+## 🚨 CRITICAL: Standard Expo Module Architecture (LOCKED IN)
+
+**expo-termux MUST work exactly like any other standard Expo module. No exceptions.**
+
+### Standard Module Structure (REQUIRED):
+```
+packages/expo-termux/
+├── package.json                    # Standard Expo module package
+├── plugin/index.js                 # Expo plugin for auto-config
+├── src/
+│   ├── index.ts                    # JavaScript exports
+│   └── TermuxManager.ts            # Main API
+├── android/
+│   ├── build.gradle                # Standard Android library
+│   └── src/main/java/expo/modules/expotermux/
+│       ├── ExpoTermuxModule.kt     # STANDARD EXPO MODULE
+│       └── TermuxSessionFallback.kt
+└── NO expo-module.config.json      # Modern autolinking only
+```
+
+### Critical Requirements:
+- ✅ **Module class**: `ExpoTermuxModule : Module()`
+- ✅ **Package**: `expo.modules.expotermux`
+- ✅ **Module name**: `Name("ExpoTermux")`
+- ✅ **JavaScript access**: `NativeModulesProxy.ExpoTermux`
+- ❌ **NO manual registration files**
+- ❌ **NO custom build configurations**
+
+### User Experience (MUST be this simple):
+```bash
+npm install @keeganmccallum/expo-termux
+# Add plugin to app.json
+import { termuxManager } from '@keeganmccallum/expo-termux'
+```
+
+**If it's more complex than expo-camera, it's wrong.**
 
 ## Development Environment Context
 
@@ -212,14 +252,24 @@ ls -la *.png
 find . -name "*crash*" -o -name "*log*"
 ```
 
-### Current App Issues (Updated July 28, 2025)
+### Current App Status (Updated July 31, 2025)
 
-- **JavaScript Bundle**: ✅ Builds successfully (no syntax errors)  
-- **APK Build**: ✅ **FIXED** - All builds completing successfully
-- **App Launch**: ❌ **IMMEDIATE CRASH ON LAUNCH** - App fails to start, process never appears
-- **Root Cause**: **ACTIVE ISSUE** - Runtime crash preventing app initialization
-- **Webview Dependency**: ✅ **FIXED** - Added react-native-webview to demo app dependencies
-- **Webview Plugin**: ✅ **FIXED** - Added react-native-webview plugin to app.json
+- **JavaScript Bundle**: ✅ Builds successfully  
+- **APK Build**: ✅ All builds completing successfully
+- **App Launch**: ✅ **FIXED** - App launches and runs perfectly
+- **Navigation**: ✅ **FIXED** - All screens and tabs working
+- **UI Components**: ✅ **FIXED** - Terminal, Editor, Preview tabs working
+- **Native Module**: 🔄 **IN PROGRESS** - Testing standard Expo module approach
+- **Root Issue**: Native module registration (TermuxCore → ExpoTermux refactor)
+
+### Standard Expo Module Refactor (July 31, 2025)
+
+**MAJOR CHANGE**: Refactored from custom module registration to standard Expo module
+- ✅ Created `ExpoTermuxModule.kt` following exact Expo conventions
+- ✅ Removed `expo-module.config.json` (using modern autolinking)
+- ✅ Updated JavaScript to use `NativeModulesProxy.ExpoTermux`
+- ✅ Standard package structure: `expo.modules.expotermux`
+- 🔄 **Testing in progress** - Should work like expo-camera now
 
 ### Current Build Status
 
@@ -449,15 +499,16 @@ gh run download [RUN_ID] --name debug-apk-[SHA]
 4. build-manifest-debug.json - Build details
 ```
 
-### 🎯 Development Rules (Updated)
+### 🎯 Development Rules (LOCKED IN - July 31, 2025)
 
-1. **Use 3-tier testing strategy** - Start with quick validation
-2. **Always check Tier 1 before pushing** - Prevent broken commits
-3. **Use debug builds for crash investigation** - Enhanced logging captures more info
-4. **Never claim success without emulator testing** - Screenshots are proof
-5. **Analyze crash logs systematically** - Check initialization, modules, navigation
-6. **UPDATE THIS CLAUDE.MD WITH ALL NEW DISCOVERIES** - Keep workflow current
-7. **Commit debug artifacts to git when needed** - Preserve debugging context
+1. **STANDARD EXPO MODULE ONLY** - Never deviate from expo-camera pattern
+2. **NO custom module registration** - Only modern Expo autolinking
+3. **Use 3-tier testing strategy** - Start with quick validation
+4. **Always check Tier 1 before pushing** - Prevent broken commits
+5. **Never claim success without emulator testing** - Screenshots are proof
+6. **Module name MUST be "ExpoTermux"** - JavaScript uses NativeModulesProxy.ExpoTermux
+7. **Package MUST be expo.modules.expotermux** - Standard structure only
+8. **UPDATE THIS CLAUDE.MD WITH ALL NEW DISCOVERIES** - Keep workflow current
 
 ### 🚨 Common Issue Patterns
 
