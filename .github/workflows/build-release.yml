@@ -300,7 +300,7 @@ jobs:
         echo "===================="
         if [ "$VALIDATION_FAILED" = "true" ]; then
           echo "❌ VALIDATION FAILED - Native module linking issues detected"
-          echo "🚫 ABORTING BUILD - TermuxCore will not be available at runtime"
+          echo "🚫 ABORTING BUILD - ExpoTermux will not be available at runtime"
           exit 1
         else
           echo "✅ ALL VALIDATIONS PASSED"

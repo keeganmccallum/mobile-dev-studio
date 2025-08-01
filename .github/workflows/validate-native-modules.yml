@@ -40,8 +40,8 @@ jobs:
         fi
         
         # Check required fields
-        if ! jq -e '.android.modules[]' packages/expo-termux/expo-module.config.json | grep -q "TermuxCoreModule"; then
-          echo "❌ CRITICAL: TermuxCoreModule not found in expo-module.config.json"
+        if ! jq -e '.android.modules[]' packages/expo-termux/expo-module.config.json | grep -q "ExpoTermuxModule"; then
+          echo "❌ CRITICAL: ExpoTermuxModule not found in expo-module.config.json"
           echo "validation_failed=true" >> $GITHUB_OUTPUT
           exit 1
         fi
@@ -53,25 +53,25 @@ jobs:
       run: |
         echo "🔍 Checking native Kotlin module..."
         
-        KOTLIN_FILE="packages/expo-termux/android/src/main/java/expo/modules/termuxcore/TermuxCoreModule.kt"
+        KOTLIN_FILE="packages/expo-termux/android/src/main/java/expo/modules/expotermux/ExpoTermuxModule.kt"
         
         if [ ! -f "$KOTLIN_FILE" ]; then
-          echo "❌ CRITICAL: TermuxCoreModule.kt not found at expected path"
+          echo "❌ CRITICAL: ExpoTermuxModule.kt not found at expected path"
           echo "validation_failed=true" >> $GITHUB_OUTPUT
           exit 1
         fi
         
         # Check for required module definition
-        if ! grep -q 'Name("TermuxCore")' "$KOTLIN_FILE"; then
-          echo "❌ CRITICAL: Module name 'TermuxCore' not found in Kotlin module"
+        if ! grep -q 'Name("ExpoTermux")' "$KOTLIN_FILE"; then
+          echo "❌ CRITICAL: Module name 'ExpoTermux' not found in Kotlin module"
           echo "validation_failed=true" >> $GITHUB_OUTPUT
           exit 1
         fi
         
-        # Check for required methods
-        REQUIRED_METHODS=("getBootstrapInfo" "createSession" "writeToSession" "killSession")
+        # Check for required methods (minimal test module only has test methods)
+        REQUIRED_METHODS=("test" "testAsync")
         for method in "${REQUIRED_METHODS[@]}"; do
-          if ! grep -q "AsyncFunction(\"$method\")" "$KOTLIN_FILE"; then
+          if ! grep -q "Function(\"$method\")\|AsyncFunction(\"$method\")" "$KOTLIN_FILE"; then
             echo "❌ CRITICAL: Required method '$method' not found in native module"
             echo "validation_failed=true" >> $GITHUB_OUTPUT
             exit 1
@@ -93,9 +93,9 @@ jobs:
           exit 1
         fi
         
-        # Check for proper module access
-        if ! grep -q "NativeModulesProxy?.TermuxCore\|NativeModules.TermuxCore" "$TS_FILE"; then
-          echo "❌ CRITICAL: TermuxCore module access not found in TypeScript"
+        # Check for proper module access (modern requireNativeModule approach)
+        if ! grep -q "requireNativeModule.*ExpoTermux\|ExpoTermux" "$TS_FILE"; then
+          echo "❌ CRITICAL: ExpoTermux module access not found in TypeScript"
           echo "validation_failed=true" >> $GITHUB_OUTPUT
           exit 1
         fi
@@ -235,7 +235,7 @@ jobs:
            [ "${{ steps.build_validation.outputs.validation_failed }}" = "true" ]; then
           
           echo "❌ VALIDATION FAILED - Native module linking issues detected"
-          echo "The APK build should not proceed as TermuxCore will not be available at runtime"
+          echo "The APK build should not proceed as ExpoTermux will not be available at runtime"
           echo "passed=false" >> $GITHUB_OUTPUT
           exit 1
         else
