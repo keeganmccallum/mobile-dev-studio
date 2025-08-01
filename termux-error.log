@@ -1,0 +1,8 @@
+=== Error Detection Report ===
+Timestamp: Thu Jul 31 22:39:04 UTC 2025
+
+React Native JavaScript Errors:
+07-31 22:38:38.023  5022  5105 E ReactNativeJS: [TermuxManager] ❌ Native module not available - check expo-termux installation
+07-31 22:38:38.025  5022  5105 E ReactNativeJS: [TermuxManager] Expected module name: ExpoTermux
+07-31 22:38:38.025  5022  5105 E ReactNativeJS: [TermuxManager] Make sure expo-termux plugin is in app.json
+

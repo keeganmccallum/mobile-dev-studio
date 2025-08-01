@@ -26,6 +26,8 @@ export { default as TermuxTerminalView } from './TermuxTerminalView';
 export { default as XTermWebTerminal } from './XTermWebTerminal';
 export { default as TermuxDemo } from './TermuxDemo';
 export { TermuxManager, termuxManager } from './TermuxManager';
+export { RuntimeValidator } from './RuntimeValidator';
+export { BridgeDebugger } from './BridgeDebugger';
 
 // Export component interfaces
 export type { TermuxTerminalViewProps, TermuxTerminalRef } from './TermuxTerminalView';
