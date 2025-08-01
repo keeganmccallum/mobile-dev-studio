@@ -1,5 +1,5 @@
-import { NativeModules, NativeEventEmitter } from 'react-native';
-import { NativeModulesProxy } from 'expo-modules-core';
+import { NativeEventEmitter } from 'react-native';
+import ExpoTermux from './ExpoTermuxModule';
 import { BridgeDebugger } from './BridgeDebugger';
 
 export interface TermuxSession {
@@ -25,8 +25,8 @@ export class TermuxManager {
   private exitCallbacks: Array<(sessionId: string, exitCode: number) => void> = [];
 
   private getTermuxCore() {
-    // CRITICAL: Must match the Name() in ExpoTermuxModule.kt
-    return NativeModulesProxy?.ExpoTermux || NativeModules.ExpoTermux || null;
+    // Use the proper Expo module
+    return ExpoTermux;
   }
 
   constructor() {
@@ -37,17 +37,22 @@ export class TermuxManager {
     BridgeDebugger.logModuleLoadAttempt();
     
     // Initialize event emitter for session events
-    const TermuxCore = this.getTermuxCore();
-    if (TermuxCore) {
-      // Cast to any to handle type differences between NativeModule and ProxyNativeModule
-      this.eventEmitter = new NativeEventEmitter(TermuxCore as any);
-      this.setupEventListeners();
-      console.log('[TermuxManager] ✅ Native module found and initialized');
-      console.log('[TermuxManager] Module methods:', Object.keys(TermuxCore));
-    } else {
-      console.error('[TermuxManager] ❌ Native module not available - check expo-termux installation');
-      console.error('[TermuxManager] Expected module name: ExpoTermux');
-      console.error('[TermuxManager] Make sure expo-termux plugin is in app.json');
+    try {
+      const TermuxCore = this.getTermuxCore();
+      if (TermuxCore) {
+        // Cast to any to handle type differences between NativeModule and ProxyNativeModule
+        this.eventEmitter = new NativeEventEmitter(TermuxCore as any);
+        this.setupEventListeners();
+        console.log('[TermuxManager] ✅ Native module found and initialized');
+        console.log('[TermuxManager] Module methods:', Object.keys(TermuxCore));
+      } else {
+        console.error('[TermuxManager] ❌ Native module not available - check expo-termux installation');
+        console.error('[TermuxManager] Expected module name: ExpoTermux');
+        console.error('[TermuxManager] Make sure expo-termux plugin is in app.json');
+      }
+    } catch (error) {
+      console.error('[TermuxManager] ❌ Error accessing ExpoTermux module:', error);
+      console.error('[TermuxManager] This might indicate the module is not registered properly');
     }
   }
 

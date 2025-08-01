@@ -22,6 +22,7 @@ export interface TermuxSessionOptions {
 }
 
 // Export all components and managers
+export { default as ExpoTermux } from './ExpoTermuxModule';
 export { default as TermuxTerminalView } from './TermuxTerminalView';
 export { default as XTermWebTerminal } from './XTermWebTerminal';
 export { default as TermuxDemo } from './TermuxDemo';
