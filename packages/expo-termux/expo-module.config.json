@@ -1,6 +1,6 @@
 {
   "platforms": ["android"],
   "android": {
-    "modules": ["expo.modules.expotermux.ExpoTermuxModuleMinimal"]
+    "modules": ["expo.modules.expotermux.ExpoTermuxModule"]
   }
 }
