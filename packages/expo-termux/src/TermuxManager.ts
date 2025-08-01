@@ -114,21 +114,37 @@ export class TermuxManager {
         throw new Error('ExpoTermux native module not available');
       }
 
-      // MINIMAL TEST: Just call the test function to prove module works
+      // First test that module is available
       console.log('[TermuxManager] Testing native module...');
       const testResult = termuxCore.test();
       console.log('[TermuxManager] Native module test result:', testResult);
-      
-      const asyncTestResult = await termuxCore.testAsync();
-      console.log('[TermuxManager] Native module async test result:', asyncTestResult);
 
-      // For now, just return a mock session ID
-      const sessionId = `mock_session_${Date.now()}`;
-      console.log(`[TermuxManager] ✅ Native module is working! Mock session: ${sessionId}`);
-      return sessionId;
+      // Create actual session using native module
+      console.log('[TermuxManager] Creating Termux session with options:', options);
+      const sessionData = await termuxCore.createSession(
+        options.command || '/system/bin/sh',
+        options.cwd || '/data/data/com.termux/files/home',
+        options.environment || {}
+      );
+
+      console.log('[TermuxManager] Native session created:', sessionData);
+
+      // Store session locally
+      const session: TermuxSession = {
+        id: sessionData.sessionId,
+        pid: sessionData.pid,
+        isRunning: sessionData.isRunning,
+        command: sessionData.command,
+        cwd: sessionData.cwd
+      };
+      
+      this.sessions.set(session.id, session);
+      console.log(`[TermuxManager] ✅ Session created successfully: ${session.id}`);
+      
+      return session.id;
       
     } catch (error) {
-      console.error('Failed to test native module:', error);
+      console.error('Failed to create session:', error);
       throw error;
     }
   }
@@ -144,15 +160,38 @@ export class TermuxManager {
     }
 
     try {
-      if (!this.getTermuxCore()) {
-        throw new Error('TermuxCore native module not available');
+      const termuxCore = this.getTermuxCore();
+      if (!termuxCore) {
+        throw new Error('ExpoTermux native module not available');
       }
       
-      console.log(`Writing to session ${sessionId}:`, data);
-      await this.getTermuxCore()!.writeToSession(sessionId, data);
+      console.log(`[TermuxManager] Writing to session ${sessionId}:`, data);
+      await termuxCore.writeToSession(sessionId, data);
       
     } catch (error) {
-      console.error(`Failed to write to session ${sessionId}:`, error);
+      console.error(`[TermuxManager] Failed to write to session ${sessionId}:`, error);
+      throw error;
+    }
+  }
+
+  readFromSession(sessionId: string): string {
+    const session = this.sessions.get(sessionId);
+    if (!session) {
+      throw new Error(`Session ${sessionId} not found`);
+    }
+
+    try {
+      const termuxCore = this.getTermuxCore();
+      if (!termuxCore) {
+        throw new Error('ExpoTermux native module not available');
+      }
+      
+      const output = termuxCore.readFromSession(sessionId);
+      console.log(`[TermuxManager] Read from session ${sessionId}:`, output);
+      return output;
+      
+    } catch (error) {
+      console.error(`[TermuxManager] Failed to read from session ${sessionId}:`, error);
       throw error;
     }
   }
@@ -164,21 +203,23 @@ export class TermuxManager {
     }
 
     try {
-      if (!this.getTermuxCore()) {
-        throw new Error('TermuxCore native module not available');
+      const termuxCore = this.getTermuxCore();
+      if (!termuxCore) {
+        throw new Error('ExpoTermux native module not available');
       }
       
-      const result = await this.getTermuxCore()!.killSession(sessionId);
+      const result = await termuxCore.killSession(sessionId);
       
       if (result) {
         session.isRunning = false;
-        console.log(`Killed session: ${sessionId}`);
+        this.sessions.delete(sessionId);
+        console.log(`[TermuxManager] ✅ Killed session: ${sessionId}`);
       }
       
       return result;
       
     } catch (error) {
-      console.error(`Failed to kill session ${sessionId}:`, error);
+      console.error(`[TermuxManager] Failed to kill session ${sessionId}:`, error);
       return false;
     }
   }
@@ -199,41 +240,29 @@ export class TermuxManager {
     command: string, 
     options: TermuxSessionOptions = {}
   ): Promise<{ sessionId: string; output: string; stdout: string }> {
+    console.log(`[TermuxManager] Executing command: ${command}`);
     const sessionId = await this.createSession(options);
     
     try {
+      // Write command to session
       await this.writeToSession(sessionId, command + '\n');
       
-      // Wait for command completion and collect output
-      return new Promise((resolve, reject) => {
-        let output = '';
-        const timeout = setTimeout(() => {
-          this.killSession(sessionId);
-          reject(new Error('Command execution timeout'));
-        }, 10000);
-
-        const outputListener = this.onSessionOutput((sid, lines) => {
-          if (sid === sessionId) {
-            output += lines.join('\n') + '\n';
-          }
-        });
-
-        const exitListener = this.onSessionExit((sid, exitCode) => {
-          if (sid === sessionId) {
-            clearTimeout(timeout);
-            outputListener();
-            exitListener();
-            
-            resolve({
-              sessionId,
-              output,
-              stdout: output
-            });
-          }
-        });
-      });
+      // Wait briefly for command to execute, then read output
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Read output from session
+      const output = this.readFromSession(sessionId);
+      
+      console.log(`[TermuxManager] ✅ Command executed successfully. Output:`, output);
+      
+      return {
+        sessionId,
+        output,
+        stdout: output
+      };
       
     } catch (error) {
+      console.error(`[TermuxManager] Command execution failed:`, error);
       await this.killSession(sessionId);
       throw error;
     }

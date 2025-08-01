@@ -3,21 +3,153 @@ package expo.modules.expotermux
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.kotlin.Promise
+import android.util.Log
+import java.util.concurrent.ConcurrentHashMap
 
 /**
- * MINIMAL TEST MODULE - Just to prove native module registration works
+ * Expo Termux Module - Provides Termux session management for Expo apps
+ * Using fallback implementation for cross-platform compatibility
  */
 class ExpoTermuxModule : Module() {
+    private val sessions = ConcurrentHashMap<String, TermuxSessionFallback>()
+    private val LOG_TAG = "ExpoTermuxModule"
+    
     override fun definition() = ModuleDefinition {
         Name("ExpoTermux")
         
-        // Just one simple function to test if module is available
+        // Test functions to verify module is working
         Function("test") {
             return@Function "Hello from ExpoTermux native module!"
         }
         
         AsyncFunction("testAsync") { promise: Promise ->
             promise.resolve("Hello from ExpoTermux async!")
+        }
+        
+        // Create a new Termux session
+        AsyncFunction("createSession") { 
+            command: String?,
+            cwd: String?,
+            environment: Map<String, Any>?,
+            promise: Promise ->
+            
+            try {
+                val sessionId = "session_${System.currentTimeMillis()}"
+                val workingDir = cwd ?: "/data/data/com.termux/files/home"
+                val cmd = command ?: "/system/bin/sh"
+                val env = environment?.mapValues { it.value.toString() } ?: emptyMap()
+                
+                Log.i(LOG_TAG, "Creating session $sessionId with command: $cmd, cwd: $workingDir")
+                
+                val session = TermuxSessionFallback.create(
+                    sessionId = sessionId,
+                    command = cmd,
+                    args = emptyArray(),
+                    cwd = workingDir,
+                    env = env,
+                    rows = 24,
+                    cols = 80,
+                    prefixPath = ""  
+                )
+                
+                sessions[sessionId] = session
+                
+                val result = mapOf(
+                    "sessionId" to sessionId,
+                    "pid" to session.pid,
+                    "command" to cmd,
+                    "cwd" to workingDir,
+                    "isRunning" to session.isRunning
+                )
+                
+                Log.i(LOG_TAG, "✅ Session created successfully: $sessionId")
+                promise.resolve(result)
+                
+            } catch (error: Exception) {
+                Log.e(LOG_TAG, "❌ Failed to create session", error)
+                promise.reject("SESSION_CREATE_ERROR", "Failed to create session: ${error.message}", error)
+            }
+        }
+        
+        // Get session info
+        Function("getSession") { sessionId: String ->
+            val session = sessions[sessionId]
+            if (session != null) {
+                return@Function mapOf(
+                    "sessionId" to sessionId,
+                    "pid" to session.pid,
+                    "isRunning" to session.isRunning,
+                    "exitCode" to session.exitCode
+                )
+            } else {
+                return@Function null
+            }
+        }
+        
+        // Write data to session (execute command)
+        AsyncFunction("writeToSession") { 
+            sessionId: String,
+            data: String,
+            promise: Promise ->
+            
+            try {
+                val session = sessions[sessionId]
+                if (session == null) {
+                    promise.reject("SESSION_NOT_FOUND", "Session $sessionId not found", null)
+                    return@AsyncFunction
+                }
+                
+                if (!session.isRunning) {
+                    promise.reject("SESSION_NOT_RUNNING", "Session $sessionId is not running", null)
+                    return@AsyncFunction
+                }
+                
+                Log.i(LOG_TAG, "Writing to session $sessionId: $data")
+                session.write(data)
+                
+                promise.resolve(true)
+                
+            } catch (error: Exception) {
+                Log.e(LOG_TAG, "❌ Failed to write to session $sessionId", error)
+                promise.reject("WRITE_ERROR", "Failed to write to session: ${error.message}", error)
+            }
+        }
+        
+        // Read output from session
+        Function("readFromSession") { sessionId: String ->
+            val session = sessions[sessionId]
+            if (session != null) {
+                val output = session.read()
+                Log.d(LOG_TAG, "Read from session $sessionId: $output")
+                return@Function output
+            } else {
+                Log.w(LOG_TAG, "Session $sessionId not found for read")
+                return@Function ""
+            }
+        }
+        
+        // Kill session
+        AsyncFunction("killSession") { 
+            sessionId: String,
+            promise: Promise ->
+            
+            try {
+                val session = sessions[sessionId]
+                if (session == null) {
+                    promise.resolve(false)
+                    return@AsyncFunction
+                }
+                
+                Log.i(LOG_TAG, "Killing session $sessionId")
+                session.kill()
+                sessions.remove(sessionId)
+                
+                promise.resolve(true)
+                
+            } catch (error: Exception) {
+                Log.e(LOG_TAG, "❌ Failed to kill session $sessionId", error)
+                promise.reject("KILL_ERROR", "Failed to kill session: ${error.message}", error)
+            }
         }
     }
 }
