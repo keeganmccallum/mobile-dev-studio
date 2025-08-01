@@ -104,58 +104,26 @@ export class TermuxManager {
 
   async createSession(options: TermuxSessionOptions = {}): Promise<string> {
     try {
-      if (!this.getTermuxCore()) {
-        throw new Error('TermuxCore native module not available');
+      const termuxCore = this.getTermuxCore();
+      if (!termuxCore) {
+        throw new Error('ExpoTermux native module not available');
       }
 
-      const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      // MINIMAL TEST: Just call the test function to prove module works
+      console.log('[TermuxManager] Testing native module...');
+      const testResult = termuxCore.test();
+      console.log('[TermuxManager] Native module test result:', testResult);
       
-      const defaultOptions = {
-        command: '/data/data/com.termux/files/usr/bin/bash',
-        cwd: '/data/data/com.termux/files/home',
-        environment: {
-          PATH: '/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets',
-          HOME: '/data/data/com.termux/files/home',
-          PREFIX: '/data/data/com.termux/files/usr',
-          TMPDIR: '/data/data/com.termux/files/usr/tmp',
-          SHELL: '/data/data/com.termux/files/usr/bin/bash',
-          TERM: 'xterm-256color',
-          LANG: 'en_US.UTF-8',
-          ...options.environment
-        }
-      };
+      const asyncTestResult = await termuxCore.testAsync();
+      console.log('[TermuxManager] Native module async test result:', asyncTestResult);
 
-      // Call native module to create session
-      const command = options.command || defaultOptions.command;
-      const cwd = options.cwd || defaultOptions.cwd;
-      const env = defaultOptions.environment;
-      
-      const result = await this.getTermuxCore()!.createSession(
-        sessionId,
-        command,
-        [], // args
-        cwd,
-        env,
-        24, // rows
-        80  // cols
-      );
-
-      const session: TermuxSession = {
-        id: sessionId,
-        pid: result.pid,
-        isRunning: result.isRunning,
-        command: command,
-        cwd: cwd,
-        title: 'Terminal'
-      };
-
-      this.sessions.set(sessionId, session);
-      
-      console.log(`Created terminal session: ${sessionId} (PID: ${result.pid})`);
+      // For now, just return a mock session ID
+      const sessionId = `mock_session_${Date.now()}`;
+      console.log(`[TermuxManager] ✅ Native module is working! Mock session: ${sessionId}`);
       return sessionId;
       
     } catch (error) {
-      console.error('Failed to create terminal session:', error);
+      console.error('Failed to test native module:', error);
       throw error;
     }
   }
