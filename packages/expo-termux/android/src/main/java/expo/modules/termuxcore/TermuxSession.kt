@@ -19,6 +19,11 @@ class TermuxSession private constructor(
     val exitCode: Int get() = terminalSession?.exitStatus ?: -1
     
     private val LOG_TAG = "TermuxSession"
+    private val outputBuffer = mutableListOf<String>()
+    
+    // Callback for when output is available
+    var onOutputAvailable: ((String) -> Unit)? = null
+    var onSessionFinishedCallback: ((Int) -> Unit)? = null
 
     fun write(data: String) {
         if (!isRunning) return
@@ -31,8 +36,12 @@ class TermuxSession private constructor(
     }
 
     fun read(): String {
-        // Output is handled via TerminalSessionClient callbacks
-        return ""
+        if (outputBuffer.isEmpty()) return ""
+        
+        // Return all buffered output and clear buffer
+        val output = outputBuffer.joinToString("\n")
+        outputBuffer.clear()
+        return output
     }
 
     fun kill() {
@@ -51,15 +60,45 @@ class TermuxSession private constructor(
     }
 
     // TerminalSessionClient implementation
-    override fun onTextChanged(changedSession: TerminalSession) {}
-    override fun onTitleChanged(changedSession: TerminalSession) {}
-    override fun onSessionFinished(finishedSession: TerminalSession) {}
+    override fun onTextChanged(changedSession: TerminalSession) {
+        // Capture new output from terminal
+        try {
+            val transcript = changedSession.transcript
+            if (transcript != null && transcript.activeRows.isNotEmpty()) {
+                // Get the last few lines that might be new
+                val recentLines = transcript.activeRows.takeLast(5)
+                    .map { it.text.toString().trim() }
+                    .filter { it.isNotEmpty() }
+                
+                if (recentLines.isNotEmpty()) {
+                    val newOutput = recentLines.joinToString("\n")
+                    Log.d(LOG_TAG, "Session $id new output: $newOutput")
+                    outputBuffer.addAll(recentLines)
+                    onOutputAvailable?.invoke(newOutput)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(LOG_TAG, "Error capturing output for session $id", e)
+        }
+    }
+    
+    override fun onTitleChanged(changedSession: TerminalSession) {
+        Log.d(LOG_TAG, "Session $id title changed: ${changedSession.title}")
+    }
+    
+    override fun onSessionFinished(finishedSession: TerminalSession) {
+        Log.i(LOG_TAG, "Session $id finished with exit code: ${finishedSession.exitStatus}")
+        onSessionFinishedCallback?.invoke(finishedSession.exitStatus)
+    }
+    
     override fun onCopyTextToClipboard(session: TerminalSession, text: String) {}
     override fun onPasteTextFromClipboard(session: TerminalSession?) {}
     override fun onBell(session: TerminalSession) {}
     override fun onColorsChanged(session: TerminalSession) {}
     override fun onTerminalCursorStateChange(state: Boolean) {}
-    override fun setTerminalShellPid(session: TerminalSession, pid: Int) {}
+    override fun setTerminalShellPid(session: TerminalSession, pid: Int) {
+        Log.i(LOG_TAG, "Session $id shell PID set to: $pid")
+    }
     override fun getTerminalCursorStyle(): Int? = 0
     override fun logError(tag: String, message: String) { Log.e(tag, message) }
     override fun logWarn(tag: String, message: String) { Log.w(tag, message) }

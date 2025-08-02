@@ -244,21 +244,52 @@ export class TermuxManager {
     const sessionId = await this.createSession(options);
     
     try {
+      // Clear any initial output from session creation
+      this.readFromSession(sessionId);
+      
+      // Set up output collection
+      let collectedOutput = '';
+      let outputComplete = false;
+      
+      const outputListener = this.onSessionOutput((sid, lines) => {
+        if (sid === sessionId) {
+          const newOutput = lines.join('\n');
+          collectedOutput += newOutput + '\n';
+          console.log(`[TermuxManager] Collected output: ${newOutput}`);
+          
+          // Check if we got a new prompt (indicating command completion)
+          if (newOutput.includes('$ ')) {
+            outputComplete = true;
+          }
+        }
+      });
+      
       // Write command to session
+      console.log(`[TermuxManager] Writing command: ${command}`);
       await this.writeToSession(sessionId, command + '\n');
       
-      // Wait briefly for command to execute, then read output
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Wait for output with timeout
+      const startTime = Date.now();
+      const timeout = 5000; // 5 second timeout
       
-      // Read output from session
-      const output = this.readFromSession(sessionId);
+      while (!outputComplete && (Date.now() - startTime) < timeout) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
       
-      console.log(`[TermuxManager] ✅ Command executed successfully. Output:`, output);
+      // Clean up listener
+      outputListener();
+      
+      if (!outputComplete) {
+        console.warn(`[TermuxManager] Command timed out: ${command}`);
+        collectedOutput += '\n[Command timed out]';
+      }
+      
+      console.log(`[TermuxManager] ✅ Command executed. Final output:`, collectedOutput);
       
       return {
         sessionId,
-        output,
-        stdout: output
+        output: collectedOutput,
+        stdout: collectedOutput
       };
       
     } catch (error) {
