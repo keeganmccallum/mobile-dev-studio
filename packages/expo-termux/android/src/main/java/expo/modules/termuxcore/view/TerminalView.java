@@ -1,4 +1,4 @@
-package com.termux.view;
+package expo.modules.termuxcore.view;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -37,9 +37,9 @@ import android.widget.Scroller;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.termux.terminal.KeyHandler;
-import com.termux.terminal.TerminalEmulator;
-import com.termux.terminal.TerminalSession;
+import expo.modules.termuxcore.terminal.KeyHandler;
+import expo.modules.termuxcore.terminal.TerminalEmulator;
+import expo.modules.termuxcore.terminal.TerminalSession;
 // Removed TextSelectionCursorController - not needed for core functionality
 
 /** View displaying and interacting with a {@link TerminalSession}. */

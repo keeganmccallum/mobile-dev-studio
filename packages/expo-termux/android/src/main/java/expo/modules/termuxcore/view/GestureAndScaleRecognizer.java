@@ -1,4 +1,4 @@
-package com.termux.view;
+package expo.modules.termuxcore.view;
 
 import android.content.Context;
 import android.view.GestureDetector;
