@@ -1,4 +1,4 @@
-package expo.modules.termuxcore.terminal;
+package com.termux.terminal;
 
 /**
  * Implementation of wcwidth(3) for Unicode 15.

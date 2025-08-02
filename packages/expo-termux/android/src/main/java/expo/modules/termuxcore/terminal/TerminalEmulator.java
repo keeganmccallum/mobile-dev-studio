@@ -1,4 +1,4 @@
-package expo.modules.termuxcore.terminal;
+package com.termux.terminal;
 
 import android.util.Base64;
 
