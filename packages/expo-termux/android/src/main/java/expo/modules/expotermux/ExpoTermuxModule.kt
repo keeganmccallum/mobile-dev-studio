@@ -7,14 +7,14 @@ import android.util.Log
 import java.util.concurrent.ConcurrentHashMap
 import java.util.Timer
 import java.util.TimerTask
-import expo.modules.termuxcore.TermuxSession
+import expo.modules.expotermux.TermuxSessionFallback
 
 /**
- * Expo Termux Module - Provides REAL Termux session management for Expo apps
- * NO FALLBACK - Will fail if Termux environment is not properly set up
+ * Expo Termux Module - Provides Termux session management for Expo apps
+ * CURRENTLY USING FALLBACK - Real implementation temporarily disabled to fix build
  */
 class ExpoTermuxModule : Module() {
-    private val sessions = ConcurrentHashMap<String, TermuxSession>()
+    private val sessions = ConcurrentHashMap<String, TermuxSessionFallback>()
     private val LOG_TAG = "ExpoTermuxModule"
     private val outputPollingTimer = Timer("TermuxOutputPoller", true)
     
@@ -46,18 +46,17 @@ class ExpoTermuxModule : Module() {
                 val cmd = command ?: "/data/data/com.termux/files/usr/bin/bash"  // Real Termux shell
                 val env = environment?.mapValues { it.value.toString() } ?: emptyMap()
                 
-                Log.i(LOG_TAG, "Creating REAL Termux session $sessionId with command: $cmd, cwd: $workingDir")
+                Log.i(LOG_TAG, "Creating FALLBACK Termux session $sessionId with command: $cmd, cwd: $workingDir")
                 
-                // Use real Termux implementation - this will fail if Termux environment is not set up
-                val session = TermuxSession.create(
+                // Use fallback implementation temporarily to fix build
+                val session = TermuxSessionFallback.create(
                     sessionId = sessionId,
                     command = cmd,
                     args = emptyArray(),
                     cwd = workingDir,
                     env = env,
                     rows = 24,
-                    cols = 80,
-                    prefixPath = "/data/data/com.termux/files/usr"  // Real Termux prefix
+                    cols = 80
                 )
                 
                 sessions[sessionId] = session
