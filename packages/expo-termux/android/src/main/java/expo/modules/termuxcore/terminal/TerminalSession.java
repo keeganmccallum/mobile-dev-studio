@@ -1,4 +1,4 @@
-package com.termux.terminal;
+package expo.modules.termuxcore.terminal;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;

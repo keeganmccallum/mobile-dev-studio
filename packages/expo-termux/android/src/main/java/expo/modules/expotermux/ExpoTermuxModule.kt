@@ -11,7 +11,7 @@ import expo.modules.termuxcore.TermuxSession
 
 /**
  * Expo Termux Module - Provides REAL Termux session management for Expo apps
- * Using actual Termux terminal implementation with native PTY support
+ * Using actual Termux terminal implementation with native PTY support - NO FALLBACKS
  */
 class ExpoTermuxModule : Module() {
     private val sessions = ConcurrentHashMap<String, TermuxSession>()
@@ -48,7 +48,7 @@ class ExpoTermuxModule : Module() {
                 
                 Log.i(LOG_TAG, "Creating REAL Termux session $sessionId with command: $cmd, cwd: $workingDir")
                 
-                // Use real Termux implementation with proper terminal integration
+                // Use REAL Termux implementation with native PTY support
                 val session = TermuxSession.create(
                     sessionId = sessionId,
                     command = cmd,

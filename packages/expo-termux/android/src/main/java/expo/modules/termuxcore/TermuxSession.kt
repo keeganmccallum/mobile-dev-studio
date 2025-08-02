@@ -6,8 +6,8 @@ import java.io.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-import com.termux.terminal.TerminalSession
-import com.termux.terminal.TerminalSessionClient
+import expo.modules.termuxcore.terminal.TerminalSession
+import expo.modules.termuxcore.terminal.TerminalSessionClient
 
 class TermuxSession private constructor(
     val id: String,
