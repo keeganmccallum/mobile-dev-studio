@@ -7,14 +7,14 @@ import android.util.Log
 import java.util.concurrent.ConcurrentHashMap
 import java.util.Timer
 import java.util.TimerTask
-import expo.modules.expotermux.TermuxSessionFallback
+import expo.modules.termuxcore.TermuxSession
 
 /**
- * Expo Termux Module - Provides Termux session management for Expo apps
- * CURRENTLY USING FALLBACK - Real implementation temporarily disabled to fix build
+ * Expo Termux Module - Provides REAL Termux session management for Expo apps
+ * Using actual Termux terminal implementation with native PTY support
  */
 class ExpoTermuxModule : Module() {
-    private val sessions = ConcurrentHashMap<String, TermuxSessionFallback>()
+    private val sessions = ConcurrentHashMap<String, TermuxSession>()
     private val LOG_TAG = "ExpoTermuxModule"
     private val outputPollingTimer = Timer("TermuxOutputPoller", true)
     
@@ -46,10 +46,10 @@ class ExpoTermuxModule : Module() {
                 val cmd = command ?: "/data/data/com.termux/files/usr/bin/bash"  // Real Termux shell
                 val env = environment?.mapValues { it.value.toString() } ?: emptyMap()
                 
-                Log.i(LOG_TAG, "Creating FALLBACK Termux session $sessionId with command: $cmd, cwd: $workingDir")
+                Log.i(LOG_TAG, "Creating REAL Termux session $sessionId with command: $cmd, cwd: $workingDir")
                 
-                // Use fallback implementation temporarily to fix build
-                val session = TermuxSessionFallback.create(
+                // Use real Termux implementation with proper terminal integration
+                val session = TermuxSession.create(
                     sessionId = sessionId,
                     command = cmd,
                     args = emptyArray(),
@@ -57,7 +57,7 @@ class ExpoTermuxModule : Module() {
                     env = env,
                     rows = 24,
                     cols = 80,
-                    prefixPath = "/data/data/com.termux/files/usr"  // Fallback prefix
+                    prefixPath = "/data/data/com.termux/files/usr"  // Real Termux prefix
                 )
                 
                 sessions[sessionId] = session
