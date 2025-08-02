@@ -21,18 +21,24 @@ if [ ! -f "$APK_PATH" ]; then
   exit 1
 fi
 
-# Wait for emulator to be ready
+# Wait for emulator to be ready with timeout
 echo "⏳ Waiting for emulator to boot completely..."
-adb wait-for-device
+timeout 30 adb wait-for-device || {
+  echo "❌ Timeout waiting for device"
+  exit 1
+}
 
-# Wait for system to be ready
-timeout 120 bash -c 'while [[ -z $(adb shell getprop sys.boot_completed 2>/dev/null | tr -d "\r") ]]; do 
+# Wait for system to be ready with shorter timeout
+timeout 60 bash -c 'while [[ -z $(adb shell getprop sys.boot_completed 2>/dev/null | tr -d "\r") ]]; do 
   echo "Still booting..."
   sleep 2
-done'
+done' || {
+  echo "❌ Timeout waiting for boot completion"
+  exit 1
+}
 
 echo "⏳ Ensuring emulator stability..."
-sleep 10
+sleep 5  # Reduced from 10 to 5 seconds
 
 # Unlock screen
 adb shell input keyevent 82 || true
