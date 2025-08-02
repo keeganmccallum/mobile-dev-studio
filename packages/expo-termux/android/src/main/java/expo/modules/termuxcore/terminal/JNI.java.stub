@@ -5,9 +5,11 @@ package expo.modules.termuxcore.terminal;
  */
 final class JNI {
 
-    static {
-        System.loadLibrary("termux");
-    }
+    // Stub implementation for testing Java compilation
+    // Native library loading disabled temporarily
+    // static {
+    //     System.loadLibrary("termux");
+    // }
 
     /**
      * Create a subprocess. Differs from {@link ProcessBuilder} in that a pseudoterminal is used to communicate with the
@@ -23,19 +25,31 @@ final class JNI {
      * @return the file descriptor resulting from opening /dev/ptmx master device. The sub process will have opened the
      * slave device counterpart (/dev/pts/$N) and have it as stdint, stdout and stderr.
      */
-    public static native int createSubprocess(String cmd, String cwd, String[] args, String[] envVars, int[] processId, int rows, int columns, int cellWidth, int cellHeight);
+    public static int createSubprocess(String cmd, String cwd, String[] args, String[] envVars, int[] processId, int rows, int columns, int cellWidth, int cellHeight) {
+        // Stub implementation - would be native in real version
+        throw new UnsupportedOperationException("Native JNI methods not available in stub implementation");
+    }
 
     /** Set the window size for a given pty, which allows connected programs to learn how large their screen is. */
-    public static native void setPtyWindowSize(int fd, int rows, int cols, int cellWidth, int cellHeight);
+    public static void setPtyWindowSize(int fd, int rows, int cols, int cellWidth, int cellHeight) {
+        // Stub implementation - would be native in real version
+        throw new UnsupportedOperationException("Native JNI methods not available in stub implementation");
+    }
 
     /**
      * Causes the calling thread to wait for the process associated with the receiver to finish executing.
      *
      * @return if >= 0, the exit status of the process. If < 0, the signal causing the process to stop negated.
      */
-    public static native int waitFor(int processId);
+    public static int waitFor(int processId) {
+        // Stub implementation - would be native in real version
+        throw new UnsupportedOperationException("Native JNI methods not available in stub implementation");
+    }
 
     /** Close a file descriptor through the close(2) system call. */
-    public static native void close(int fileDescriptor);
+    public static void close(int fileDescriptor) {
+        // Stub implementation - would be native in real version
+        throw new UnsupportedOperationException("Native JNI methods not available in stub implementation");
+    }
 
 }
