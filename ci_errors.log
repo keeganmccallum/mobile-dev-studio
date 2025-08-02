@@ -1,0 +1,529 @@
+=== NPM INSTALL ===
+npm warn deprecated @types/react-native@0.73.0: This is a stub types definition. react-native provides its own type definitions, so you do not need this installed.
+npm warn deprecated osenv@0.1.5: This package is no longer supported.
+npm warn deprecated @babel/plugin-proposal-optional-catch-binding@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-catch-binding instead.
+npm warn deprecated @babel/plugin-proposal-nullish-coalescing-operator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
+npm warn deprecated @babel/plugin-proposal-numeric-separator@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-numeric-separator instead.
+npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+npm warn deprecated @babel/plugin-proposal-export-namespace-from@7.18.9: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-export-namespace-from instead.
+npm warn deprecated @babel/plugin-proposal-logical-assignment-operators@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-logical-assignment-operators instead.
+npm warn deprecated rimraf@2.6.3: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated @babel/plugin-proposal-optional-chaining@7.21.0: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
+npm warn deprecated @babel/plugin-proposal-async-generator-functions@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-async-generator-functions instead.
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated sudo-prompt@9.2.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+npm warn deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+npm warn deprecated glob@7.1.6: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.1.6: Glob versions prior to v9 are no longer supported
+npm warn deprecated glob@7.1.6: Glob versions prior to v9 are no longer supported
+npm warn deprecated @xmldom/xmldom@0.7.13: this version is no longer supported, please update to at least 0.8.*
+
+added 1396 packages, and audited 1400 packages in 17s
+
+201 packages are looking for funding
+  run `npm fund` for details
+
+4 vulnerabilities (3 low, 1 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+=== LINT CHECK ===
+
+> mobile-dev-studio-monorepo@1.0.0 lint
+> npm run lint --workspaces
+
+
+> demo-app@1.0.0 lint
+> eslint src/ --ext .ts,.tsx
+
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/demo-app/src/screens/EditorScreen.tsx
+  114:7   warning  Unexpected console statement  no-console
+  127:11  warning  Unexpected console statement  no-console
+  130:7   warning  Unexpected console statement  no-console
+  276:13  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/demo-app/src/screens/PreviewScreen.tsx
+    9:15  warning  'setUrl' is assigned a value but never used           no-unused-vars
+   10:24  warning  'setServerStatus' is assigned a value but never used  no-unused-vars
+   16:7   warning  Unexpected console statement                          no-console
+   27:11  warning  Unexpected console statement                          no-console
+   30:7   warning  Unexpected console statement                          no-console
+  197:13  warning  Unexpected console statement                          no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/demo-app/src/screens/TerminalScreen.tsx
+   8:5  warning  Unexpected console statement  no-console
+  12:5  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/demo-app/src/utils/CrashLogger.ts
+  18:5  warning  Unexpected console statement  no-console
+  37:7  warning  Unexpected console statement  no-console
+  39:7  warning  Unexpected console statement  no-console
+
+✖ 15 problems (0 errors, 15 warnings)
+
+
+> @keeganmccallum/expo-termux@0.1.0 lint
+> eslint src --ext .ts,.tsx
+
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux/src/BridgeDebugger.ts
+    9:5   warning  Unexpected console statement                  no-console
+   10:5   warning  Unexpected console statement                  no-console
+   13:5   warning  Unexpected console statement                  no-console
+   14:5   warning  Unexpected console statement                  no-console
+   24:5   warning  Unexpected console statement                  no-console
+   36:5   warning  Unexpected console statement                  no-console
+   39:9   warning  Unexpected console statement                  no-console
+   41:9   warning  Unexpected console statement                  no-console
+   49:7   warning  Unexpected console statement                  no-console
+   53:9   warning  Unexpected console statement                  no-console
+   56:7   warning  Unexpected console statement                  no-console
+   60:5   warning  Unexpected console statement                  no-console
+   67:11  warning  Unexpected console statement                  no-console
+   71:11  warning  Unexpected console statement                  no-console
+   89:5   warning  Unexpected console statement                  no-console
+   94:9   warning  Unexpected console statement                  no-console
+   97:9   warning  Unexpected console statement                  no-console
+  101:5   warning  Unexpected console statement                  no-console
+  105:5   warning  Unexpected console statement                  no-console
+  106:5   warning  Unexpected console statement                  no-console
+  114:19  warning  'emitter' is assigned a value but never used  no-unused-vars
+  115:13  warning  Unexpected console statement                  no-console
+  118:11  warning  Unexpected console statement                  no-console
+  123:7   warning  Unexpected console statement                  no-console
+  124:7   warning  Unexpected console statement                  no-console
+  127:7   warning  Unexpected console statement                  no-console
+  130:5   warning  Unexpected console statement                  no-console
+  134:5   warning  Unexpected console statement                  no-console
+  135:5   warning  Unexpected console statement                  no-console
+  151:11  warning  Unexpected console statement                  no-console
+  152:11  warning  Unexpected console statement                  no-console
+  153:11  warning  Unexpected console statement                  no-console
+  155:11  warning  Unexpected console statement                  no-console
+  158:9   warning  Unexpected console statement                  no-console
+  162:5   warning  Unexpected console statement                  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux/src/ModuleDebugger.ts
+   19:11  warning  'available' is assigned a value but never used  no-unused-vars
+  111:15  warning  'emitter' is assigned a value but never used    no-unused-vars
+  147:5   warning  Unexpected console statement                    no-console
+  148:5   warning  Unexpected console statement                    no-console
+  149:5   warning  Unexpected console statement                    no-console
+  152:38  warning  Unexpected console statement                    no-console
+  154:5   warning  Unexpected console statement                    no-console
+  155:5   warning  Unexpected console statement                    no-console
+  156:5   warning  Unexpected console statement                    no-console
+  157:5   warning  Unexpected console statement                    no-console
+  158:5   warning  Unexpected console statement                    no-console
+  159:5   warning  Unexpected console statement                    no-console
+  160:5   warning  Unexpected console statement                    no-console
+  164:7   warning  Unexpected console statement                    no-console
+  165:7   warning  Unexpected console statement                    no-console
+  166:7   warning  Unexpected console statement                    no-console
+  167:7   warning  Unexpected console statement                    no-console
+  168:7   warning  Unexpected console statement                    no-console
+  169:7   warning  Unexpected console statement                    no-console
+  172:9   warning  Unexpected console statement                    no-console
+  173:45  warning  Unexpected console statement                    no-console
+  177:9   warning  Unexpected console statement                    no-console
+  179:11  warning  Unexpected console statement                    no-console
+  183:7   warning  Unexpected console statement                    no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux/src/RuntimeValidator.ts
+   10:5   warning  Unexpected console statement                  no-console
+   11:5   warning  Unexpected console statement                  no-console
+   18:7   warning  Unexpected console statement                  no-console
+   22:7   warning  Unexpected console statement                  no-console
+   29:9   warning  Unexpected console statement                  no-console
+   30:9   warning  Unexpected console statement                  no-console
+   34:17  warning  'emitter' is assigned a value but never used  no-unused-vars
+   35:11  warning  Unexpected console statement                  no-console
+   37:11  warning  Unexpected console statement                  no-console
+   41:9   warning  Unexpected console statement                  no-console
+   42:9   warning  Unexpected console statement                  no-console
+   46:17  warning  'emitter' is assigned a value but never used  no-unused-vars
+   47:11  warning  Unexpected console statement                  no-console
+   49:11  warning  Unexpected console statement                  no-console
+   53:9   warning  Unexpected console statement                  no-console
+   65:11  warning  Unexpected console statement                  no-console
+   70:9   warning  Unexpected console statement                  no-console
+   73:9   warning  Unexpected console statement                  no-console
+   77:7   warning  Unexpected console statement                  no-console
+   78:7   warning  Unexpected console statement                  no-console
+   81:7   warning  Unexpected console statement                  no-console
+   82:7   warning  Unexpected console statement                  no-console
+   87:5   warning  Unexpected console statement                  no-console
+   93:9   warning  Unexpected console statement                  no-console
+  101:11  warning  Unexpected console statement                  no-console
+  104:11  warning  Unexpected console statement                  no-console
+  108:9   warning  Unexpected console statement                  no-console
+  113:7   warning  Unexpected console statement                  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux/src/TermuxCoreModule.ts
+   6:5   warning  Unexpected console statement           no-console
+  16:5   warning  Unexpected console statement           no-console
+  28:5   warning  Unexpected console statement           no-console
+  38:5   warning  Unexpected console statement           no-console
+  42:5   warning  Unexpected console statement           no-console
+  55:3   warning  Unexpected console statement           no-console
+  68:5   warning  'command' is defined but never used    no-unused-vars
+  69:5   warning  'args' is defined but never used       no-unused-vars
+  70:5   warning  'cwd' is defined but never used        no-unused-vars
+  71:5   warning  'env' is defined but never used        no-unused-vars
+  72:5   warning  'rows' is defined but never used       no-unused-vars
+  73:5   warning  'cols' is defined but never used       no-unused-vars
+  80:18  warning  'sessionId' is defined but never used  no-unused-vars
+  80:37  warning  'data' is defined but never used       no-unused-vars
+  81:15  warning  'sessionId' is defined but never used  no-unused-vars
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux/src/TermuxManager.ts
+   24:35  warning  'sessionId' is defined but never used  no-unused-vars
+   24:54  warning  'lines' is defined but never used      no-unused-vars
+   25:33  warning  'sessionId' is defined but never used  no-unused-vars
+   25:52  warning  'exitCode' is defined but never used   no-unused-vars
+   34:5   warning  Unexpected console statement           no-console
+   46:9   warning  Unexpected console statement           no-console
+   47:9   warning  Unexpected console statement           no-console
+   49:9   warning  Unexpected console statement           no-console
+   50:9   warning  Unexpected console statement           no-console
+   51:9   warning  Unexpected console statement           no-console
+   54:7   warning  Unexpected console statement           no-console
+   55:7   warning  Unexpected console statement           no-console
+   71:7   warning  Unexpected console statement           no-console
+   77:11  warning  Unexpected console statement           no-console
+   87:9   warning  Unexpected console statement           no-console
+   95:11  warning  Unexpected console statement           no-console
+  105:9   warning  Unexpected console statement           no-console
+  118:7   warning  Unexpected console statement           no-console
+  120:7   warning  Unexpected console statement           no-console
+  123:7   warning  Unexpected console statement           no-console
+  130:7   warning  Unexpected console statement           no-console
+  142:7   warning  Unexpected console statement           no-console
+  147:7   warning  Unexpected console statement           no-console
+  168:7   warning  Unexpected console statement           no-console
+  172:7   warning  Unexpected console statement           no-console
+  190:7   warning  Unexpected console statement           no-console
+  194:7   warning  Unexpected console statement           no-console
+  216:9   warning  Unexpected console statement           no-console
+  222:7   warning  Unexpected console statement           no-console
+  243:5   warning  Unexpected console statement           no-console
+  258:11  warning  Unexpected console statement           no-console
+  268:7   warning  Unexpected console statement           no-console
+  283:9   warning  Unexpected console statement           no-console
+  287:7   warning  Unexpected console statement           no-console
+  296:7   warning  Unexpected console statement           no-console
+  303:30  warning  'sessionId' is defined but never used  no-unused-vars
+  303:49  warning  'lines' is defined but never used      no-unused-vars
+  314:28  warning  'sessionId' is defined but never used  no-unused-vars
+  314:47  warning  'exitCode' is defined but never used   no-unused-vars
+  325:29  warning  'sessionId' is defined but never used  no-unused-vars
+  325:48  warning  'title' is defined but never used      no-unused-vars
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux/src/TermuxTerminal.tsx
+   13:13  warning  'data' is defined but never used              no-unused-vars
+   14:13  warning  'code' is defined but never used              no-unused-vars
+   15:14  warning  'error' is defined but never used             no-unused-vars
+   20:21  warning  'data' is defined but never used              no-unused-vars
+   23:20  warning  'cols' is defined but never used              no-unused-vars
+   23:34  warning  'rows' is defined but never used              no-unused-vars
+   42:10  warning  'isReady' is assigned a value but never used  no-unused-vars
+  114:9   warning  Unexpected console statement                  no-console
+  153:11  warning  Unexpected console statement                  no-console
+  157:11  warning  Unexpected console statement                  no-console
+  160:7   warning  Unexpected console statement                  no-console
+  324:11  warning  Unexpected console statement                  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux/src/TermuxTerminalView.tsx
+   9:22  warning  'event' is defined but never used    no-unused-vars
+  10:20  warning  'event' is defined but never used    no-unused-vars
+  11:21  warning  'event' is defined but never used    no-unused-vars
+  17:20  warning  'data' is defined but never used     no-unused-vars
+  19:17  warning  'command' is defined but never used  no-unused-vars
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux/src/XTermWebTerminal.tsx
+    4:25  warning  'TermuxSession' is defined but never used  no-unused-vars
+   13:23  warning  'sessionId' is defined but never used      no-unused-vars
+   14:13  warning  'data' is defined but never used           no-unused-vars
+   20:20  warning  'data' is defined but never used           no-unused-vars
+   22:17  warning  'command' is defined but never used        no-unused-vars
+   25:12  warning  'cols' is defined but never used           no-unused-vars
+   25:26  warning  'rows' is defined but never used           no-unused-vars
+  152:11  warning  Unexpected console statement               no-console
+  156:7   warning  Unexpected console statement               no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux/src/__tests__/TermuxManager.test.ts
+    1:10  warning  'TermuxManager' is defined but never used        no-unused-vars
+   72:13  warning  'sessionId' is assigned a value but never used   no-unused-vars
+  238:13  warning  'sessionId1' is assigned a value but never used  no-unused-vars
+  239:13  warning  'sessionId2' is assigned a value but never used  no-unused-vars
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux/src/__tests__/integration/TermuxIntegration.test.ts
+   21:7   warning  Unexpected console statement  no-console
+   69:11  warning  Unexpected console statement  no-console
+  173:11  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux/src/__tests__/setup.ts
+   9:9   warning  Unexpected console statement  no-console
+  10:10  warning  Unexpected console statement  no-console
+
+/home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux/src/index.ts
+   47:7   warning  Unexpected console statement          no-console
+   57:7   warning  Unexpected console statement          no-console
+   76:7   warning  Unexpected console statement          no-console
+   83:7   warning  Unexpected console statement          no-console
+  122:56  warning  'data' is defined but never used      no-unused-vars
+  130:54  warning  'exitCode' is defined but never used  no-unused-vars
+
+✖ 184 problems (0 errors, 184 warnings)
+
+
+=== TYPECHECK ===
+
+> mobile-dev-studio-monorepo@1.0.0 typecheck
+> npm run typecheck --workspaces
+
+
+> demo-app@1.0.0 typecheck
+> tsc --noEmit
+
+App.tsx(7,50): error TS2307: Cannot find module '@keeganmccallum/expo-termux' or its corresponding type declarations.
+App.tsx(36,21): error TS2339: Property 'logInfo' does not exist on type 'typeof CrashLogger'.
+src/screens/TermuxDemoScreen.tsx(3,31): error TS2307: Cannot find module '@keeganmccallum/expo-termux' or its corresponding type declarations.
+src/screens/TermuxDemoScreen.tsx(12,56): error TS7006: Parameter 'sessionId' implicitly has an 'any' type.
+src/screens/TermuxDemoScreen.tsx(12,67): error TS7006: Parameter 'lines' implicitly has an 'any' type.
+npm error Lifecycle script `typecheck` failed with error:
+npm error code 2
+npm error path /home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/demo-app
+npm error workspace demo-app@1.0.0
+npm error location /home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/demo-app
+npm error command failed
+npm error command sh -c tsc --noEmit
+
+npm error Lifecycle script `typecheck` failed with error:
+npm error workspace @keeganmccallum/expo-termux@0.1.0
+npm error location /home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux
+npm error Missing script: "typecheck"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run --workspace=@keeganmccallum/expo-termux@0.1.0
+typecheck failed
+
+=== TESTS ===
+
+> mobile-dev-studio-monorepo@1.0.0 test
+> npm run test --workspaces
+
+
+> demo-app@1.0.0 test
+> jest
+
+No tests found, exiting with code 1
+Run with `--passWithNoTests` to exit with code 0
+In /home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/demo-app
+  12 files checked.
+  testMatch: **/__tests__/**/*.[jt]s?(x), **/?(*.)+(spec|test).[tj]s?(x) - 0 matches
+  testPathIgnorePatterns: /node_modules/ - 12 matches
+  testRegex:  - 0 matches
+Pattern:  - 0 matches
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path /home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/demo-app
+npm error workspace demo-app@1.0.0
+npm error location /home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/demo-app
+npm error command failed
+npm error command sh -c jest
+
+
+> @keeganmccallum/expo-termux@0.1.0 test
+> jest
+
+FAIL src/__tests__/integration/TermuxIntegration.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Missing semicolon. (14:4)
+
+    [0m [90m 12 |[39m [36mlet[39m _inGuard [33m=[39m [35m0[39m[33m;[39m
+     [90m 13 |[39m
+    [31m[1m>[22m[39m[90m 14 |[39m type [33mErrorHandler[39m [33m=[39m (error[33m:[39m mixed[33m,[39m isFatal[33m:[39m boolean) [33m=>[39m [36mvoid[39m[33m;[39m
+     [90m    |[39m     [31m[1m^[22m[39m
+     [90m 15 |[39m type [33mFn[39m[33m<[39m[33mArgs[39m[33m,[39m [33mReturn[39m[33m>[39m [33m=[39m ([33m...[39m[33mArgs[39m) [33m=>[39m [33mReturn[39m[33m;[39m
+     [90m 16 |[39m
+     [90m 17 |[39m [90m/**[39m[0m
+
+      at constructor (../../node_modules/@babel/parser/lib/index.js:367:19)
+      at Parser.raise (../../node_modules/@babel/parser/lib/index.js:6627:19)
+      at Parser.semicolon (../../node_modules/@babel/parser/lib/index.js:6923:10)
+      at Parser.parseExpressionStatement (../../node_modules/@babel/parser/lib/index.js:13285:10)
+      at Parser.parseStatementContent (../../node_modules/@babel/parser/lib/index.js:12899:19)
+      at Parser.parseStatementLike (../../node_modules/@babel/parser/lib/index.js:12767:17)
+      at Parser.parseModuleItem (../../node_modules/@babel/parser/lib/index.js:12744:17)
+      at Parser.parseBlockOrModuleBlockBody (../../node_modules/@babel/parser/lib/index.js:13316:36)
+      at Parser.parseBlockBody (../../node_modules/@babel/parser/lib/index.js:13309:10)
+      at Parser.parseProgram (../../node_modules/@babel/parser/lib/index.js:12625:10)
+      at Parser.parseTopLevel (../../node_modules/@babel/parser/lib/index.js:12615:25)
+      at Parser.parse (../../node_modules/@babel/parser/lib/index.js:14492:10)
+      at parse (../../node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (../../node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (../../node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (../../node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (../../node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (../../node_modules/gensync/index.js:251:28)
+      at sync (../../node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (../../node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+      at transformSync (../../node_modules/@babel/core/lib/transform.js:42:76)
+      at ScriptTransformer.transformSource (../../node_modules/@jest/transform/build/ScriptTransformer.js:545:31)
+      at ScriptTransformer._transformAndBuildScript (../../node_modules/@jest/transform/build/ScriptTransformer.js:674:40)
+      at ScriptTransformer.transform (../../node_modules/@jest/transform/build/ScriptTransformer.js:726:19)
+      at Object.<anonymous> (../../node_modules/react-native/jest/setup.js:316:6)
+
+FAIL src/__tests__/TermuxManager.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    SyntaxError: /home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/@react-native/js-polyfills/error-guard.js: Missing semicolon. (14:4)
+
+    [0m [90m 12 |[39m [36mlet[39m _inGuard [33m=[39m [35m0[39m[33m;[39m
+     [90m 13 |[39m
+    [31m[1m>[22m[39m[90m 14 |[39m type [33mErrorHandler[39m [33m=[39m (error[33m:[39m mixed[33m,[39m isFatal[33m:[39m boolean) [33m=>[39m [36mvoid[39m[33m;[39m
+     [90m    |[39m     [31m[1m^[22m[39m
+     [90m 15 |[39m type [33mFn[39m[33m<[39m[33mArgs[39m[33m,[39m [33mReturn[39m[33m>[39m [33m=[39m ([33m...[39m[33mArgs[39m) [33m=>[39m [33mReturn[39m[33m;[39m
+     [90m 16 |[39m
+     [90m 17 |[39m [90m/**[39m[0m
+
+      at constructor (../../node_modules/@babel/parser/lib/index.js:367:19)
+      at Parser.raise (../../node_modules/@babel/parser/lib/index.js:6627:19)
+      at Parser.semicolon (../../node_modules/@babel/parser/lib/index.js:6923:10)
+      at Parser.parseExpressionStatement (../../node_modules/@babel/parser/lib/index.js:13285:10)
+      at Parser.parseStatementContent (../../node_modules/@babel/parser/lib/index.js:12899:19)
+      at Parser.parseStatementLike (../../node_modules/@babel/parser/lib/index.js:12767:17)
+      at Parser.parseModuleItem (../../node_modules/@babel/parser/lib/index.js:12744:17)
+      at Parser.parseBlockOrModuleBlockBody (../../node_modules/@babel/parser/lib/index.js:13316:36)
+      at Parser.parseBlockBody (../../node_modules/@babel/parser/lib/index.js:13309:10)
+      at Parser.parseProgram (../../node_modules/@babel/parser/lib/index.js:12625:10)
+      at Parser.parseTopLevel (../../node_modules/@babel/parser/lib/index.js:12615:25)
+      at Parser.parse (../../node_modules/@babel/parser/lib/index.js:14492:10)
+      at parse (../../node_modules/@babel/parser/lib/index.js:14526:38)
+      at parser (../../node_modules/@babel/core/lib/parser/index.js:41:34)
+          at parser.next (<anonymous>)
+      at normalizeFile (../../node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+          at normalizeFile.next (<anonymous>)
+      at run (../../node_modules/@babel/core/lib/transformation/index.js:22:50)
+          at run.next (<anonymous>)
+      at transform (../../node_modules/@babel/core/lib/transform.js:22:33)
+          at transform.next (<anonymous>)
+      at evaluateSync (../../node_modules/gensync/index.js:251:28)
+      at sync (../../node_modules/gensync/index.js:89:14)
+      at stopHiding - secret - don't use this - v1 (../../node_modules/@babel/core/lib/errors/rewrite-stack-trace.js:47:12)
+      at transformSync (../../node_modules/@babel/core/lib/transform.js:42:76)
+      at ScriptTransformer.transformSource (../../node_modules/@jest/transform/build/ScriptTransformer.js:545:31)
+      at ScriptTransformer._transformAndBuildScript (../../node_modules/@jest/transform/build/ScriptTransformer.js:674:40)
+      at ScriptTransformer.transform (../../node_modules/@jest/transform/build/ScriptTransformer.js:726:19)
+      at Object.<anonymous> (../../node_modules/react-native/jest/setup.js:316:6)
+
+Test Suites: 2 failed, 2 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        0.961 s
+Ran all test suites.
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path /home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux
+npm error workspace @keeganmccallum/expo-termux@0.1.0
+npm error location /home/runner/work/mobile-dev-studio/mobile-dev-studio/packages/expo-termux
+npm error command failed
+npm error command sh -c jest
+tests failed
+
+=== PREBUILD ===
+
+CommandError: Failed to resolve plugin for module "@keeganmccallum/expo-termux" relative to "/home/runner/work/mobile-dev-studio/mobile-dev-studio"
+
+prebuild failed
+
+=== BUILD ATTEMPT ===
+Downloading https://services.gradle.org/distributions/gradle-8.13-bin.zip
+.............10%.............20%.............30%.............40%.............50%.............60%.............70%.............80%.............90%.............100%
+
+Welcome to Gradle 8.13!
+
+Here are the highlights of this release:
+ - Daemon JVM auto-provisioning
+ - Enhancements for Scala plugin and JUnit testing
+ - Improvements for build authors and plugin developers
+
+For more details see https://docs.gradle.org/8.13/release-notes.html
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.13/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Settings file '/home/runner/work/mobile-dev-studio/mobile-dev-studio/android/settings.gradle' line: 21
+
+* What went wrong:
+Error resolving plugin [id: 'com.facebook.react.settings']
+> Included build '/home/runner/work/mobile-dev-studio/mobile-dev-studio/node_modules/expo-modules-autolinking/android/expo-gradle-plugin' does not exist.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 26s
+build failed
