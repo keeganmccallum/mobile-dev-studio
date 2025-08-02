@@ -13,7 +13,7 @@ env:
 jobs:
   test-apk-builds:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 10  # Reasonable timeout - tests should complete in under 10 minutes
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     
     strategy:

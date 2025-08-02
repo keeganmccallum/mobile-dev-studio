@@ -277,6 +277,10 @@ Process completed with exit code 1.
 
 **Required Fix**: Investigate and fix the artifact upload/download chain between build-android jobs and create-release job in `.github/workflows/build-release.yml`
 
+### Development Loop Optimizations (August 2, 2025)
+
+**APK Validation Timeout**: Set to 10 minutes maximum (was 45 minutes) to fail fast on hanging tests and tighten the development feedback loop. Tests should complete in under 10 minutes or be considered failed.
+
 ### Standard Expo Module Refactor (July 31, 2025)
 
 **MAJOR CHANGE**: Refactored from custom module registration to standard Expo module
