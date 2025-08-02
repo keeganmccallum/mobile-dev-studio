@@ -5,6 +5,13 @@
 
 set -e
 
+# Set overall script timeout to 8 minutes (480 seconds) 
+# This ensures the script will terminate before the 10-minute job timeout
+timeout 480 bash -c '
+
+# Trap to ensure we clean exit on timeout
+trap "echo \"❌ Script timed out after 8 minutes\"; exit 124" EXIT
+
 echo "🔍 Testing $BUILD_TYPE APK: $APK_PATH"
 echo "🔍 APK_PATH variable: [$APK_PATH]"
 echo "🔍 File exists check: $([ -f "$APK_PATH" ] && echo "YES" || echo "NO")"
@@ -343,3 +350,8 @@ echo "✅ APK installation: Success"
 echo "✅ App launch: Success"
 echo "✅ Termux integration: Success"
 echo "✅ Native module: Working"
+
+# Remove timeout trap and exit normally
+trap - EXIT
+
+' # End of timeout wrapper
