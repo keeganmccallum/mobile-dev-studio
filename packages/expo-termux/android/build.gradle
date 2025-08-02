@@ -60,7 +60,7 @@ android {
     versionCode 1
     versionName "1.0.0"
 
-    // Native build temporarily disabled - testing Java compilation first
+    // Native build temporarily disabled for compilation fix
     // externalNativeBuild {
     //   cmake {
     //     cppFlags "-O2 -frtti -fexceptions"
@@ -70,7 +70,7 @@ android {
     // }
   }
 
-  // Native build temporarily disabled - testing Java compilation first
+  // Native build temporarily disabled for compilation fix
   // externalNativeBuild {
   //   cmake {
   //     path "CMakeLists.txt"
