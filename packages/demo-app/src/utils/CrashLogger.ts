@@ -62,6 +62,14 @@ export class CrashLogger {
     this.log(`📱 Screen mounted: ${screenName}`, 'info');
   }
 
+  static logInfo(message: string) {
+    this.log(message, 'info');
+  }
+
+  static logWarn(message: string) {
+    this.log(message, 'warn');
+  }
+
   static logError(error: any, context?: string) {
     const message = context 
       ? `❌ Error in ${context}: ${error?.message || error}`
