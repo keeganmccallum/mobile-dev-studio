@@ -3,6 +3,7 @@ package expo.modules.expotermux
 import android.util.Log
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
 /**
@@ -51,29 +52,56 @@ class TermuxSessionFallback(
         
         Log.d(LOG_TAG, "Writing to session $id: $data")
         
-        // Echo the input and simulate command responses
+        // Echo the input
         outputBuffer.add(data)
         
-        when {
-            data.trim().equals("ls", ignoreCase = true) -> {
-                outputBuffer.add("file1.txt  file2.txt  directory1/")
+        val command = data.trim()
+        
+        if (command.isEmpty()) {
+            outputBuffer.add("$ ")
+            return
+        }
+        
+        try {
+            when {
+                command.equals("exit", ignoreCase = true) -> {
+                    exitCode = 0
+                    _isRunning.set(false)
+                    return
+                }
+                else -> {
+                    // Execute real command using ProcessBuilder
+                    val processBuilder = ProcessBuilder()
+                    
+                    // For Android, we need to use /system/bin/sh
+                    processBuilder.command("/system/bin/sh", "-c", command)
+                    processBuilder.directory(java.io.File(cwd))
+                    
+                    val process = processBuilder.start()
+                    
+                    // Read output
+                    val output = process.inputStream.bufferedReader().readText()
+                    val error = process.errorStream.bufferedReader().readText()
+                    
+                    // Wait for completion with timeout
+                    val completed = process.waitFor(5, java.util.concurrent.TimeUnit.SECONDS)
+                    
+                    if (completed) {
+                        if (output.isNotEmpty()) {
+                            outputBuffer.add(output.trim())
+                        }
+                        if (error.isNotEmpty()) {
+                            outputBuffer.add("Error: ${error.trim()}")
+                        }
+                    } else {
+                        process.destroyForcibly()
+                        outputBuffer.add("Command timed out")
+                    }
+                }
             }
-            data.trim().equals("pwd", ignoreCase = true) -> {
-                outputBuffer.add(cwd)
-            }
-            data.trim().equals("whoami", ignoreCase = true) -> {
-                outputBuffer.add("termux")
-            }
-            data.trim().startsWith("echo ") -> {
-                outputBuffer.add(data.substring(5))
-            }
-            data.trim().equals("exit", ignoreCase = true) -> {
-                exitCode = 0
-                _isRunning.set(false)
-            }
-            else -> {
-                outputBuffer.add("Command simulated: ${data.trim()}")
-            }
+        } catch (e: Exception) {
+            Log.w(LOG_TAG, "Command execution failed: ${e.message}")
+            outputBuffer.add("Command failed: ${e.message}")
         }
         
         outputBuffer.add("$ ")

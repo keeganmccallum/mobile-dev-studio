@@ -5,6 +5,8 @@ import expo.modules.kotlin.modules.ModuleDefinition
 import expo.modules.kotlin.Promise
 import android.util.Log
 import java.util.concurrent.ConcurrentHashMap
+import java.util.Timer
+import java.util.TimerTask
 
 /**
  * Expo Termux Module - Provides Termux session management for Expo apps
@@ -13,9 +15,13 @@ import java.util.concurrent.ConcurrentHashMap
 class ExpoTermuxModule : Module() {
     private val sessions = ConcurrentHashMap<String, TermuxSessionFallback>()
     private val LOG_TAG = "ExpoTermuxModule"
+    private val outputPollingTimer = Timer("TermuxOutputPoller", true)
     
     override fun definition() = ModuleDefinition {
         Name("ExpoTermux")
+        
+        // Events that this module can send
+        Events("onSessionOutput", "onSessionExit", "onTitleChanged")
         
         // Test functions to verify module is working
         Function("test") {
@@ -53,6 +59,9 @@ class ExpoTermuxModule : Module() {
                 )
                 
                 sessions[sessionId] = session
+                
+                // Start polling for output
+                startOutputPolling(sessionId)
                 
                 val result = mapOf(
                     "sessionId" to sessionId,
@@ -144,6 +153,12 @@ class ExpoTermuxModule : Module() {
                 session.kill()
                 sessions.remove(sessionId)
                 
+                // Emit session exit event
+                sendEvent("onSessionExit", mapOf(
+                    "sessionId" to sessionId,
+                    "exitCode" to session.exitCode
+                ))
+                
                 promise.resolve(true)
                 
             } catch (error: Exception) {
@@ -151,5 +166,38 @@ class ExpoTermuxModule : Module() {
                 promise.reject("KILL_ERROR", "Failed to kill session: ${error.message}", error)
             }
         }
+    }
+    
+    private fun startOutputPolling(sessionId: String) {
+        outputPollingTimer.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                val session = sessions[sessionId]
+                if (session == null || !session.isRunning) {
+                    // Session ended, emit exit event and stop polling
+                    if (session != null) {
+                        sendEvent("onSessionExit", mapOf(
+                            "sessionId" to sessionId,
+                            "exitCode" to session.exitCode
+                        ))
+                        sessions.remove(sessionId)
+                    }
+                    cancel()
+                    return
+                }
+                
+                try {
+                    val output = session.read()
+                    if (output.isNotEmpty()) {
+                        Log.d(LOG_TAG, "Session $sessionId output: $output")
+                        sendEvent("onSessionOutput", mapOf(
+                            "sessionId" to sessionId,
+                            "data" to output
+                        ))
+                    }
+                } catch (e: Exception) {
+                    Log.w(LOG_TAG, "Error reading session $sessionId output: ${e.message}")
+                }
+            }
+        }, 0, 500) // Poll every 500ms
     }
 }
