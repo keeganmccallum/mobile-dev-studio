@@ -417,7 +417,8 @@ jobs:
   create-release:
     needs: build-android
     runs-on: ubuntu-latest
-    if: always() && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch')
+    # Only run if build-android succeeded AND we're on main/tag/workflow_dispatch
+    if: success() && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch')
     permissions:
       contents: write
       packages: write
@@ -458,9 +459,22 @@ jobs:
         # Create release directory
         mkdir -p release-assets
         
+        # Check if artifacts directory exists
+        if [ ! -d "artifacts" ]; then
+          echo "❌ ERROR: artifacts directory not found"
+          echo "Available directories:"
+          ls -la .
+          exit 1
+        fi
+        
+        echo "📂 Found artifacts directory:"
+        ls -la artifacts/
+        
         # Extract APKs from artifact zips and rename them properly
+        apk_count=0
         for zip_file in artifacts/apk-*/; do
           if [ -d "$zip_file" ]; then
+            echo "📦 Processing artifact directory: $zip_file"
             find "$zip_file" -name "*.apk" -type f | while read apk_file; do
               # Get the build type from the directory name
               build_type=$(echo "$zip_file" | grep -o 'debug\|release')
@@ -468,12 +482,20 @@ jobs:
               apk_name="mobile-dev-studio-${RELEASE_TYPE}-${build_type}-${BUILD_NUMBER}-${COMMIT_SHA}.apk"
               cp "$apk_file" "release-assets/$apk_name"
               echo "✅ Prepared: $apk_name"
+              apk_count=$((apk_count + 1))
             done
           fi
         done
         
+        # Check if we found any APKs
+        if [ $apk_count -eq 0 ]; then
+          echo "⚠️  WARNING: No APK files found in artifacts"
+          echo "Artifact contents:"
+          find artifacts/ -type f -name "*.apk" || echo "No APK files found"
+        fi
+        
         # Copy manifests
-        find artifacts/ -name "*.json" -type f -exec cp {} release-assets/ \;
+        find artifacts/ -name "*.json" -type f -exec cp {} release-assets/ \; 2>/dev/null || echo "No manifest files found"
         
         echo "📦 Release assets prepared:"
         ls -la release-assets/
