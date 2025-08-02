@@ -56,7 +56,8 @@ class ExpoTermuxModule : Module() {
                     cwd = workingDir,
                     env = env,
                     rows = 24,
-                    cols = 80
+                    cols = 80,
+                    prefixPath = "/data/data/com.termux/files/usr"  // Fallback prefix
                 )
                 
                 sessions[sessionId] = session
