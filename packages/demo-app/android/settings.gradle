@@ -38,5 +38,15 @@ include ':app'
 
 // expo-termux module will be auto-linked by Expo
 
+// Include Termux terminal modules for real Termux integration
+include ':terminal-emulator'
+project(':terminal-emulator').projectDir = new File(rootProject.projectDir, '../../modules/termux-core/disabled/terminal-emulator')
+
+include ':terminal-view'  
+project(':terminal-view').projectDir = new File(rootProject.projectDir, '../../modules/termux-core/disabled/terminal-view')
+
+include ':termux-shared'
+project(':termux-shared').projectDir = new File(rootProject.projectDir, '../../modules/termux-core/disabled/termux-shared')
+
 includeBuild(new File(["node", "--print", "require.resolve('@react-native/gradle-plugin/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile())
 
