@@ -6,18 +6,21 @@ set(CMAKE_CXX_STANDARD 14)
 
 file(GLOB_RECURSE SOURCES_C "src/main/cpp/*.c")
 file(GLOB_RECURSE SOURCES_CXX "src/main/cpp/*.cpp")
+file(GLOB_RECURSE JNI_SOURCES_C "src/main/jni/*.c")
 
 add_library(
   termux
   SHARED
   ${SOURCES_C}
   ${SOURCES_CXX}
+  ${JNI_SOURCES_C}
 )
 
 target_include_directories(
   termux
   PRIVATE
   "src/main/cpp"
+  "src/main/jni"
 )
 
 # Link with Android logging library
