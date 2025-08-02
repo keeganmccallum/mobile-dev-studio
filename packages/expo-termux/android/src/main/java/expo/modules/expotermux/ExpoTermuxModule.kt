@@ -169,12 +169,25 @@ class ExpoTermuxModule : Module() {
     }
     
     private fun startOutputPolling(sessionId: String) {
+        var pollCount = 0
+        val maxPolls = 600 // Max 5 minutes of polling (600 * 500ms)
+        
         outputPollingTimer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
+                pollCount++
+                
+                // Safety check - stop polling after max polls to prevent runaway timers
+                if (pollCount >= maxPolls) {
+                    Log.w(LOG_TAG, "Stopping polling for session $sessionId - max polls reached")
+                    cancel()
+                    return
+                }
+                
                 val session = sessions[sessionId]
                 if (session == null || !session.isRunning) {
                     // Session ended, emit exit event and stop polling
                     if (session != null) {
+                        Log.i(LOG_TAG, "Session $sessionId ended, emitting exit event")
                         sendEvent("onSessionExit", mapOf(
                             "sessionId" to sessionId,
                             "exitCode" to session.exitCode
@@ -196,8 +209,9 @@ class ExpoTermuxModule : Module() {
                     }
                 } catch (e: Exception) {
                     Log.w(LOG_TAG, "Error reading session $sessionId output: ${e.message}")
+                    // Don't cancel on read errors, just log them
                 }
             }
-        }, 0, 500) // Poll every 500ms
+        }, 500, 1000) // Start after 500ms, poll every 1000ms (reduced frequency)
     }
 }

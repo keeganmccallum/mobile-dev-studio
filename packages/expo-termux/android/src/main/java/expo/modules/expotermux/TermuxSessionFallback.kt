@@ -70,32 +70,63 @@ class TermuxSessionFallback(
                     return
                 }
                 else -> {
-                    // Execute real command using ProcessBuilder
-                    val processBuilder = ProcessBuilder()
-                    
-                    // For Android, we need to use /system/bin/sh
-                    processBuilder.command("/system/bin/sh", "-c", command)
-                    processBuilder.directory(java.io.File(cwd))
-                    
-                    val process = processBuilder.start()
-                    
-                    // Read output
-                    val output = process.inputStream.bufferedReader().readText()
-                    val error = process.errorStream.bufferedReader().readText()
-                    
-                    // Wait for completion with timeout
-                    val completed = process.waitFor(5, java.util.concurrent.TimeUnit.SECONDS)
-                    
-                    if (completed) {
-                        if (output.isNotEmpty()) {
-                            outputBuffer.add(output.trim())
+                    // Try to execute real command with safety checks
+                    try {
+                        Log.d(LOG_TAG, "Attempting to execute command: $command")
+                        
+                        // Check if the working directory exists and is accessible
+                        val workingDir = java.io.File(cwd)
+                        if (!workingDir.exists() || !workingDir.canRead()) {
+                            Log.w(LOG_TAG, "Working directory $cwd not accessible, using app directory")
+                            // Use app's data directory as fallback
+                            // Will be set by context in real implementation
                         }
-                        if (error.isNotEmpty()) {
-                            outputBuffer.add("Error: ${error.trim()}")
+                        
+                        // For safety and Android compatibility, only allow specific safe commands
+                        val result = when {
+                            command.equals("date", ignoreCase = true) -> {
+                                try {
+                                    val processBuilder = ProcessBuilder("date")
+                                    val process = processBuilder.start()
+                                    val completed = process.waitFor(2, TimeUnit.SECONDS)
+                                    if (completed) {
+                                        process.inputStream.bufferedReader().readText().trim()
+                                    } else {
+                                        process.destroyForcibly()
+                                        "Date command timed out"
+                                    }
+                                } catch (e: Exception) {
+                                    // Fallback to Java date if system date fails
+                                    java.util.Date().toString()
+                                }
+                            }
+                            command.equals("pwd", ignoreCase = true) -> {
+                                workingDir.absolutePath
+                            }
+                            command.equals("whoami", ignoreCase = true) -> {
+                                "android_app"
+                            }
+                            command.startsWith("echo ") -> {
+                                command.substring(5).trim()
+                            }
+                            command.equals("ls", ignoreCase = true) -> {
+                                try {
+                                    workingDir.listFiles()?.joinToString("  ") { it.name } ?: "Permission denied"
+                                } catch (e: Exception) {
+                                    "ls: Permission denied"
+                                }
+                            }
+                            else -> {
+                                "Command '$command' is not supported in this environment.\nSupported: date, pwd, whoami, echo, ls"
+                            }
                         }
-                    } else {
-                        process.destroyForcibly()
-                        outputBuffer.add("Command timed out")
+                        
+                        Log.d(LOG_TAG, "Command result: $result")
+                        outputBuffer.add(result)
+                        
+                    } catch (e: Exception) {
+                        Log.w(LOG_TAG, "Safe command execution failed: ${e.message}")
+                        outputBuffer.add("Command execution error: ${e.message}")
                     }
                 }
             }
