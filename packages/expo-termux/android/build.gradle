@@ -60,22 +60,22 @@ android {
     versionCode 1
     versionName "1.0.0"
 
-    // Native build temporarily disabled for compilation fix
-    // externalNativeBuild {
-    //   cmake {
-    //     cppFlags "-O2 -frtti -fexceptions"
-    //     abiFilters 'x86', 'x86_64', 'arm64-v8a', 'armeabi-v7a'
-    //     arguments "-DANDROID_STL=c++_shared"
-    //   }
-    // }
+    // Native build re-enabled after resolving Java compilation issues
+    externalNativeBuild {
+      cmake {
+        cppFlags "-O2 -frtti -fexceptions"
+        abiFilters 'x86', 'x86_64', 'arm64-v8a', 'armeabi-v7a'
+        arguments "-DANDROID_STL=c++_shared"
+      }
+    }
   }
 
-  // Native build temporarily disabled for compilation fix
-  // externalNativeBuild {
-  //   cmake {
-  //     path "CMakeLists.txt"
-  //   }
-  // }
+  // Native build re-enabled after resolving Java compilation issues
+  externalNativeBuild {
+    cmake {
+      path "CMakeLists.txt"
+    }
+  }
 
   lintOptions {
     abortOnError false
