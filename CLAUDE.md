@@ -1,5 +1,34 @@
 # Claude Code Development Guide
 
+## 🚨🚨🚨 CRITICAL EXPO DEVELOPMENT RULE - ALWAYS FOLLOW OFFICIAL DOCS 🚨🚨🚨
+
+**⚠️⚠️⚠️ NEVER GUESS EXPO/ANDROID CONFIGURATION - ALWAYS CHECK OFFICIAL DOCS FIRST ⚠️⚠️⚠️**
+
+**🔴🔴🔴 MANDATORY REFERENCE SOURCES - CHECK THESE BEFORE ANY EXPO/ANDROID CHANGES: 🔴🔴🔴**
+
+1. **EXPO ANDROID DOCS**: https://docs.expo.dev/workflow/android-studio-emulator/
+2. **EXPO BUILD PROCESS**: https://docs.expo.dev/build-reference/android-builds/
+3. **EXPO MODULES API**: https://docs.expo.dev/modules/overview/
+4. **EXPO AUTOLINKING**: https://docs.expo.dev/modules/autolinking/
+5. **EXPO GRADLE CONFIG**: https://docs.expo.dev/build-reference/android-builds/#configuring-gradle
+
+**❌❌❌ FORBIDDEN ACTIONS WITHOUT CHECKING DOCS FIRST: ❌❌❌**
+- Modifying android/build.gradle
+- Changing android/settings.gradle
+- Adding/removing Gradle plugins
+- Configuring autolinking
+- Changing Expo module structure
+- Adding native dependencies
+
+**✅✅✅ REQUIRED WORKFLOW FOR ANY EXPO/ANDROID CHANGES: ✅✅✅**
+1. **READ THE OFFICIAL DOCS FIRST** - Find the exact section for what you're doing
+2. **COPY OFFICIAL EXAMPLES** - Don't improvise or guess configuration
+3. **VERIFY SDK COMPATIBILITY** - Check Expo SDK 51 specific requirements
+4. **TEST INCREMENTALLY** - Make one change at a time based on docs
+5. **UPDATE THIS CLAUDE.MD** - Document what you learned from the docs
+
+**🚨🚨🚨 THIS RULE IS NON-NEGOTIABLE - EXPO DOCS ARE THE SINGLE SOURCE OF TRUTH 🚨🚨🚨**
+
 ## Project Architecture - CRITICAL UNDERSTANDING
 
 **THIS IS A MONOREPO FOR THE `expo-termux` NPM PACKAGE**
