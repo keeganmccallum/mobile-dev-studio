@@ -10,20 +10,12 @@ pluginManagement {
 
 plugins {
   id("com.facebook.react.settings")
-  id("expo-autolinking-settings")
 }
 
 extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
-  if (System.getenv('EXPO_USE_COMMUNITY_AUTOLINKING') == '1') {
-    ex.autolinkLibrariesFromCommand()
-  } else {
-    ex.autolinkLibrariesFromCommand(expoAutolinking.rnConfigCommand)
-  }
+  ex.autolinkLibrariesFromCommand()
 }
-expoAutolinking.useExpoModules()
 
 rootProject.name = 'Mobile Dev Studio'
-
-expoAutolinking.useExpoVersionCatalog()
 
 include ':app'
