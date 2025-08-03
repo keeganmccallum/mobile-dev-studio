@@ -42,9 +42,13 @@ class ExpoTermuxModule : Module() {
             
             try {
                 val sessionId = "session_${System.currentTimeMillis()}"
-                val workingDir = cwd ?: "/data/data/com.termux/files/home"
-                val cmd = command ?: "/data/data/com.termux/files/usr/bin/bash"  // Real Termux shell
-                val env = environment?.mapValues { it.value.toString() } ?: emptyMap()
+                val workingDir = cwd ?: "/system"  // Use Android system directory
+                val cmd = command ?: "/system/bin/sh"  // Use Android system shell
+                val env = environment?.mapValues { it.value.toString() } ?: mapOf(
+                    "PATH" to "/system/bin:/system/xbin:/vendor/bin",
+                    "HOME" to "/data/data/${context.packageName}",
+                    "TERM" to "xterm-256color"
+                )
                 
                 Log.i(LOG_TAG, "Creating REAL Termux session $sessionId with command: $cmd, cwd: $workingDir")
                 
@@ -57,7 +61,7 @@ class ExpoTermuxModule : Module() {
                     env = env,
                     rows = 24,
                     cols = 80,
-                    prefixPath = "/data/data/com.termux/files/usr"  // Real Termux prefix
+                    prefixPath = "/system"  // Use Android system path
                 )
                 
                 sessions[sessionId] = session

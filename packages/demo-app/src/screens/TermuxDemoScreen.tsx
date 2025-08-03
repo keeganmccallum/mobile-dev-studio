@@ -20,8 +20,8 @@ export default function TermuxDemoScreen() {
     setIsLoading(true);
     try {
       const sessionId = await termuxManager.createSession({
-        command: '/data/data/com.termux/files/usr/bin/bash',
-        cwd: '/data/data/com.termux/files/home'
+        command: '/system/bin/sh',
+        cwd: '/system'
       });
       setSessions(prev => [...prev, sessionId]);
       setOutput(prev => prev + `Created session: ${sessionId}\\n`);
@@ -50,10 +50,10 @@ export default function TermuxDemoScreen() {
 
   const demoCommands = [
     'pwd',
-    'ls -la',
-    'uname -a',
-    'echo "Hello from Termux!"',
-    'date'
+    'ls',
+    'whoami',
+    'echo "Hello from Android Shell!"',
+    'id'
   ];
 
   return (
