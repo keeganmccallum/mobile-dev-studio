@@ -27,6 +27,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["packages/expo-termux/plugin/index.js"]
+    "plugins": []
   }
 }
