@@ -48,8 +48,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "react-native-webview"
-    ]
+    "plugins": []
   }
 }
