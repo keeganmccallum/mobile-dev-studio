@@ -10,7 +10,6 @@ buildscript {
   }
   dependencies {
     classpath('com.android.tools.build:gradle:8.7.3')
-    classpath('com.facebook.react:react-native-gradle-plugin:0.75.4')
     classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}")
   }
 }
@@ -76,4 +75,3 @@ allprojects {
 }
 
 apply plugin: "expo-root-project"
-apply plugin: "com.facebook.react.rootproject"
