@@ -72,9 +72,8 @@ class ExpoTermuxModule : Module() {
                 val result = mapOf(
                     "sessionId" to sessionId,
                     "pid" to session.pid,
-                    "command" to cmd,
-                    "cwd" to workingDir,
-                    "isRunning" to session.isRunning
+                    "isRunning" to session.isRunning,
+                    "exitCode" to session.exitCode
                 )
                 
                 Log.i(LOG_TAG, "✅ Session created successfully: $sessionId")

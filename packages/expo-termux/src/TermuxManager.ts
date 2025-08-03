@@ -1,5 +1,5 @@
 import { NativeEventEmitter } from 'react-native';
-import ExpoTermux from './ExpoTermuxModule';
+import ExpoTermux, { TermuxSessionInfo } from './ExpoTermuxModule';
 import { BridgeDebugger } from './BridgeDebugger';
 
 export interface TermuxSession {
@@ -121,21 +121,21 @@ export class TermuxManager {
 
       // Create actual session using native module
       console.log('[TermuxManager] Creating Termux session with options:', options);
-      const sessionData = await termuxCore.createSession(
+      const sessionInfo: TermuxSessionInfo = await termuxCore.createSession(
         options.command || '/system/bin/sh',
-        options.cwd || '/data/data/com.termux/files/home',
+        options.cwd || '/system',
         options.environment || {}
       );
 
-      console.log('[TermuxManager] Native session created:', sessionData);
+      console.log('[TermuxManager] Native session created:', sessionInfo);
 
       // Store session locally
       const session: TermuxSession = {
-        id: sessionData.sessionId,
-        pid: sessionData.pid,
-        isRunning: sessionData.isRunning,
-        command: sessionData.command,
-        cwd: sessionData.cwd
+        id: sessionInfo.sessionId,
+        pid: sessionInfo.pid,
+        isRunning: sessionInfo.isRunning,
+        command: options.command || '/system/bin/sh',
+        cwd: options.cwd || '/system'
       };
       
       this.sessions.set(session.id, session);

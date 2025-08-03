@@ -19,11 +19,11 @@ declare class ExpoTermuxModule extends NativeModule {
   testAsync(): Promise<string>;
   
   // Real Termux session management
-  createSession(command?: string, cwd?: string, environment?: Record<string, any>): Promise<string>;
+  createSession(command?: string, cwd?: string, environment?: Record<string, any>): Promise<TermuxSessionInfo>;
   getSession(sessionId: string): TermuxSessionInfo | null;
   writeToSession(sessionId: string, data: string): Promise<void>;
   readFromSession(sessionId: string): string;
-  killSession(sessionId: string): Promise<void>;
+  killSession(sessionId: string): Promise<boolean>;
 }
 
 // This call loads the native module object from the JSI
