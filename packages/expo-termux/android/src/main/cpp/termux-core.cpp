@@ -146,74 +146,6 @@ static int create_subprocess(JNIEnv* env,
     }
 }
 
-extern "C" JNIEXPORT jint JNICALL
-Java_expo_modules_termuxcore_TermuxSession_createSubprocess(
-        JNIEnv* env,
-        jclass TERMUX_UNUSED(clazz),
-        jstring cmd,
-        jstring cwd,
-        jobjectArray args,
-        jobjectArray envVars,
-        jintArray processIdArray,
-        jint rows,
-        jint columns,
-        jint cell_width,
-        jint cell_height)
-{
-    jsize size = args ? env->GetArrayLength(args) : 0;
-    char** argv = NULL;
-    if (size > 0) {
-        argv = (char**) malloc((size + 1) * sizeof(char*));
-        if (!argv) return throw_runtime_exception(env, "Couldn't allocate argv array");
-        for (int i = 0; i < size; ++i) {
-            jstring arg_java_string = (jstring) env->GetObjectArrayElement(args, i);
-            char const* arg_utf8 = env->GetStringUTFChars(arg_java_string, NULL);
-            if (!arg_utf8) return throw_runtime_exception(env, "GetStringUTFChars() failed for argv");
-            argv[i] = strdup(arg_utf8);
-            env->ReleaseStringUTFChars(arg_java_string, arg_utf8);
-        }
-        argv[size] = NULL;
-    }
-
-    size = envVars ? env->GetArrayLength(envVars) : 0;
-    char** envp = NULL;
-    if (size > 0) {
-        envp = (char**) malloc((size + 1) * sizeof(char *));
-        if (!envp) return throw_runtime_exception(env, "malloc() for envp array failed");
-        for (int i = 0; i < size; ++i) {
-            jstring env_java_string = (jstring) env->GetObjectArrayElement(envVars, i);
-            char const* env_utf8 = env->GetStringUTFChars(env_java_string, 0);
-            if (!env_utf8) return throw_runtime_exception(env, "GetStringUTFChars() failed for env");
-            envp[i] = strdup(env_utf8);
-            env->ReleaseStringUTFChars(env_java_string, env_utf8);
-        }
-        envp[size] = NULL;
-    }
-
-    int procId = 0;
-    char const* cmd_cwd = env->GetStringUTFChars(cwd, NULL);
-    char const* cmd_utf8 = env->GetStringUTFChars(cmd, NULL);
-    int ptm = create_subprocess(env, cmd_utf8, cmd_cwd, argv, envp, &procId, rows, columns, cell_width, cell_height);
-    env->ReleaseStringUTFChars(cmd, cmd_utf8);
-    env->ReleaseStringUTFChars(cwd, cmd_cwd);
-
-    if (argv) {
-        for (char** tmp = argv; *tmp; ++tmp) free(*tmp);
-        free(argv);
-    }
-    if (envp) {
-        for (char** tmp = envp; *tmp; ++tmp) free(*tmp);
-        free(envp);
-    }
-
-    int* pProcId = (int*) env->GetPrimitiveArrayCritical(processIdArray, NULL);
-    if (!pProcId) return throw_runtime_exception(env, "JNI call GetPrimitiveArrayCritical(processIdArray, &isCopy) failed");
-
-    *pProcId = procId;
-    env->ReleasePrimitiveArrayCritical(processIdArray, pProcId, 0);
-
-    return ptm;
-}
 
 extern "C" JNIEXPORT void JNICALL
 Java_expo_modules_termuxcore_TermuxSession_setPtyWindowSize(JNIEnv* TERMUX_UNUSED(env), jclass TERMUX_UNUSED(clazz), jint fd, jint rows, jint cols, jint cell_width, jint cell_height)
@@ -263,7 +195,7 @@ Java_expo_modules_termuxcore_TermuxSession_createSubprocess(JNIEnv* env, jclass 
     LOGI("Command: %s, Working Dir: %s", command, workingDir);
     
     // Convert Java args array to C array
-    jsize argc = env->GetArrayLength(args);
+    jsize argc = args ? env->GetArrayLength(args) : 0;
     char** argv = (char**) malloc((argc + 2) * sizeof(char*));
     argv[0] = strdup(command);  // First arg is the command itself
     
@@ -280,7 +212,7 @@ Java_expo_modules_termuxcore_TermuxSession_createSubprocess(JNIEnv* env, jclass 
     argv[argc + 1] = NULL;  // Null terminate
     
     // Convert Java env vars array to C array
-    jsize envc = env->GetArrayLength(envVars);
+    jsize envc = envVars ? env->GetArrayLength(envVars) : 0;
     char** envp = (char**) malloc((envc + 1) * sizeof(char*));
     
     for (int i = 0; i < envc; i++) {
@@ -298,6 +230,13 @@ Java_expo_modules_termuxcore_TermuxSession_createSubprocess(JNIEnv* env, jclass 
     // Call the actual subprocess creation function
     int processId;
     int result = create_subprocess(env, command, workingDir, argv, envp, &processId, rows, columns, cellWidth, cellHeight);
+    
+    // Store process ID in the array parameter
+    int* pProcId = (int*) env->GetPrimitiveArrayCritical(processIdArray, NULL);
+    if (pProcId) {
+        *pProcId = processId;
+        env->ReleasePrimitiveArrayCritical(processIdArray, pProcId, 0);
+    }
     
     // Clean up
     env->ReleaseStringUTFChars(cmd, command);
