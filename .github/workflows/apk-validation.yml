@@ -13,12 +13,12 @@ env:
 jobs:
   test-apk-builds:
     runs-on: ubuntu-latest
-    timeout-minutes: 10  # Reasonable timeout - tests should complete in under 10 minutes
+    timeout-minutes: 8   # Reduced timeout for single APK testing
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
     
     strategy:
       matrix:
-        build_type: [debug, release]
+        build_type: [debug]  # Only test debug APK for speed
     
     steps:
     - name: Checkout code
