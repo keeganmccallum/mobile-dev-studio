@@ -471,22 +471,48 @@ jobs:
         echo "📂 Found artifacts directory:"
         ls -la artifacts/
         
-        # Extract APKs from artifact zips and rename them properly
+        # Extract APKs from artifacts and rename them properly
         apk_count=0
-        for zip_file in artifacts/apk-*/; do
-          if [ -d "$zip_file" ]; then
-            echo "📦 Processing artifact directory: $zip_file"
-            find "$zip_file" -name "*.apk" -type f | while read apk_file; do
-              # Get the build type from the directory name
-              build_type=$(echo "$zip_file" | grep -o 'debug\|release')
-              # Create proper APK name
-              apk_name="mobile-dev-studio-${RELEASE_TYPE}-${build_type}-${BUILD_NUMBER}-${COMMIT_SHA}.apk"
-              cp "$apk_file" "release-assets/$apk_name"
-              echo "✅ Prepared: $apk_name"
-              apk_count=$((apk_count + 1))
-            done
+        
+        # First try to find APKs directly in artifacts/ directory (merge-multiple: true)
+        for apk_file in artifacts/*.apk; do
+          if [ -f "$apk_file" ]; then
+            # Get the build type from the filename
+            if echo "$apk_file" | grep -q "debug"; then
+              build_type="debug"
+            elif echo "$apk_file" | grep -q "release"; then
+              build_type="release"
+            else
+              build_type="unknown"
+            fi
+            
+            # Create proper APK name
+            apk_name="mobile-dev-studio-${RELEASE_TYPE}-${build_type}-${BUILD_NUMBER}-${COMMIT_SHA}.apk"
+            cp "$apk_file" "release-assets/$apk_name"
+            echo "✅ Prepared: $apk_name (from direct artifacts)"
+            apk_count=$((apk_count + 1))
           fi
         done
+        
+        # If no direct APKs found, try the old method (artifact subdirectories)
+        if [ $apk_count -eq 0 ]; then
+          for zip_file in artifacts/apk-*/; do
+            if [ -d "$zip_file" ]; then
+              echo "📦 Processing artifact directory: $zip_file"
+              for apk_file in "$zip_file"/*.apk; do
+                if [ -f "$apk_file" ]; then
+                  # Get the build type from the directory name
+                  build_type=$(echo "$zip_file" | grep -o 'debug\|release')
+                  # Create proper APK name
+                  apk_name="mobile-dev-studio-${RELEASE_TYPE}-${build_type}-${BUILD_NUMBER}-${COMMIT_SHA}.apk"
+                  cp "$apk_file" "release-assets/$apk_name"
+                  echo "✅ Prepared: $apk_name (from subdirectory)"
+                  apk_count=$((apk_count + 1))
+                fi
+              done
+            fi
+          done
+        fi
         
         # Check if we found any APKs
         if [ $apk_count -eq 0 ]; then
