@@ -46,7 +46,7 @@ class ExpoTermuxModule : Module() {
                 val cmd = command ?: "/system/bin/sh"  // Use Android system shell
                 val env = environment?.mapValues { it.value.toString() } ?: mapOf(
                     "PATH" to "/system/bin:/system/xbin:/vendor/bin",
-                    "HOME" to "/data/data/${context.packageName}",
+                    "HOME" to "/data/data/${appContext.reactContext?.packageName}",
                     "TERM" to "xterm-256color"
                 )
                 
