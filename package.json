@@ -15,7 +15,9 @@
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
     "typecheck": "npm run typecheck --workspaces",
-    "clean": "npm run clean --workspaces && rm -rf node_modules packages/*/node_modules"
+    "clean": "npm run clean --workspaces && rm -rf node_modules packages/*/node_modules",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
@@ -63,6 +65,5 @@
     "react-test-renderer": "18.2.0",
     "ts-jest": "^29.2.5",
     "typescript": "~5.8.3"
-  },
-  "private": true
+  }
 }
