@@ -247,3 +247,74 @@ Java_expo_modules_termuxcore_TermuxSession_close(JNIEnv* TERMUX_UNUSED(env), jcl
 {
     close(fileDescriptor);
 }
+
+// Main JNI method that Kotlin calls
+extern "C" JNIEXPORT jint JNICALL
+Java_expo_modules_termuxcore_TermuxSession_createSubprocess(JNIEnv* env, jclass TERMUX_UNUSED(clazz),
+    jstring cmd, jstring cwd, jobjectArray args, jobjectArray envVars,
+    jintArray processIdArray, jint rows, jint columns, jint cellWidth, jint cellHeight)
+{
+    LOGI("JNI createSubprocess called");
+    
+    // Convert Java strings to C strings
+    const char* command = env->GetStringUTFChars(cmd, NULL);
+    const char* workingDir = env->GetStringUTFChars(cwd, NULL);
+    
+    LOGI("Command: %s, Working Dir: %s", command, workingDir);
+    
+    // Convert Java args array to C array
+    jsize argc = env->GetArrayLength(args);
+    char** argv = (char**) malloc((argc + 2) * sizeof(char*));
+    argv[0] = strdup(command);  // First arg is the command itself
+    
+    for (int i = 0; i < argc; i++) {
+        jstring jarg = (jstring) env->GetObjectArrayElement(args, i);
+        if (jarg != NULL) {
+            const char* arg = env->GetStringUTFChars(jarg, NULL);
+            argv[i + 1] = strdup(arg);
+            env->ReleaseStringUTFChars(jarg, arg);
+        } else {
+            argv[i + 1] = NULL;
+        }
+    }
+    argv[argc + 1] = NULL;  // Null terminate
+    
+    // Convert Java env vars array to C array
+    jsize envc = env->GetArrayLength(envVars);
+    char** envp = (char**) malloc((envc + 1) * sizeof(char*));
+    
+    for (int i = 0; i < envc; i++) {
+        jstring jenv = (jstring) env->GetObjectArrayElement(envVars, i);
+        if (jenv != NULL) {
+            const char* envvar = env->GetStringUTFChars(jenv, NULL);
+            envp[i] = strdup(envvar);
+            env->ReleaseStringUTFChars(jenv, envvar);
+        } else {
+            envp[i] = NULL;
+        }
+    }
+    envp[envc] = NULL;  // Null terminate
+    
+    // Call the actual subprocess creation function
+    int processId;
+    int result = create_subprocess(env, command, workingDir, argv, envp, &processId, rows, columns, cellWidth, cellHeight);
+    
+    // Clean up
+    env->ReleaseStringUTFChars(cmd, command);
+    env->ReleaseStringUTFChars(cwd, workingDir);
+    
+    // Free argv
+    for (int i = 0; argv[i] != NULL; i++) {
+        free(argv[i]);
+    }
+    free(argv);
+    
+    // Free envp
+    for (int i = 0; envp[i] != NULL; i++) {
+        free(envp[i]);
+    }
+    free(envp);
+    
+    LOGI("createSubprocess result: %d, process ID: %d", result, processId);
+    return result;
+}
