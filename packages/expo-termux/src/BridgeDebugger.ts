@@ -23,7 +23,7 @@ export class BridgeDebugger {
     );
     console.log('🔍 Termux-related keys found:', termuxKeys);
     
-    // 3. Check different access patterns
+    // 3. Check different access patterns (ExpoTermux is the correct name)
     const accessPatterns = [
       { name: 'NativeModulesProxy.ExpoTermux', value: NativeModulesProxy?.ExpoTermux },
       { name: 'NativeModules.ExpoTermux', value: NativeModules?.ExpoTermux },
@@ -135,13 +135,16 @@ export class BridgeDebugger {
     console.log('='.repeat(35));
     
     const attempts = [
-      () => NativeModules.TermuxCore,
-      () => NativeModulesProxy.TermuxCore,
-      () => require('react-native').NativeModules.TermuxCore,
+      () => NativeModules.ExpoTermux,
+      () => NativeModulesProxy.ExpoTermux,
+      () => require('react-native').NativeModules.ExpoTermux,
       () => {
         const { NativeModulesProxy } = require('expo-modules-core');
-        return NativeModulesProxy.TermuxCore;
-      }
+        return NativeModulesProxy.ExpoTermux;
+      },
+      // Also try the old name for debugging
+      () => NativeModules.TermuxCore,
+      () => NativeModulesProxy.TermuxCore,
     ];
     
     attempts.forEach((attempt, index) => {

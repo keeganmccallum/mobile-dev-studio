@@ -171,6 +171,38 @@ class ExpoTermuxModule : Module() {
                 promise.reject("KILL_ERROR", "Failed to kill session: ${error.message}", error)
             }
         }
+        
+        // Bootstrap management methods expected by JavaScript layer
+        AsyncFunction("getBootstrapInfo") { promise: Promise ->
+            try {
+                // Return basic bootstrap info - in a real Termux app this would check actual bootstrap
+                val result = mapOf(
+                    "installed" to true,
+                    "prefixPath" to "/system",
+                    "version" to "1.0.0-expo",
+                    "size" to 0
+                )
+                
+                Log.i(LOG_TAG, "Bootstrap info requested: $result")
+                promise.resolve(result)
+                
+            } catch (error: Exception) {
+                Log.e(LOG_TAG, "❌ Failed to get bootstrap info", error)
+                promise.reject("BOOTSTRAP_INFO_ERROR", "Failed to get bootstrap info: ${error.message}", error)
+            }
+        }
+        
+        AsyncFunction("installBootstrap") { promise: Promise ->
+            try {
+                // Mock bootstrap installation - in a real Termux app this would install actual bootstrap
+                Log.i(LOG_TAG, "Bootstrap installation requested - returning success (mock)")
+                promise.resolve(true)
+                
+            } catch (error: Exception) {
+                Log.e(LOG_TAG, "❌ Failed to install bootstrap", error)
+                promise.reject("BOOTSTRAP_INSTALL_ERROR", "Failed to install bootstrap: ${error.message}", error)
+            }
+        }
     }
     
     private fun startOutputPolling(sessionId: String) {

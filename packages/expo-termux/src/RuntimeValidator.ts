@@ -21,12 +21,12 @@ export class RuntimeValidator {
       const proxyKeys = Object.keys(NativeModulesProxy || {});
       console.log(`🔧 NativeModulesProxy available (${proxyKeys.length}):`, proxyKeys.slice(0, 10).join(', '), proxyKeys.length > 10 ? '...' : '');
       
-      // Specifically check for TermuxCore
-      const termuxInNative = NativeModules?.TermuxCore;
-      const termuxInProxy = NativeModulesProxy?.TermuxCore;
+      // Specifically check for ExpoTermux (the correct module name)
+      const termuxInNative = NativeModules?.ExpoTermux;
+      const termuxInProxy = NativeModulesProxy?.ExpoTermux;
       
       if (termuxInNative) {
-        console.log('✅ TermuxCore found in NativeModules');
+        console.log('✅ ExpoTermux found in NativeModules');
         console.log('📋 Available methods:', Object.keys(termuxInNative).join(', '));
         
         // Test EventEmitter creation
@@ -38,7 +38,7 @@ export class RuntimeValidator {
         }
         
       } else if (termuxInProxy) {
-        console.log('✅ TermuxCore found in NativeModulesProxy');
+        console.log('✅ ExpoTermux found in NativeModulesProxy');
         console.log('📋 Available methods:', Object.keys(termuxInProxy).join(', '));
         
         // Test EventEmitter creation
@@ -50,7 +50,7 @@ export class RuntimeValidator {
         }
         
       } else {
-        console.log('❌ TermuxCore NOT FOUND in either NativeModules or NativeModulesProxy');
+        console.log('❌ ExpoTermux NOT FOUND in either NativeModules or NativeModulesProxy');
         
         // Look for similar names
         const allKeys = [...nativeModuleKeys, ...proxyKeys];
@@ -70,7 +70,7 @@ export class RuntimeValidator {
         console.log('📱 Expo modules found:', expoModules.join(', '));
         
         // This is the critical error that APK validation should catch
-        console.log('🚨 CRITICAL: Native module linking failed - TermuxCore not available');
+        console.log('🚨 CRITICAL: Native module linking failed - ExpoTermux not available');
       }
       
       const duration = Date.now() - startTime;
@@ -87,10 +87,10 @@ export class RuntimeValidator {
     console.log('🧪 Testing basic TermuxCore functionality...');
     
     try {
-      const termuxCore = NativeModulesProxy?.TermuxCore || NativeModules?.TermuxCore;
+      const termuxCore = NativeModulesProxy?.ExpoTermux || NativeModules?.ExpoTermux;
       
       if (!termuxCore) {
-        console.log('❌ Cannot test - TermuxCore not available');
+        console.log('❌ Cannot test - ExpoTermux not available');
         return false;
       }
       
