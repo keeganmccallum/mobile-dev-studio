@@ -20,7 +20,7 @@ export default function TermuxDemoScreen() {
     setIsLoading(true);
     try {
       const sessionId = await termuxManager.createSession({
-        command: '/system/bin/sh',
+        // Let the module find the best available shell
         cwd: '/system'
       });
       setSessions(prev => [...prev, sessionId]);

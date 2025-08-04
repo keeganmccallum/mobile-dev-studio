@@ -37,9 +37,8 @@ class TermuxSession private constructor(
         try {
             Log.i(LOG_TAG, "Creating real PTY subprocess for session $id")
             
-            // Prepare arguments array
-            val args = arrayOfNulls<String>(1)
-            args[0] = command
+            // Prepare arguments array - empty since command is passed separately
+            val args = emptyArray<String?>()
             
             // Prepare environment variables array
             val envArray = environment.entries.map { "${it.key}=${it.value}" }.toTypedArray()

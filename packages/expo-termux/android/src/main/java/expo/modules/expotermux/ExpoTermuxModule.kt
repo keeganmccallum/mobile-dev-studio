@@ -43,7 +43,7 @@ class ExpoTermuxModule : Module() {
             try {
                 val sessionId = "session_${System.currentTimeMillis()}"
                 val workingDir = cwd ?: "/system"  // Use Android system directory
-                val cmd = command ?: "/system/bin/sh"  // Use Android system shell
+                val cmd = command ?: findAvailableShell()  // Find available shell
                 val env = environment?.mapValues { it.value.toString() } ?: mapOf(
                     "PATH" to "/system/bin:/system/xbin:/vendor/bin",
                     "HOME" to "/data/data/${appContext.reactContext?.packageName}",
@@ -218,5 +218,30 @@ class ExpoTermuxModule : Module() {
                 }
             }
         }, 500, 1000) // Start after 500ms, poll every 1000ms (reduced frequency)
+    }
+    
+    private fun findAvailableShell(): String {
+        val shellPaths = listOf(
+            "/system/bin/sh",      // Standard Android shell
+            "/system/xbin/sh",     // Extended system binaries
+            "/vendor/bin/sh",      // Vendor binaries
+            "/bin/sh",            // Traditional Unix location
+            "/sbin/sh"            // System binaries
+        )
+        
+        for (shellPath in shellPaths) {
+            try {
+                val file = java.io.File(shellPath)
+                if (file.exists() && file.canExecute()) {
+                    Log.i(LOG_TAG, "Found available shell: $shellPath")
+                    return shellPath
+                }
+            } catch (e: Exception) {
+                Log.d(LOG_TAG, "Shell not available: $shellPath - ${e.message}")
+            }
+        }
+        
+        Log.w(LOG_TAG, "No standard shell found, falling back to /system/bin/sh")
+        return "/system/bin/sh"
     }
 }

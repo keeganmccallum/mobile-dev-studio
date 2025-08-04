@@ -136,12 +136,26 @@ static int create_subprocess(JNIEnv* env,
         }
         
         LOGI("Executing: %s", cmd);
+        
+        // Check if the file exists before trying to execute
+        if (access(cmd, F_OK) != 0) {
+            LOGE("Command file does not exist: %s", cmd);
+            printf("termux-error: Command not found: %s\r\n", cmd);
+            fflush(stdout);
+        } else if (access(cmd, X_OK) != 0) {
+            LOGE("Command file is not executable: %s", cmd);
+            printf("termux-error: Permission denied: %s\r\n", cmd);
+            fflush(stdout);
+        }
+        
         execvp(cmd, argv);
         
         // Show terminal output about failing exec() call:
         char* error_message;
         if (asprintf(&error_message, "exec(\"%s\")", cmd) == -1) error_message = "exec()";
         perror(error_message);
+        printf("termux-error: Failed to execute %s\r\n", cmd);
+        fflush(stdout);
         _exit(1);
     }
 }
