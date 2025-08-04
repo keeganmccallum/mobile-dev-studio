@@ -18,6 +18,10 @@ declare class ExpoTermuxModule extends NativeModule {
   test(): string;
   testAsync(): Promise<string>;
   
+  // Bootstrap management
+  getBootstrapInfo(): Promise<any>;
+  installBootstrap(): Promise<boolean>;
+  
   // Real Termux session management
   createSession(command?: string, cwd?: string, environment?: Record<string, any>): Promise<TermuxSessionInfo>;
   getSession(sessionId: string): TermuxSessionInfo | null;

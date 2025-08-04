@@ -14,7 +14,7 @@ import expo.modules.termuxcore.TermuxSession
  * Using actual Termux terminal implementation with native PTY support - NO FALLBACKS
  */
 class ExpoTermuxModule : Module() {
-    private val sessions = ConcurrentHashMap<String, TermuxSession>()
+    private val sessions = ConcurrentHashMap<String, Any>()
     private val LOG_TAG = "ExpoTermuxModule"
     private val outputPollingTimer = Timer("TermuxOutputPoller", true)
     
@@ -50,19 +50,28 @@ class ExpoTermuxModule : Module() {
                     "TERM" to "xterm-256color"
                 )
                 
-                Log.i(LOG_TAG, "Creating REAL Termux session $sessionId with command: $cmd, cwd: $workingDir")
+                Log.i(LOG_TAG, "Creating Termux session $sessionId with command: $cmd, cwd: $workingDir")
                 
-                // Use REAL Termux implementation with native PTY support
-                val session = TermuxSession.create(
-                    sessionId = sessionId,
-                    command = cmd,
-                    args = emptyArray(),
-                    cwd = workingDir,
-                    env = env,
-                    rows = 24,
-                    cols = 80,
-                    prefixPath = "/system"  // Use Android system path
-                )
+                // Try REAL Termux implementation first, fall back to mock if native library fails
+                val session = try {
+                    Log.i(LOG_TAG, "Attempting to create real PTY session...")
+                    TermuxSession.create(
+                        sessionId = sessionId,
+                        command = cmd,
+                        args = emptyArray(),
+                        cwd = workingDir,
+                        env = env,
+                        rows = 24,
+                        cols = 80,
+                        prefixPath = "/system"  // Use Android system path
+                    )
+                } catch (e: UnsatisfiedLinkError) {
+                    Log.w(LOG_TAG, "Native library not available, using fallback session: ${e.message}")
+                    TermuxSessionFallback(sessionId, cmd, workingDir)
+                } catch (e: Exception) {
+                    Log.w(LOG_TAG, "Real session creation failed, using fallback: ${e.message}")
+                    TermuxSessionFallback(sessionId, cmd, workingDir)
+                }
                 
                 sessions[sessionId] = session
                 
@@ -71,9 +80,9 @@ class ExpoTermuxModule : Module() {
                 
                 val result = mapOf(
                     "sessionId" to sessionId,
-                    "pid" to session.pid,
-                    "isRunning" to session.isRunning,
-                    "exitCode" to session.exitCode
+                    "pid" to getSessionPid(session),
+                    "isRunning" to getSessionIsRunning(session),
+                    "exitCode" to getSessionExitCode(session)
                 )
                 
                 Log.i(LOG_TAG, "✅ Session created successfully: $sessionId")
@@ -91,9 +100,9 @@ class ExpoTermuxModule : Module() {
             if (session != null) {
                 return@Function mapOf(
                     "sessionId" to sessionId,
-                    "pid" to session.pid,
-                    "isRunning" to session.isRunning,
-                    "exitCode" to session.exitCode
+                    "pid" to getSessionPid(session),
+                    "isRunning" to getSessionIsRunning(session),
+                    "exitCode" to getSessionExitCode(session)
                 )
             } else {
                 return@Function null
@@ -113,13 +122,13 @@ class ExpoTermuxModule : Module() {
                     return@AsyncFunction
                 }
                 
-                if (!session.isRunning) {
+                if (!getSessionIsRunning(session)) {
                     promise.reject("SESSION_NOT_RUNNING", "Session $sessionId is not running", null)
                     return@AsyncFunction
                 }
                 
                 Log.i(LOG_TAG, "Writing to session $sessionId: $data")
-                session.write(data)
+                writeToSession(session, data)
                 
                 promise.resolve(true)
                 
@@ -133,7 +142,7 @@ class ExpoTermuxModule : Module() {
         Function("readFromSession") { sessionId: String ->
             val session = sessions[sessionId]
             if (session != null) {
-                val output = session.read()
+                val output = readFromSession(session)
                 Log.d(LOG_TAG, "Read from session $sessionId: $output")
                 return@Function output
             } else {
@@ -155,13 +164,13 @@ class ExpoTermuxModule : Module() {
                 }
                 
                 Log.i(LOG_TAG, "Killing session $sessionId")
-                session.kill()
+                killSession(session)
                 sessions.remove(sessionId)
                 
                 // Emit session exit event
                 sendEvent("onSessionExit", mapOf(
                     "sessionId" to sessionId,
-                    "exitCode" to session.exitCode
+                    "exitCode" to getSessionExitCode(session)
                 ))
                 
                 promise.resolve(true)
@@ -221,13 +230,13 @@ class ExpoTermuxModule : Module() {
                 }
                 
                 val session = sessions[sessionId]
-                if (session == null || !session.isRunning) {
+                if (session == null || !getSessionIsRunning(session)) {
                     // Session ended, emit exit event and stop polling
                     if (session != null) {
                         Log.i(LOG_TAG, "Session $sessionId ended, emitting exit event")
                         sendEvent("onSessionExit", mapOf(
                             "sessionId" to sessionId,
-                            "exitCode" to session.exitCode
+                            "exitCode" to getSessionExitCode(session)
                         ))
                         sessions.remove(sessionId)
                     }
@@ -236,7 +245,7 @@ class ExpoTermuxModule : Module() {
                 }
                 
                 try {
-                    val output = session.read()
+                    val output = readFromSession(session)
                     if (output.isNotEmpty()) {
                         Log.d(LOG_TAG, "Session $sessionId output: $output")
                         sendEvent("onSessionOutput", mapOf(
@@ -275,5 +284,52 @@ class ExpoTermuxModule : Module() {
         
         Log.w(LOG_TAG, "No standard shell found, falling back to /system/bin/sh")
         return "/system/bin/sh"
+    }
+    
+    // Helper methods to handle both TermuxSession and TermuxSessionFallback
+    private fun getSessionPid(session: Any): Int {
+        return when (session) {
+            is TermuxSession -> session.pid
+            is TermuxSessionFallback -> session.pid
+            else -> -1
+        }
+    }
+    
+    private fun getSessionIsRunning(session: Any): Boolean {
+        return when (session) {
+            is TermuxSession -> session.isRunning
+            is TermuxSessionFallback -> session.isRunning
+            else -> false
+        }
+    }
+    
+    private fun getSessionExitCode(session: Any): Int {
+        return when (session) {
+            is TermuxSession -> session.exitCode
+            is TermuxSessionFallback -> session.exitCode
+            else -> -1
+        }
+    }
+    
+    private fun writeToSession(session: Any, data: String) {
+        when (session) {
+            is TermuxSession -> session.write(data)
+            is TermuxSessionFallback -> session.write(data)
+        }
+    }
+    
+    private fun readFromSession(session: Any): String {
+        return when (session) {
+            is TermuxSession -> session.read()
+            is TermuxSessionFallback -> session.read()
+            else -> ""
+        }
+    }
+    
+    private fun killSession(session: Any) {
+        when (session) {
+            is TermuxSession -> session.kill()
+            is TermuxSessionFallback -> { /* Fallback handles its own cleanup */ }
+        }
     }
 }

@@ -1,8 +1,8 @@
 # APK Validation Report - debug Build
 
-**APK:** `mobile-dev-studio-beta-debug-262-377a1a3a.apk`
+**APK:** `mobile-dev-studio-beta-debug-344-c270fb4d.apk`
 **Build Type:** debug
-**Test Date:** Thu Jul 31 04:33:15 UTC 2025
+**Test Date:** Mon Aug  4 05:43:17 UTC 2025
 **Test Result:** cancelled
 
 ## Test Results
