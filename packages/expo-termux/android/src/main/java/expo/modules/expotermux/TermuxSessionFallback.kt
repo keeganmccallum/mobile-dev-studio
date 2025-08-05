@@ -24,6 +24,7 @@ class TermuxSessionFallback(
     
     private val LOG_TAG = "TermuxSessionFallback"
     private val outputBuffer = mutableListOf<String>()
+    private var lastReadIndex = 0
     
     init {
         Log.i(LOG_TAG, "Created fallback session $id with mock PID $pid")
@@ -139,11 +140,15 @@ class TermuxSessionFallback(
     }
 
     fun read(): String {
-        if (outputBuffer.isEmpty()) return ""
+        if (outputBuffer.size <= lastReadIndex) return ""
         
-        // Return all buffered output and clear buffer
-        val output = outputBuffer.joinToString("\n")
-        outputBuffer.clear()
+        // Return only new output since last read
+        val newOutput = outputBuffer.subList(lastReadIndex, outputBuffer.size)
+        val output = newOutput.joinToString("\n")
+        
+        // Update read index to current buffer size
+        lastReadIndex = outputBuffer.size
+        
         return output
     }
 
